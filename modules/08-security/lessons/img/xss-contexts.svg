@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 252" role="img" aria-label="Контекстное экранирование в html/template: одно и то же подставляемое значение экранируется по-разному в зависимости от того, стоит ли оно в URL-атрибуте, обычном атрибуте или тексте; text/template не экранирует ничего" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Контекстное экранирование html/template</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+  </defs>
+
+  <text x="340" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">&lt;a href="<tspan fill="#0891b2" font-weight="600">{{.URL}}</tspan>" title="<tspan fill="#7c3aed" font-weight="600">{{.T}}</tspan>"&gt;<tspan fill="#d97706" font-weight="600">{{.Name}}</tspan>&lt;/a&gt;</text>
+
+  <g font-size="11" opacity="0.6">
+    <text x="28" y="52">значение</text>
+    <text x="196" y="52">контекст → что делает html/template</text>
+    <text x="476" y="52">в HTML</text>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <!-- URL -->
+    <rect x="20" y="62" width="4" height="36" fill="#0891b2"/>
+    <text x="32" y="84" fill="#0891b2">javascript:alert(1)</text>
+    <rect x="188" y="62" width="264" height="36" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="200" y="84" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">URL в href: опасная схема → заглушка</text>
+    <text x="476" y="84">#ZgotmplZ</text>
+
+    <!-- attr -->
+    <rect x="20" y="108" width="4" height="36" fill="#7c3aed"/>
+    <text x="32" y="130" fill="#7c3aed">" onmouseover="x</text>
+    <rect x="188" y="108" width="264" height="36" rx="4" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+    <text x="200" y="130" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">значение атрибута: кавычки → &amp;#34;</text>
+    <text x="476" y="130">&amp;#34; onmouseover=&amp;#34;x</text>
+
+    <!-- text -->
+    <rect x="20" y="154" width="4" height="36" fill="#d97706"/>
+    <text x="32" y="176" fill="#d97706">&lt;script&gt;</text>
+    <rect x="188" y="154" width="264" height="36" rx="4" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+    <text x="200" y="176" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">текст HTML: &lt; и &gt; → сущности</text>
+    <text x="476" y="176">&amp;lt;script&amp;gt;</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="164" y1="80" x2="186" y2="80" marker-end="url(#arr)"/><line x1="452" y1="80" x2="470" y2="80" marker-end="url(#arr)"/>
+    <line x1="164" y1="126" x2="186" y2="126" marker-end="url(#arr)"/><line x1="452" y1="126" x2="470" y2="126" marker-end="url(#arr)"/>
+    <line x1="164" y1="172" x2="186" y2="172" marker-end="url(#arr)"/><line x1="452" y1="172" x2="470" y2="172" marker-end="url(#arr)"/>
+  </g>
+
+  <line x1="20" y1="206" x2="660" y2="206" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+  <text x="32" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">&lt;script&gt;</text>
+  <rect x="188" y="216" width="264" height="30" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="200" y="235" font-size="12">text/template: ничего не меняет</text>
+  <text x="476" y="235" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">&lt;script&gt; — исполнится</text>
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="164" y1="231" x2="186" y2="231" marker-end="url(#arr)"/><line x1="452" y1="231" x2="470" y2="231" marker-end="url(#arr)"/>
+  </g>
+</svg>

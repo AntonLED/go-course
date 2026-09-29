@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" role="img" aria-label="Конвейер: resp.Body → LimitReader → TeeReader → gzip.Reader → io.Copy → dst; TeeReader копирует сжатые байты в sha256; io.Copy тянет данные вызовами Read справа налево" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Конвейер Reader-ов за один проход</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ac" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+    <marker id="ap" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <!-- pull: вызовы Read -->
+  <line x1="636" y1="18" x2="66" y2="18" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4" opacity="0.6" marker-end="url(#a)"/>
+  <text x="350" y="12" text-anchor="middle" font-size="11" opacity="0.7">вызовы Read(p): каждое звено читает из предыдущего</text>
+
+  <!-- скобки над потоком -->
+  <path d="M20,44 v-6 h434 v6" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="237" y="34" text-anchor="middle" font-size="11" fill="#d97706">сжатые байты (gzip)</text>
+  <path d="M468,44 v-6 h212 v6" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="574" y="34" text-anchor="middle" font-size="11" fill="#0891b2">распакованные байты</text>
+
+  <!-- звенья -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="52" width="92" height="48" rx="4"/>
+    <rect x="134" y="52" width="92" height="48" rx="4"/>
+    <rect x="248" y="52" width="92" height="48" rx="4"/>
+    <rect x="590" y="52" width="92" height="48" rx="4"/>
+  </g>
+  <rect x="362" y="52" width="92" height="48" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <rect x="476" y="52" width="92" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <g text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="66" y="81">resp.Body</text>
+    <text x="180" y="74">LimitReader</text>
+    <text x="294" y="81">TeeReader</text>
+    <text x="408" y="81">gzip.Reader</text>
+    <text x="522" y="81">io.Copy</text>
+    <text x="636" y="81">dst</text>
+  </g>
+  <text x="180" y="91" text-anchor="middle" font-size="11" opacity="0.7">100 МиБ</text>
+
+  <!-- данные -->
+  <g stroke="currentColor" stroke-width="1.4">
+    <line x1="112" y1="76" x2="132" y2="76" marker-end="url(#a)"/>
+    <line x1="226" y1="76" x2="246" y2="76" marker-end="url(#a)"/>
+    <line x1="340" y1="76" x2="360" y2="76" marker-end="url(#a)"/>
+    <line x1="454" y1="76" x2="474" y2="76" marker-end="url(#a)"/>
+    <line x1="568" y1="76" x2="588" y2="76" marker-end="url(#a)"/>
+  </g>
+
+  <!-- ответвление Tee -->
+  <line x1="294" y1="100" x2="294" y2="158" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#ap)"/>
+  <text x="302" y="134" font-size="12" fill="#7c3aed" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">h.Write(p[:n])</text>
+  <rect x="222" y="160" width="144" height="36" rx="4" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="294" y="183" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">h = sha256.New()</text>
+  <text x="294" y="218" text-anchor="middle" font-size="11" opacity="0.7">после io.Copy: h.Sum(nil) — хэш</text>
+  <text x="294" y="233" text-anchor="middle" font-size="11" opacity="0.7">скачанного (сжатого) файла</text>
+
+  <!-- пояснения -->
+  <text x="180" y="120" text-anchor="middle" font-size="11" opacity="0.7">после 100 МиБ</text>
+  <text x="180" y="134" text-anchor="middle" font-size="11" opacity="0.7">отдаёт io.EOF</text>
+  <text x="522" y="120" text-anchor="middle" font-size="11" opacity="0.7">зовёт zr.Read</text>
+  <text x="522" y="134" text-anchor="middle" font-size="11" opacity="0.7">до io.EOF</text>
+</svg>

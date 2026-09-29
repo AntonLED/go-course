@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 344" role="img" aria-label="Модель G-M-P: глобальная очередь горутин; три P с runnext и локальными очередями на 256 горутин; каждый P держит поток ОС M, который выполняет текущую G на ядре; четвёртый поток M3 заблокирован в системном вызове без P" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Модель G-M-P</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- глобальная очередь -->
+  <rect x="168" y="12" width="328" height="44" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="180" y="30" font-weight="600">global runq</text>
+  <text x="180" y="47" font-size="11" opacity="0.6">sched.runq, под sched.lock</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="364" y="22" width="26" height="24" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="377" y="38">G</text>
+    <rect x="396" y="22" width="26" height="24" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="409" y="38">G</text>
+    <rect x="428" y="22" width="26" height="24" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="441" y="38">G</text>
+    <text x="474" y="38" opacity="0.6">…</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.2" opacity="0.5" fill="none">
+    <path d="M232,56 L96,92"/><path d="M332,56 L288,92"/><path d="M432,56 L480,92"/>
+  </g>
+  <text x="530" y="78" font-size="11" opacity="0.6">P забирают пачкой;</text>
+  <text x="530" y="92" font-size="11" opacity="0.6">проверка раз в 61 тик</text>
+
+  <!-- три P -->
+  <g fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-width="1.2">
+    <rect x="16" y="96" width="176" height="100" rx="6"/>
+    <rect x="208" y="96" width="176" height="100" rx="6"/>
+    <rect x="400" y="96" width="176" height="100" rx="6"/>
+  </g>
+  <g font-weight="600" fill="#0891b2">
+    <text x="28" y="116">P0</text><text x="220" y="116">P1</text><text x="412" y="116">P2</text>
+  </g>
+  <g font-size="11" opacity="0.7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="28" y="140">runnext</text><text x="220" y="140">runnext</text><text x="412" y="140">runnext</text>
+    <text x="28" y="168">runq</text><text x="220" y="168">runq</text><text x="412" y="168">runq</text>
+    <text x="28" y="188" opacity="0.8">mcache</text><text x="220" y="188" opacity="0.8">mcache</text><text x="412" y="188" opacity="0.8">mcache</text>
+  </g>
+  <g font-size="11" opacity="0.6">
+    <text x="180" y="116" text-anchor="end">runq [256]</text>
+    <text x="372" y="116" text-anchor="end">runq [256]</text>
+    <text x="564" y="116" text-anchor="end">runq [256]</text>
+  </g>
+  <!-- слоты runnext -->
+  <g fill="none" stroke="currentColor" stroke-width="1" opacity="0.5">
+    <rect x="276" y="126" width="26" height="22" rx="4"/>
+    <rect x="468" y="126" width="26" height="22" rx="4"/>
+  </g>
+  <!-- кольца runq: 4 видимые ячейки -->
+  <g fill="none" stroke="currentColor" stroke-width="1" opacity="0.5">
+    <rect x="84" y="154" width="96" height="22" rx="3"/><line x1="108" y1="154" x2="108" y2="176"/><line x1="132" y1="154" x2="132" y2="176"/><line x1="156" y1="154" x2="156" y2="176"/>
+    <rect x="276" y="154" width="96" height="22" rx="3"/><line x1="300" y1="154" x2="300" y2="176"/><line x1="324" y1="154" x2="324" y2="176"/><line x1="348" y1="154" x2="348" y2="176"/>
+    <rect x="468" y="154" width="96" height="22" rx="3"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="84" y="126" width="26" height="22" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="97" y="141">G</text>
+    <rect x="84" y="154" width="24" height="22" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="96" y="169">G</text>
+    <rect x="108" y="154" width="24" height="22" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="120" y="169">G</text>
+    <rect x="132" y="154" width="24" height="22" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="144" y="169">G</text>
+    <text x="168" y="169" opacity="0.6">…</text>
+    <rect x="276" y="154" width="24" height="22" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="288" y="169">G</text>
+    <text x="516" y="169" opacity="0.6" font-family="ui-sans-serif, system-ui, sans-serif">пусто</text>
+  </g>
+
+  <!-- связь P — M -->
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="104" y1="196" x2="104" y2="224"/><line x1="296" y1="196" x2="296" y2="224"/><line x1="488" y1="196" x2="488" y2="224"/>
+  </g>
+  <g font-size="11" opacity="0.6"><text x="110" y="214">m.p</text><text x="302" y="214">m.p</text><text x="494" y="214">m.p</text></g>
+
+  <!-- M -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="16" y="224" width="176" height="44" rx="6"/>
+    <rect x="208" y="224" width="176" height="44" rx="6"/>
+    <rect x="400" y="224" width="176" height="44" rx="6" stroke-dasharray="4 3"/>
+  </g>
+  <g font-weight="600"><text x="28" y="243">M0</text><text x="220" y="243">M1</text><text x="412" y="243">M2</text></g>
+  <g font-size="11" opacity="0.6"><text x="28" y="259">поток ОС</text><text x="220" y="259">поток ОС</text><text x="412" y="259">поток ОС</text></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <rect x="104" y="233" width="80" height="26" rx="4" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+    <text x="144" y="250" text-anchor="middle">G _Grunning</text>
+    <rect x="296" y="233" width="80" height="26" rx="4" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+    <text x="336" y="250" text-anchor="middle">G _Grunning</text>
+  </g>
+  <text x="566" y="243" font-size="11" text-anchor="end" fill="#d97706">spinning:</text>
+  <text x="566" y="259" font-size="11" text-anchor="end" fill="#d97706">ищет G</text>
+
+  <!-- ядра -->
+  <g stroke="currentColor" stroke-width="1.2" opacity="0.5">
+    <line x1="104" y1="268" x2="104" y2="296"/><line x1="296" y1="268" x2="296" y2="296"/><line x1="488" y1="268" x2="488" y2="296"/>
+  </g>
+  <g fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1" stroke-opacity="0.5">
+    <rect x="56" y="296" width="96" height="28" rx="4"/>
+    <rect x="248" y="296" width="96" height="28" rx="4"/>
+    <rect x="440" y="296" width="96" height="28" rx="4"/>
+  </g>
+  <g font-size="12" text-anchor="middle" opacity="0.8"><text x="104" y="314">ядро CPU</text><text x="296" y="314">ядро CPU</text><text x="488" y="314">ядро CPU</text></g>
+  <text x="16" y="340" font-size="11" opacity="0.6">число P = GOMAXPROCS; потоки на ядра раскладывает планировщик ОС</text>
+
+  <!-- M3 в syscall -->
+  <rect x="592" y="152" width="80" height="44" rx="6" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+  <text x="632" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">G</text>
+  <text x="632" y="186" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">_Gsyscall</text>
+  <line x1="632" y1="196" x2="632" y2="224" stroke="#d97706" stroke-width="1.2"/>
+  <rect x="592" y="224" width="80" height="44" rx="6" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="604" y="243" font-weight="600">M3</text>
+  <text x="604" y="259" font-size="11" opacity="0.7">без P</text>
+  <text x="632" y="292" text-anchor="middle" font-size="11" fill="#d97706">в syscall</text>
+</svg>

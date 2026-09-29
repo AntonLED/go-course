@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Слева: s += w на каждой итерации выделяет новую строку и копирует всё накопленное, 4+6 байт. Справа: strings.Builder дописывает в один буфер, а String() возвращает строку над тем же буфером без копии" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Конкатенация в цикле и strings.Builder</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <line x1="340" y1="8" x2="340" y2="228" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity="0.4"/>
+
+  <!-- ЛЕВО -->
+  <text x="20" y="22" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">s += w</text>
+  <text x="80" y="22" font-size="12" opacity="0.7">words = ab, cd, ef</text>
+
+  <g font-size="11" opacity="0.6" text-anchor="end">
+    <text x="44" y="61">1</text><text x="44" y="105">2</text><text x="44" y="149">3</text>
+  </g>
+  <!-- итерация 1: s указывает на сам words[0] -->
+  <g opacity="0.6">
+    <rect x="52" y="44" width="48" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="76" y="62" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">ab</text>
+  </g>
+  <!-- итерация 2: мусор -->
+  <g opacity="0.45">
+    <rect x="52" y="88" width="96" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="100" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">abcd</text>
+  </g>
+  <!-- итерация 3 -->
+  <rect x="52" y="132" width="144" height="26" rx="3" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="124" y="150" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">abcdef</text>
+
+  <g font-size="11" fill="#dc2626">
+    <text x="212" y="61" fill="currentColor" opacity="0.7">"" + "ab" = "ab"</text>
+    <text x="212" y="105">новая, копия 4 Б</text>
+    <text x="212" y="149">новая, копия 6 Б</text>
+  </g>
+  <text x="20" y="190" font-size="12">скопировано 4 + 6 = 10 Б</text>
+  <text x="20" y="208" font-size="12" fill="#dc2626">n слов → O(n²) копирования</text>
+  <text x="20" y="226" font-size="11" opacity="0.6">пунктир — уже мусор для GC</text>
+
+  <!-- ПРАВО -->
+  <text x="360" y="22" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">strings.Builder</text>
+  <text x="484" y="22" font-size="12" opacity="0.7">b.Grow(6) — одна аллокация</text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="416" y="56">"ab"</text><text x="464" y="56">"cd"</text><text x="512" y="56">"ef"</text>
+  </g>
+  <g stroke="#16a34a" stroke-width="1.3">
+    <line x1="416" y1="62" x2="416" y2="82" marker-end="url(#arr-ok)"/>
+    <line x1="464" y1="62" x2="464" y2="82" marker-end="url(#arr-ok)"/>
+    <line x1="512" y1="62" x2="512" y2="82" marker-end="url(#arr-ok)"/>
+  </g>
+  <text x="544" y="76" font-size="11" opacity="0.7">WriteString</text>
+
+  <text x="380" y="106" text-anchor="end" font-size="11" opacity="0.7">buf</text>
+  <rect x="392" y="88" width="144" height="30" rx="3" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <g stroke="#16a34a" stroke-width="1" opacity="0.6">
+    <line x1="416" y1="88" x2="416" y2="118"/><line x1="440" y1="88" x2="440" y2="118"/><line x1="464" y1="88" x2="464" y2="118"/>
+    <line x1="488" y1="88" x2="488" y2="118"/><line x1="512" y1="88" x2="512" y2="118"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="404" y="108">a</text><text x="428" y="108">b</text><text x="452" y="108">c</text>
+    <text x="476" y="108">d</text><text x="500" y="108">e</text><text x="524" y="108">f</text>
+  </g>
+
+  <!-- String() -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="392" y="168" width="144" height="30" rx="4"/>
+    <line x1="464" y1="168" x2="464" y2="198"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="428" y="188">data</text><text x="500" y="188">len 6</text>
+  </g>
+  <text x="548" y="188" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">res</text>
+  <line x1="404" y1="168" x2="404" y2="124" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="416" y="146" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">b.String() — без копии</text>
+</svg>

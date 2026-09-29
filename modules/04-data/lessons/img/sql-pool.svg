@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300" role="img" aria-label="sql.DB как пул: при MaxOpenConns(3) все три соединения заняты (одно — незакрытыми rows), свободных нет, поэтому следующие горутины ждут в очереди и растёт WaitCount" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>sql.DB — пул соединений</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ao" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+  </defs>
+
+  <!-- горутины -->
+  <text x="64" y="16" text-anchor="middle" font-size="11" opacity="0.6">горутины</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="16" y="40" width="96" height="28" rx="14"/>
+    <rect x="16" y="80" width="96" height="28" rx="14"/>
+    <rect x="16" y="120" width="96" height="28" rx="14"/>
+  </g>
+  <g fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2">
+    <rect x="16" y="192" width="96" height="28" rx="14"/>
+    <rect x="16" y="228" width="96" height="28" rx="14"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="64" y="58">G1</text><text x="64" y="98">G2</text><text x="64" y="138">G3</text>
+    <text x="64" y="210">G4</text><text x="64" y="246">G5</text>
+  </g>
+
+  <!-- пул -->
+  <rect x="152" y="8" width="532" height="256" rx="8" fill="currentColor" fill-opacity="0.03" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="168" y="27" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#0891b2">db *sql.DB</text>
+  <text x="264" y="27" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.7">SetMaxOpenConns(3)</text>
+
+  <!-- занятые -->
+  <g fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2">
+    <rect x="176" y="40" width="96" height="28" rx="4"/>
+    <rect x="176" y="80" width="96" height="28" rx="4"/>
+    <rect x="176" y="120" width="96" height="28" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="224" y="58">conn 1</text><text x="224" y="98">conn 2</text><text x="224" y="138">conn 3</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.4">
+    <line x1="112" y1="54" x2="174" y2="54" marker-end="url(#a)"/>
+    <line x1="112" y1="94" x2="174" y2="94" marker-end="url(#a)"/>
+    <line x1="112" y1="134" x2="174" y2="134" marker-end="url(#a)"/>
+  </g>
+  <g font-size="11">
+    <text x="284" y="52" fill="#dc2626">Query, rows не закрыты:</text>
+    <text x="284" y="65" fill="#dc2626">занято, пока нет rows.Close()</text>
+    <text x="284" y="92">BeginTx: занято</text>
+    <text x="284" y="105" opacity="0.7">до Commit / Rollback</text>
+    <text x="284" y="132">Exec: занято на время</text>
+    <text x="284" y="145" opacity="0.7">запроса, потом вернётся</text>
+  </g>
+
+  <!-- свободные -->
+  <rect x="468" y="40" width="200" height="108" rx="4" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity="0.6"/>
+  <text x="568" y="60" text-anchor="middle" font-size="12">свободные (Idle)</text>
+  <text x="568" y="84" text-anchor="middle" font-size="12" opacity="0.6">пусто</text>
+  <text x="568" y="108" text-anchor="middle" font-size="11" opacity="0.7">вернувшиеся ждут здесь;</text>
+  <text x="568" y="122" text-anchor="middle" font-size="11" opacity="0.7">лишние сверх MaxIdleConns</text><text x="568" y="136" text-anchor="middle" font-size="11" opacity="0.7">закрываются</text>
+
+  <!-- очередь -->
+  <text x="176" y="180" font-size="12" fill="#d97706">очередь ожидающих (connRequests)</text>
+  <g fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="4 3">
+    <rect x="176" y="192" width="96" height="28" rx="4"/>
+    <rect x="176" y="228" width="96" height="28" rx="4"/>
+  </g>
+  <g font-size="11" text-anchor="middle" fill="#d97706">
+    <text x="224" y="210">ждёт conn</text><text x="224" y="246">ждёт conn</text>
+  </g>
+  <g stroke="#d97706" stroke-width="1.4">
+    <line x1="112" y1="206" x2="174" y2="206" marker-end="url(#ao)"/>
+    <line x1="112" y1="242" x2="174" y2="242" marker-end="url(#ao)"/>
+  </g>
+  <text x="284" y="210" font-size="11">открыто уже MaxOpen, свободных нет →</text>
+  <text x="284" y="224" font-size="11">ждут, пока кто-то вернёт соединение</text>
+  <text x="284" y="238" font-size="11" opacity="0.7">(или пока не отменят ctx)</text>
+
+  <text x="16" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">db.Stats(): <tspan opacity="0.8">MaxOpenConnections=3  InUse=3  Idle=0</tspan>  <tspan fill="#d97706">WaitCount=2 и растёт</tspan></text>
+</svg>

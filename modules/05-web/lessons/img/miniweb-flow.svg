@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Мини-фреймворк: ServeMux находит маршрут, адаптер создаёт Context, запрос проходит глобальные, групповые и маршрутные middleware до хендлера; ошибка возвращается обратно и превращается в ответ в одной точке" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Путь запроса в мини-фреймворке</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect x="16" y="32" width="96" height="56" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.3"/>
+  <text x="64.0" y="54" text-anchor="middle" font-weight="600" font-size="12" fill="currentColor">ServeMux</text>
+  <text x="64.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" opacity="0.85">/api/users/{id}</text>
+  <rect x="128" y="32" width="100" height="56" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.3"/>
+  <text x="178.0" y="54" text-anchor="middle" font-weight="600" font-size="12" fill="currentColor">адаптер</text>
+  <text x="178.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" opacity="0.85">&amp;Context{w, r}</text>
+  <rect x="244" y="32" width="104" height="56" rx="6" fill="#7c3aed" fill-opacity="0.1" stroke="#7c3aed" stroke-width="1.3"/>
+  <text x="296.0" y="54" text-anchor="middle" font-weight="600" font-size="12" fill="#7c3aed">глобальные</text>
+  <text x="296.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" opacity="0.85">Logger, Recover</text>
+  <rect x="364" y="32" width="92" height="56" rx="6" fill="#d97706" fill-opacity="0.1" stroke="#d97706" stroke-width="1.3"/>
+  <text x="410.0" y="54" text-anchor="middle" font-weight="600" font-size="12" fill="#d97706">группа /api</text>
+  <text x="410.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" opacity="0.85">Auth</text>
+  <rect x="472" y="32" width="88" height="56" rx="6" fill="#0891b2" fill-opacity="0.1" stroke="#0891b2" stroke-width="1.3"/>
+  <text x="516.0" y="54" text-anchor="middle" font-weight="600" font-size="12" fill="#0891b2">маршрут</text>
+  <text x="516.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" opacity="0.85">RateLimit</text>
+  <rect x="576" y="32" width="88" height="56" rx="6" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="620.0" y="54" text-anchor="middle" font-weight="600" font-size="12" fill="#16a34a">handler</text>
+  <text x="620.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" opacity="0.85">return err</text>
+  <line x1="113" y1="46" x2="127" y2="46" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="229" y1="46" x2="243" y2="46" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="243" y1="78" x2="229" y2="78" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+  <line x1="349" y1="46" x2="363" y2="46" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="363" y1="78" x2="349" y2="78" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+  <line x1="457" y1="46" x2="471" y2="46" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="471" y1="78" x2="457" y2="78" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+  <line x1="561" y1="46" x2="575" y2="46" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="575" y1="78" x2="561" y2="78" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+  <text x="16" y="20" font-size="11" opacity="0.75">запрос →</text>
+  <text x="664" y="108" text-anchor="end" font-size="11" fill="#dc2626">← error поднимается обратно через middleware</text>
+  <path d="M178,88 V130" stroke="#dc2626" stroke-width="1.4" fill="none" marker-end="url(#arr-red)"/>
+  <text x="186" y="118" font-size="11" fill="#dc2626"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">err != nil</tspan></text>
+  <rect x="16" y="132" width="400" height="92" rx="6" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.2"/>
+  <text x="28" y="152" font-size="12" font-weight="600">одна точка обработки ошибок</text>
+  <circle cx="34" cy="166" r="3.5" fill="#d97706"/><text x="46" y="170" font-size="12"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*HTTPError</tspan> → его Code и Message клиенту</text>
+  <circle cx="34" cy="186" r="3.5" fill="#dc2626"/><text x="46" y="190" font-size="12">любая другая → 500 без деталей, подробности в лог</text>
+  <circle cx="34" cy="206" r="3.5" fill="currentColor"/><text x="46" y="210" font-size="12">ответ уже начат → ничего не дописываем</text>
+  <text x="440" y="152" font-size="12" font-weight="600">порядок оборачивания</text>
+  <text x="440" y="172" font-size="12"><tspan fill="#7c3aed">глобальные</tspan> → <tspan fill="#d97706">группы</tspan> → <tspan fill="#0891b2">маршрута</tspan></text>
+  <text x="440" y="192" font-size="11" opacity="0.8">404/405 тоже идут через</text>
+  <text x="440" y="208" font-size="11" opacity="0.8">глобальные (лог, CORS)</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260" role="img" aria-label="Flame graph в веб-интерфейсе pprof: корень сверху, ниже вызываемые функции; ширина прямоугольника — доля сэмплов со стеком через эту функцию; широкий лист parse — горячая точка; пустое место под handle — его собственное время" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как читать flame graph</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M8,0 L0,4 L8,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- ось Y -->
+  <line x1="40" y1="36" x2="40" y2="176" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arr)"/>
+  <text x="32" y="106" font-size="11" opacity="0.7" text-anchor="middle" transform="rotate(-90 32 106)">глубина стека</text>
+
+  <!-- ширина -->
+  <line x1="80" y1="18" x2="640" y2="18" stroke="currentColor" stroke-width="1" opacity="0.6" marker-start="url(#arr-s)" marker-end="url(#arr)"/>
+  <text x="360" y="14" text-anchor="middle" font-size="11" opacity="0.8" paint-order="stroke">
+    <tspan>100% сэмплов</tspan>
+  </text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" stroke-width="1">
+    <rect x="80" y="28" width="560" height="26" rx="2" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="88" y="46">root</text>
+    <text x="632" y="46" text-anchor="end" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" opacity="0.7">в go tool pprof -http корень сверху</text>
+    <rect x="80" y="58" width="560" height="26" rx="2" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="88" y="76">main.main</text>
+    <rect x="80" y="88" width="560" height="26" rx="2" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="88" y="106">main.handle</text>
+    <rect x="80" y="118" width="280" height="26" rx="2" fill="#0891b2" fill-opacity="0.22" stroke="#0891b2"/>
+    <text x="88" y="136">main.parse  50%</text>
+    <rect x="360" y="118" width="210" height="26" rx="2" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.4"/>
+    <text x="368" y="136">json.Marshal  37.5%</text>
+    <rect x="360" y="148" width="140" height="26" rx="2" fill="#0891b2" fill-opacity="0.22" stroke="#0891b2"/>
+    <text x="368" y="166">mallocgc  25%</text>
+  </g>
+
+  <!-- пояснения -->
+  <g font-size="11">
+    <line x1="220" y1="148" x2="220" y2="196" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="80" y="212" fill="#0891b2">широкий лист = горячая точка:</text>
+    <text x="80" y="227" fill="#0891b2">время в самой функции (flat)</text>
+
+    <line x1="605" y1="118" x2="605" y2="196" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+    <text x="664" y="212" text-anchor="end" opacity="0.8">пусто под handle = её flat</text>
+    <text x="664" y="227" text-anchor="end" opacity="0.8">(12.5% — код самой handle)</text>
+
+    <line x1="535" y1="148" x2="535" y2="176" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+    <text x="535" y="190" text-anchor="middle" opacity="0.8">flat Marshal</text>
+  </g>
+  <text x="16" y="252" font-size="12">Ширина = cum функции. Ось X — не время: соседство слева направо ничего не значит.</text>
+</svg>

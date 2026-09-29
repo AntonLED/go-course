@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 374" role="img" aria-label="Проверка JWT по шагам: разбор, alg из белого списка сервера, ключ по alg и kid из JWKS, подпись, затем exp и nbf с leeway, iss и aud; справа соответствующие опции golang-jwt" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Проверка JWT по шагам</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+  </defs>
+  <text x="20" y="18" font-size="11" opacity="0.6">шаг проверки</text>
+  <text x="428" y="18" font-size="11" opacity="0.6">в golang-jwt/v5</text>
+  <rect x="20" y="28" width="392" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="32" y="47" font-size="12">1. разбить по «.» на 3 части, base64url → JSON</text>
+  <text x="428" y="47" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">jwt.ParseWithClaims</text>
+  <line x1="412" y1="43" x2="422" y2="43" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="58" x2="216" y2="66" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="68" width="392" height="44" rx="4" fill="#0891b2" fill-opacity="0.10" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="32" y="87" font-size="12">2. alg из заголовка ∈ списка сервера (не none)</text>
+  <text x="44" y="103" font-size="11" opacity="0.65">crit, которых не понимаем → отказ</text>
+  <text x="428" y="87" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">WithValidMethods</text>
+  <line x1="412" y1="83" x2="422" y2="83" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="112" x2="216" y2="120" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="122" width="392" height="44" rx="4" fill="#0891b2" fill-opacity="0.10" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="32" y="141" font-size="12">3. ключ по (alg, kid) из доверенного JWKS</text>
+  <text x="44" y="157" font-size="11" opacity="0.65">jku / x5u из токена не использовать</text>
+  <text x="428" y="141" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">Keyfunc</text>
+  <line x1="412" y1="137" x2="422" y2="137" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="166" x2="216" y2="174" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="176" width="392" height="30" rx="4" fill="#0891b2" fill-opacity="0.10" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="32" y="195" font-size="12">4. подпись над «header.payload» этим ключом</text>
+  <text x="428" y="195" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">(внутри Parse)</text>
+  <line x1="412" y1="191" x2="422" y2="191" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="206" x2="216" y2="214" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="216" width="392" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="32" y="235" font-size="12">5. exp: now &lt; exp;  nbf: now ≥ nbf  (± leeway)</text>
+  <text x="428" y="235" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">WithExpirationRequired, WithLeeway</text>
+  <line x1="412" y1="231" x2="422" y2="231" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="246" x2="216" y2="254" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="256" width="392" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="32" y="275" font-size="12">6. iss равен ожидаемому</text>
+  <text x="428" y="275" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">WithIssuer</text>
+  <line x1="412" y1="271" x2="422" y2="271" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="286" x2="216" y2="294" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="296" width="392" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="32" y="315" font-size="12">7. aud содержит наш сервис</text>
+  <text x="428" y="315" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">WithAudience</text>
+  <line x1="412" y1="311" x2="422" y2="311" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="2 2"/>
+  <line x1="216" y1="326" x2="216" y2="334" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="20" y="336" width="392" height="30" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="32" y="355" font-size="12">claims можно доверять → авторизация по scope</text>
+  <text x="428" y="355" font-size="11" fill="#dc2626">любой шаг не прошёл → 401</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 368" role="img" aria-label="Device Authorization Grant: устройство получает device_code и user_code, показывает код пользователю, опрашивает /token и получает authorization_pending, пока пользователь на телефоне не введёт код и не согласится; после этого получает токены" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Device Authorization Grant (RFC 8628)</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-o" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+    <marker id="arr-t" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+    <marker id="arr-g" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+  <text x="80" y="18" text-anchor="middle" font-weight="600" font-size="12">Устройство (ТВ, CLI)</text>
+  <text x="360" y="18" text-anchor="middle" font-weight="600" font-size="12">Auth Server</text>
+  <text x="600" y="18" text-anchor="middle" font-weight="600" font-size="12">Телефон пользователя</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.4"><line x1="80" y1="28" x2="80" y2="104"/><line x1="80" y1="158" x2="80" y2="364"/><line x1="360" y1="28" x2="360" y2="364"/><line x1="600" y1="28" x2="600" y2="364"/></g>
+  <text x="220.0" y="46" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">1. POST /device_authorization</text>
+  <line x1="80" y1="54" x2="358" y2="54" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="220.0" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">device_code, user_code=WDJB-MJHT,</text>
+  <text x="220.0" y="88" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">verification_uri, interval=5</text>
+  <line x1="360" y1="96" x2="82" y2="96" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="20" y="106" width="150" height="52" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="30" y="122" text-anchor="start" font-size="11" opacity="0.7">2. на экране:</text>
+  <text x="30" y="137" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">WDJB-MJHT</text>
+  <text x="30" y="151" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">example.com/device</text>
+  <line x1="170" y1="132" x2="598" y2="132" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr-t)"/>
+  <text x="480" y="126" text-anchor="middle" font-size="11" fill="#0891b2">пользователь видит код</text>
+  <rect x="28" y="172" width="372" height="92" rx="6" fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="6 4"/>
+  <text x="38" y="188" text-anchor="start" font-size="11" fill="#d97706">3. опрос раз в interval секунд</text>
+  <text x="220.0" y="208" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">POST /token grant_type=…:device_code</text>
+  <line x1="80" y1="216" x2="358" y2="216" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="220.0" y="236" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#d97706">authorization_pending | slow_down</text>
+  <line x1="360" y1="244" x2="82" y2="244" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-o)"/>
+  <text x="96" y="258" text-anchor="start" font-size="10.5" opacity="0.7">slow_down → interval += 5 с</text>
+  <text x="480.0" y="284" text-anchor="middle" font-size="11">4. открывает URI, вводит user_code,</text>
+  <text x="480.0" y="298" text-anchor="middle" font-size="11">логинится и соглашается</text>
+  <line x1="600" y1="306" x2="362" y2="306" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="220.0" y="316" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">5. POST /token (тот же device_code)</text>
+  <line x1="80" y1="324" x2="358" y2="324" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="220.0" y="344" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#16a34a">access_token, refresh_token</text>
+  <line x1="360" y1="352" x2="82" y2="352" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-g)"/>
+</svg>

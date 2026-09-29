@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 722 268" role="img" aria-label="Подкоманды: глобальный FlagSet разбирает -json и останавливается на имени команды add; остаток global.Args() идёт в switch, и FlagSet подкоманды разбирает rest[1:]" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Подкоманды на FlagSet</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ap" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.7"><text x="16" y="16">$ tool -json add -n 3 x.txt</text><text x="264" y="16">→ Run(os.Args[1:], …)</text></g>
+
+  <!-- ряд 1: global.Parse -->
+  <text x="204" y="53" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">global.Parse(args)</text>
+  <rect x="216" y="32" width="64" height="32" fill="#16a34a" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="216" y="32" width="320" height="32" rx="3"/>
+    <line x1="280" y1="32" x2="280" y2="64"/><line x1="344" y1="32" x2="344" y2="64"/><line x1="408" y1="32" x2="408" y2="64"/><line x1="472" y1="32" x2="472" y2="64"/>
+  </g>
+  <line x1="280" y1="26" x2="280" y2="70" stroke="#d97706" stroke-width="2.4"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="248" y="53">-json</text><text x="312" y="53">add</text><text x="376" y="53">-n</text><text x="440" y="53">3</text><text x="504" y="53">x.txt</text>
+  </g>
+  <text x="552" y="46" font-size="12" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*jsonOut = true</text>
+  <text x="552" y="62" font-size="11" fill="#d97706">стоп на «add»</text>
+
+  <line x1="408" y1="64" x2="408" y2="94" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- ряд 2: rest -->
+  <text x="268" y="117" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">rest := global.Args()</text>
+  <rect x="280" y="96" width="64" height="32" fill="#7c3aed" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="280" y="96" width="256" height="32" rx="3"/>
+    <line x1="344" y1="96" x2="344" y2="128"/><line x1="408" y1="96" x2="408" y2="128"/><line x1="472" y1="96" x2="472" y2="128"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="312" y="117" fill="#7c3aed">add</text><text x="376" y="117">-n</text><text x="440" y="117">3</text><text x="504" y="117">x.txt</text>
+  </g>
+  <text x="552" y="110" font-size="11" opacity="0.7">rest пуст → «нужна</text>
+  <text x="552" y="124" font-size="11" opacity="0.7">команда», return 2</text>
+
+  <line x1="312" y1="128" x2="312" y2="150" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#ap)"/>
+
+  <!-- switch -->
+  <rect x="216" y="152" width="320" height="32" rx="4" fill="#7c3aed" fill-opacity="0.1" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="376" y="173" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">switch rest[0] → case "add"</text>
+  <text x="552" y="166" font-size="11" fill="#dc2626">default: «неизвестная</text>
+  <text x="552" y="180" font-size="11" fill="#dc2626">команда» в stderr, return 2</text>
+  <text x="204" y="166" text-anchor="end" font-size="11" opacity="0.7">свой FlagSet:</text>
+  <text x="204" y="180" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.7">NewFlagSet("add", …)</text>
+
+  <line x1="440" y1="184" x2="440" y2="214" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- ряд 3: fs.Parse -->
+  <text x="332" y="237" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">fs.Parse(rest[1:])</text>
+  <rect x="344" y="216" width="128" height="32" fill="#16a34a" fill-opacity="0.15"/>
+  <rect x="472" y="216" width="64" height="32" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="344" y="216" width="192" height="32" rx="3"/>
+    <line x1="408" y1="216" x2="408" y2="248"/><line x1="472" y1="216" x2="472" y2="248"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="376" y="237">-n</text><text x="440" y="237">3</text><text x="504" y="237">x.txt</text>
+  </g>
+  <text x="552" y="230" font-size="12" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*n = 3</text>
+  <text x="552" y="246" font-size="12" fill="#0891b2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">fs.Args() = [x.txt]</text>
+</svg>

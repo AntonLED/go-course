@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 252" role="img" aria-label="CPU-профиль: раз в 10 мс процессорного времени SIGPROF снимает стек; пока горутина спит на канале, сэмплов нет; сэмплы складываются в flat (функция на вершине стека) и cum (функция где-либо в стеке)" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как собирается CPU-профиль</title>
+
+  <!-- сэмплы -->
+  <text x="16" y="26" font-size="11" fill="#0891b2">SIGPROF</text>
+  <g fill="#0891b2">
+    <path d="M90,18 h12 l-6,10 z"/><path d="M122,18 h12 l-6,10 z"/><path d="M154,18 h12 l-6,10 z"/><path d="M186,18 h12 l-6,10 z"/>
+    <path d="M218,18 h12 l-6,10 z"/>
+    <path d="M314,18 h12 l-6,10 z"/><path d="M346,18 h12 l-6,10 z"/><path d="M378,18 h12 l-6,10 z"/>
+  </g>
+  <!-- стек во времени (корень сверху) -->
+  <text x="16" y="66" font-size="11" opacity="0.7">стек</text>
+  <text x="16" y="80" font-size="11" opacity="0.7">горутины</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <rect x="80" y="40" width="320" height="24" rx="2" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-opacity="0.5"/>
+    <text x="86" y="56">main</text>
+    <rect x="80" y="68" width="320" height="24" rx="2" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-opacity="0.5"/>
+    <text x="86" y="84">handle</text>
+    <rect x="80" y="96" width="128" height="24" rx="2" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/>
+    <text x="144" y="112" text-anchor="middle">parse</text>
+    <rect x="240" y="96" width="64" height="24" rx="2" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-dasharray="3 2"/>
+    <text x="272" y="112" text-anchor="middle" fill="#d97706">&lt;-ch</text>
+    <rect x="304" y="96" width="96" height="24" rx="2" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-opacity="0.5"/>
+    <text x="330" y="114">Marshal</text>
+    <rect x="336" y="124" width="64" height="24" rx="2" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/>
+    <text x="368" y="142" text-anchor="middle">mallocgc</text>
+  </g>
+  <g fill="#0891b2">
+    <circle cx="96" cy="100" r="2.2"/><circle cx="128" cy="100" r="2.2"/><circle cx="160" cy="100" r="2.2"/><circle cx="192" cy="100" r="2.2"/>
+    <circle cx="224" cy="72" r="2.2"/><circle cx="320" cy="100" r="2.2"/><circle cx="352" cy="128" r="2.2"/><circle cx="384" cy="128" r="2.2"/>
+  </g>
+  <text x="272" y="136" text-anchor="middle" font-size="11" fill="#d97706">спит —</text>
+  <text x="272" y="150" text-anchor="middle" font-size="11" fill="#d97706">0 сэмплов</text>
+
+  <!-- ось -->
+  <line x1="80" y1="164" x2="400" y2="164" stroke="currentColor" stroke-opacity="0.6"/>
+  <g stroke="currentColor" stroke-opacity="0.6">
+    <line x1="80" y1="160" x2="80" y2="168"/><line x1="240" y1="160" x2="240" y2="168"/><line x1="400" y1="160" x2="400" y2="168"/>
+  </g>
+  <g font-size="10" opacity="0.7" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="80" y="180">0</text><text x="240" y="180">50 мс</text><text x="400" y="180">100 мс</text>
+  </g>
+
+  <!-- flat / cum -->
+  <rect x="440" y="16" width="224" height="168" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.35"/>
+  <g font-size="11" opacity="0.7">
+    <text x="452" y="36">функция</text>
+    <text x="596" y="36" text-anchor="end">flat</text>
+    <text x="648" y="36" text-anchor="end">cum</text>
+  </g>
+  <line x1="448" y1="44" x2="656" y2="44" stroke="currentColor" stroke-opacity="0.25"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="452" y="66">parse</text><text x="596" y="66" text-anchor="end" fill="#0891b2" font-weight="600">4</text><text x="648" y="66" text-anchor="end">4</text>
+    <text x="452" y="90">mallocgc</text><text x="596" y="90" text-anchor="end" fill="#0891b2" font-weight="600">2</text><text x="648" y="90" text-anchor="end">2</text>
+    <text x="452" y="114">Marshal</text><text x="596" y="114" text-anchor="end">1</text><text x="648" y="114" text-anchor="end">3</text>
+    <text x="452" y="138">handle</text><text x="596" y="138" text-anchor="end">1</text><text x="648" y="138" text-anchor="end">8</text>
+    <text x="452" y="162">main</text><text x="596" y="162" text-anchor="end">0</text><text x="648" y="162" text-anchor="end">8</text>
+  </g>
+  <text x="452" y="178" font-size="10" opacity="0.6">в сэмплах; 1 сэмпл = 10 мс CPU</text>
+
+  <!-- пояснение -->
+  <g font-size="12">
+    <text x="16" y="208"><tspan fill="#0891b2" font-weight="600">flat</tspan> — сэмплы, где функция на вершине стека (работает сама).</text>
+    <text x="16" y="228"><tspan font-weight="600">cum</tspan> — сэмплы, где она есть в стеке где угодно (сама + всё, что вызвала).</text>
+    <text x="16" y="246" font-size="11" opacity="0.7">SIGPROF — раз в 10 мс CPU-времени (100 Гц); ожидание канала, мьютекса, I/O не попадает.</text>
+  </g>
+</svg>

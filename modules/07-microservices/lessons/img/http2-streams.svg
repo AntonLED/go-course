@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 270" role="img" aria-label="Три вызова gRPC идут по одному TCP-соединению HTTP/2 как потоки 1, 3 и 5. Их фреймы HEADERS, DATA и трейлеры перемешаны в обоих направлениях, каждый фрейм помечен номером своего потока" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Мультиплексирование HTTP/2</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <rect x="16" y="40" width="96" height="184" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="64" y="60" text-anchor="middle" font-weight="600">клиент</text>
+  <rect x="24" y="80" width="80" height="32" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="64" y="94" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">GetItem</text>
+  <text x="64" y="107" text-anchor="middle" font-size="10" fill="#0891b2">stream 1</text>
+  <rect x="24" y="122" width="80" height="32" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.1"/>
+  <text x="64" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">WatchStock</text>
+  <text x="64" y="149" text-anchor="middle" font-size="10" fill="#7c3aed">stream 3</text>
+  <rect x="24" y="164" width="80" height="32" rx="3" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.1"/>
+  <text x="64" y="178" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">GetItem</text>
+  <text x="64" y="191" text-anchor="middle" font-size="10" fill="#d97706">stream 5</text>
+  <rect x="568" y="40" width="96" height="184" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="616" y="60" text-anchor="middle" font-weight="600">сервер</text>
+  <text x="616" y="128" text-anchor="middle" font-size="11" opacity="0.7">горутина</text>
+  <text x="616" y="142" text-anchor="middle" font-size="11" opacity="0.7">на каждый</text>
+  <text x="616" y="156" text-anchor="middle" font-size="11" opacity="0.7">поток</text>
+  <rect x="120" y="68" width="440" height="132" rx="10" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="340" y="30" text-anchor="middle" font-size="12">одно TCP-соединение, HTTP/2</text>
+  <text x="340" y="46" text-anchor="middle" font-size="11" opacity="0.65">внутри одного <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*grpc.ClientConn</tspan></text>
+  <rect x="132" y="92" width="64" height="32" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="164" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">HEADERS</text>
+  <text x="164" y="119" text-anchor="middle" font-size="10" fill="#0891b2">stream 1</text>
+  <rect x="202" y="92" width="64" height="32" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="234" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">DATA</text>
+  <text x="234" y="119" text-anchor="middle" font-size="10" fill="#0891b2">stream 1</text>
+  <rect x="272" y="92" width="64" height="32" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed" stroke-width="1.1"/>
+  <text x="304" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">HEADERS</text>
+  <text x="304" y="119" text-anchor="middle" font-size="10" fill="#7c3aed">stream 3</text>
+  <rect x="342" y="92" width="64" height="32" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed" stroke-width="1.1"/>
+  <text x="374" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">DATA</text>
+  <text x="374" y="119" text-anchor="middle" font-size="10" fill="#7c3aed">stream 3</text>
+  <rect x="412" y="92" width="64" height="32" rx="3" fill="#d97706" fill-opacity="0.16" stroke="#d97706" stroke-width="1.1"/>
+  <text x="444" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">HEADERS</text>
+  <text x="444" y="119" text-anchor="middle" font-size="10" fill="#d97706">stream 5</text>
+  <rect x="482" y="92" width="64" height="32" rx="3" fill="#d97706" fill-opacity="0.16" stroke="#d97706" stroke-width="1.1"/>
+  <text x="514" y="106" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">DATA</text>
+  <text x="514" y="119" text-anchor="middle" font-size="10" fill="#d97706">stream 5</text>
+  <rect x="132" y="156" width="64" height="32" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="164" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">HEADERS</text>
+  <text x="164" y="183" text-anchor="middle" font-size="10" fill="#0891b2">stream 1</text>
+  <rect x="202" y="156" width="64" height="32" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed" stroke-width="1.1"/>
+  <text x="234" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">HEADERS</text>
+  <text x="234" y="183" text-anchor="middle" font-size="10" fill="#7c3aed">stream 3</text>
+  <rect x="272" y="156" width="64" height="32" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="304" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">DATA</text>
+  <text x="304" y="183" text-anchor="middle" font-size="10" fill="#0891b2">stream 1</text>
+  <rect x="342" y="156" width="64" height="32" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed" stroke-width="1.1"/>
+  <text x="374" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">DATA</text>
+  <text x="374" y="183" text-anchor="middle" font-size="10" fill="#7c3aed">stream 3</text>
+  <rect x="412" y="156" width="64" height="32" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="444" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">trailers</text>
+  <text x="444" y="183" text-anchor="middle" font-size="10" fill="#0891b2">stream 1</text>
+  <rect x="482" y="156" width="64" height="32" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed" stroke-width="1.1"/>
+  <text x="514" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">DATA</text>
+  <text x="514" y="183" text-anchor="middle" font-size="10" fill="#7c3aed">stream 3</text>
+  <text x="132" y="86" font-size="11" opacity="0.75">клиент → сервер</text>
+  <text x="132" y="150" font-size="11" opacity="0.75">сервер → клиент</text>
+  <line x1="236" y1="82" x2="546" y2="82" stroke="currentColor" stroke-width="1" opacity="0.4" marker-end="url(#arr)"/>
+  <line x1="236" y1="146" x2="546" y2="146" stroke="currentColor" stroke-width="1" opacity="0.4" marker-end="url(#arr)"/>
+  <text x="16" y="246" font-size="11" opacity="0.7">время в каждом ряду идёт слева направо; фреймы разных потоков чередуются,</text>
+  <text x="16" y="262" font-size="11" opacity="0.7">медленный WatchStock не задерживает GetItem — нет head-of-line blocking на уровне HTTP</text>
+</svg>

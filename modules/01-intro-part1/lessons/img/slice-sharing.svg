@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 250" role="img" aria-label="Срезы a и b — два заголовка, указывающие в один backing array; b видит элементы 1–2, но его ёмкость тянется до конца массива" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Два среза над одним массивом</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- заголовок a -->
+  <text x="48" y="50" text-anchor="end" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">a</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="60" y="30" width="180" height="30" rx="4"/>
+    <line x1="120" y1="30" x2="120" y2="60"/><line x1="180" y1="30" x2="180" y2="60"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="90" y="50">ptr</text><text x="150" y="50">len 5</text><text x="210" y="50">cap 5</text>
+  </g>
+
+  <!-- заголовок b -->
+  <text x="628" y="50" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">b</text>
+  <rect x="420" y="30" width="180" height="30" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <g stroke="#0891b2" stroke-width="1.2"><line x1="480" y1="30" x2="480" y2="60"/><line x1="540" y1="30" x2="540" y2="60"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="450" y="50">ptr</text><text x="510" y="50">len 2</text><text x="570" y="50">cap 4</text>
+  </g>
+
+  <!-- указатели -->
+  <line x1="90" y1="60" x2="212" y2="128" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="450" y1="60" x2="276" y2="128" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <!-- backing array -->
+  <text x="168" y="172" text-anchor="end" opacity="0.7">backing array</text>
+  <rect x="244" y="150" width="128" height="36" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="180" y="150" width="320" height="36" rx="3"/>
+    <line x1="244" y1="150" x2="244" y2="186"/><line x1="308" y1="150" x2="308" y2="186"/>
+    <line x1="372" y1="150" x2="372" y2="186"/><line x1="436" y1="150" x2="436" y2="186"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="middle">
+    <text x="212" y="173">1</text><text x="276" y="173">2</text><text x="340" y="173">3</text><text x="404" y="173">4</text><text x="468" y="173">5</text>
+  </g>
+  <g font-size="11" text-anchor="middle" opacity="0.6">
+    <text x="212" y="142">[0]</text><text x="276" y="142">[1]</text><text x="340" y="142">[2]</text><text x="404" y="142">[3]</text><text x="468" y="142">[4]</text>
+  </g>
+
+  <!-- len / cap у b -->
+  <path d="M244,198 v6 h128 v-6" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="308" y="220" text-anchor="middle" fill="#0891b2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">len(b) = 2</text>
+  <path d="M244,226 v6 h256 v-6" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6"/>
+  <text x="372" y="246" text-anchor="middle" opacity="0.7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">cap(b) = 4 — до конца массива</text>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 568" role="img" aria-label="CORS preflight: браузер шлёт OPTIONS с Access-Control-Request-Method и Headers, сервер отвечает Access-Control-Allow-*, и только потом браузер отправляет настоящий PUT" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>CORS preflight</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+  <rect x="16" y="12" width="148" height="34" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="90" y="34" text-anchor="middle" font-weight="600">браузер</text>
+  <rect x="496" y="12" width="168" height="34" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="580" y="34" text-anchor="middle" font-weight="600">api.example.com</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.35" stroke-dasharray="4 4"><line x1="90" y1="46" x2="90" y2="528"/><line x1="580" y1="46" x2="580" y2="528"/></g>
+  <rect x="104" y="58" width="456" height="26" rx="4" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <text x="114" y="75" font-size="12">JS с app.example.com: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">fetch(url, {method: "PUT", headers})</tspan></text>
+  <line x1="90" y1="120" x2="578" y2="120" stroke="#0891b2" stroke-width="1.5" marker-end="url(#arr-acc)"/>
+  <text x="120" y="112" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#0891b2">OPTIONS /items/1  — preflight, без тела и Authorization</text>
+  <text x="120" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Origin: https://app.example.com</text>
+  <text x="120" y="156" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Request-Method: PUT</text>
+  <text x="120" y="172" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Request-Headers: authorization, content-type</text>
+  <rect x="290" y="186" width="278" height="26" rx="4" fill="#0891b2" fill-opacity="0.1" stroke="#0891b2" stroke-width="1"/>
+  <text x="300" y="203" font-size="12">CORS-middleware отвечает сам, до Auth</text>
+  <line x1="580" y1="248" x2="92" y2="248" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-ok)"/>
+  <text x="120" y="240" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#16a34a">204 No Content</text>
+  <text x="120" y="268" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Allow-Origin: https://app.example.com</text>
+  <text x="120" y="284" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Allow-Methods: GET, PUT, DELETE</text>
+  <text x="120" y="300" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Allow-Headers: Authorization, Content-Type</text>
+  <text x="120" y="316" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Max-Age: 600</text>
+  <text x="120" y="332" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Vary: Origin</text>
+  <rect x="104" y="352" width="376" height="26" rx="4" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-width="1"/>
+  <text x="114" y="369" font-size="12">браузер сверяет метод и заголовки — разрешены ✓</text>
+  <line x1="90" y1="414" x2="578" y2="414" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="120" y="406" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="currentColor">PUT /items/1  — настоящий запрос</text>
+  <text x="120" y="434" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Origin: https://app.example.com</text>
+  <text x="120" y="450" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Authorization: Bearer …</text>
+  <line x1="580" y1="484" x2="92" y2="484" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-ok)"/>
+  <text x="120" y="476" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#16a34a">200 OK</text>
+  <text x="120" y="504" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Access-Control-Allow-Origin: https://app.example.com</text>
+  <text x="120" y="520" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Vary: Origin</text>
+  <text x="16" y="556" font-size="12" opacity="0.8">Нет подходящих Access-Control-Allow-* — браузер не отправит PUT и отдаст JS ошибку CORS.</text>
+</svg>

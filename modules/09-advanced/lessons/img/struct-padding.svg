@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 184" role="img" aria-label="Bad: a bool, 7 байт padding, b int64, c bool и ещё 7 байт padding — 24 байта. Good: b int64, затем a и c подряд и 6 байт padding — 16 байт" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Padding в структуре до и после перестановки полей</title>
+  <text x="40" y="20" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">type Bad struct</text>
+  <text x="296" y="20" text-anchor="end" font-size="12" font-weight="600" fill="#dc2626">Sizeof = 24</text>
+  <g font-size="10" opacity="0.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"><text x="56" y="40">0</text><text x="88" y="40">1</text><text x="120" y="40">2</text><text x="152" y="40">3</text><text x="184" y="40">4</text><text x="216" y="40">5</text><text x="248" y="40">6</text><text x="280" y="40">7</text></g>
+  <text x="32" y="66" text-anchor="end" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+  <rect x="40" y="48" width="32" height="28" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="56.0" y="66" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">a</text>
+  <rect x="72" y="48" width="224" height="28" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-opacity="0.6" stroke-dasharray="3 2"/>
+  <text x="184.0" y="66" text-anchor="middle" font-size="11" fill="#dc2626">padding 7</text>
+  <text x="32" y="94" text-anchor="end" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">8</text>
+  <rect x="40" y="76" width="256" height="28" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed"/>
+  <text x="168.0" y="94" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b int64</text>
+  <text x="32" y="122" text-anchor="end" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">16</text>
+  <rect x="40" y="104" width="32" height="28" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="56.0" y="122" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">c</text>
+  <rect x="72" y="104" width="224" height="28" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-opacity="0.6" stroke-dasharray="3 2"/>
+  <text x="184.0" y="122" text-anchor="middle" font-size="11" fill="#dc2626">padding 7</text>
+  <text x="400" y="20" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">type Good struct</text>
+  <text x="656" y="20" text-anchor="end" font-size="12" font-weight="600" fill="#16a34a">Sizeof = 16</text>
+  <g font-size="10" opacity="0.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"><text x="416" y="40">0</text><text x="448" y="40">1</text><text x="480" y="40">2</text><text x="512" y="40">3</text><text x="544" y="40">4</text><text x="576" y="40">5</text><text x="608" y="40">6</text><text x="640" y="40">7</text></g>
+  <text x="392" y="66" text-anchor="end" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+  <rect x="400" y="48" width="256" height="28" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed"/>
+  <text x="528.0" y="66" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b int64</text>
+  <text x="392" y="94" text-anchor="end" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">8</text>
+  <rect x="400" y="76" width="32" height="28" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="416.0" y="94" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">a</text>
+  <rect x="432" y="76" width="32" height="28" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="448.0" y="94" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">c</text>
+  <rect x="464" y="76" width="192" height="28" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-opacity="0.6" stroke-dasharray="3 2"/>
+  <text x="560.0" y="94" text-anchor="middle" font-size="11" fill="#dc2626">padding 6</text>
+  <g font-size="11" opacity="0.7">
+    <text x="40" y="160">b выравнивается по 8 → после a дыра;</text>
+    <text x="40" y="176">размер кратен 8 → хвост после c</text>
+    <text x="400" y="128">поля по убыванию выравнивания:</text>
+    <text x="400" y="144">bool-ы упакованы рядом, хвост 6 байт</text>
+  </g>
+</svg>

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Go-курс: тесты</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --fg:#1b1f24; --muted:#636c76; --line:#e2e5e9;
+  --accent:#00758d; --accent-soft:#e3f3f6; --ok:#1a7f37; --ok-soft:#e6f4ea; --bad:#c62828; --bad-soft:#fdecea;
+  --code-bg:#f3f4f6; --kw:#b0306a; --str:#0a7a3c; --com:#8a8f98; --num:#9a5b00; --fn:#1f5fbf;
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1216; --card:#171b21; --fg:#e6e9ed; --muted:#9aa4af; --line:#2a3038;
+    --accent:#3bb8d0; --accent-soft:#12303a; --ok:#4cc26b; --ok-soft:#12301c; --bad:#ff6b6b; --bad-soft:#3a1717;
+    --code-bg:#11151a; --kw:#ff7ab2; --str:#7ee2a0; --com:#6b7480; --num:#ffc66d; --fn:#79b8ff;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.logo{font-weight:700;cursor:pointer;color:var(--accent)}
+.bar .spacer{flex:1}
+main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:24px;margin:4px 0 16px} h2{font-size:18px;margin:0 0 8px}
+.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.mod{cursor:pointer;transition:border-color .15s}
+.mod:hover{border-color:var(--accent)}
+.mod .num{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:10px;display:flex}
+.progress i{display:block;height:100%}
+.progress .g{background:var(--ok)} .progress .r{background:var(--bad)}
+.stats{font-size:13px;color:var(--muted);margin-top:6px}
+button,.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:8px;padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary:disabled{opacity:.45;cursor:default}
+button.link{border:none;background:none;color:var(--accent);padding:4px 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.chip{font-size:14px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;user-select:none}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--fg)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.q-meta{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
+.q-text{font-size:17px;margin:0 0 12px;white-space:pre-wrap}
+code{font:14px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow:auto;margin:0 0 14px;max-height:60vh}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.5;tab-size:4}
+.tk-kw{color:var(--kw)} .tk-str{color:var(--str)} .tk-com{color:var(--com);font-style:italic} .tk-num{color:var(--num)} .tk-fn{color:var(--fn)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--card)}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:4px}
+.opt .k{font-size:12px;color:var(--muted);min-width:14px;margin-top:3px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt .txt{white-space:pre-wrap;flex:1}
+input[type=text]{font:15px ui-monospace,Menlo,monospace;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+input[type=text]:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.fb{margin-top:14px;padding:12px 14px;border-radius:8px;border:1px solid var(--line)}
+.fb.ok{background:var(--ok-soft);border-color:var(--ok)} .fb.bad{background:var(--bad-soft);border-color:var(--bad)}
+.fb b{display:block;margin-bottom:4px}
+.actions{display:flex;gap:10px;justify-content:space-between;margin-top:16px;flex-wrap:wrap}
+.topprog{height:4px;background:var(--line)}
+.topprog i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.big{font-size:44px;font-weight:700;margin:6px 0}
+.review .item{border-top:1px solid var(--line);padding:14px 0}
+.kbd{font-size:12px;color:var(--muted)}
+select{font:inherit;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg)}
+@media (max-width:600px){ .q-text{font-size:16px} .big{font-size:36px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <span class="logo" id="home">Go · тесты</span>
+    <span class="spacer"></span>
+    <button class="link" id="exam">Экзамен (случайные 40)</button>
+    <button class="link" id="mistakes">Работа над ошибками</button>
+  </div>
+  <div class="topprog"><i id="tp" style="width:0"></i></div>
+</header>
+<main id="app"></main>
+
+<script src="data.js"></script>
+<script>
+(() => {
+"use strict";
+const DATA = (window.QUIZ || []).slice().sort((a,b)=>a.module.localeCompare(b.module));
+const ALL = [];
+DATA.forEach(m => m.questions.forEach(q => { q._mod = m.module; q._modTitle = m.title; ALL.push(q); }));
+const byId = Object.fromEntries(ALL.map(q => [q.id, q]));
+const app = document.getElementById("app");
+const tp = document.getElementById("tp");
+
+// ---------- storage (optional) ----------
+const KEY = "gocourse-quiz-v1";
+let store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch { store = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} };
+const rec = id => store[id]; // {ok:bool, n:attempts}
+
+// ---------- helpers ----------
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const inline = s => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+const norm = s => String(s).trim().replace(/\s+/g," ").toLowerCase();
+
+const KW = new Set("break case chan const continue default defer else fallthrough for func go goto if import interface map package range return select struct switch type var".split(" "));
+const BI = new Set("true false nil iota append cap clear close complex copy delete imag len make max min new panic print println real recover any error string int int8 int16 int32 int64 uint uint8 uint16 uint32 uint64 uintptr byte rune float32 float64 bool comparable".split(" "));
+function hl(src){
+  const re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\\n])*"|`[^`]*`|'(?:\\.|[^'\\\n])+')|\b(\d[\d_]*(?:\.\d+)?(?:e[+-]?\d+)?|0x[\da-fA-F_]+)\b|\b([A-Za-z_]\w*)\b(\s*\()?/g;
+  let out = "", last = 0, m;
+  while ((m = re.exec(src))) {
+    out += esc(src.slice(last, m.index)); last = re.lastIndex;
+    if (m[1]) out += `<span class="tk-com">${esc(m[1])}</span>`;
+    else if (m[2]) out += `<span class="tk-str">${esc(m[2])}</span>`;
+    else if (m[3]) out += `<span class="tk-num">${esc(m[3])}</span>`;
+    else {
+      const w = m[4], paren = m[5] || "";
+      if (KW.has(w)) out += `<span class="tk-kw">${w}</span>`;
+      else if (BI.has(w)) out += `<span class="tk-num">${w}</span>`;
+      else if (paren) out += `<span class="tk-fn">${w}</span>`;
+      else out += w;
+      out += esc(paren);
+    }
+  }
+  return out + esc(src.slice(last));
+}
+function modStats(mod){
+  const qs = mod.questions; let ok=0, bad=0;
+  qs.forEach(q => { const r = rec(q.id); if (r) (r.ok ? ok++ : bad++); });
+  return {total: qs.length, ok, bad};
+}
+function bar(ok,bad,total){
+  return `<div class="progress"><i class="g" style="width:${100*ok/total}%"></i><i class="r" style="width:${100*bad/total}%"></i></div>`;
+}
+
+// ---------- screens ----------
+function home(){
+  tp.style.width = "0";
+  if (!DATA.length) {
+    app.innerHTML = `<div class="card"><h2>Нет данных</h2><p>Файл <code>data.js</code> не найден. Запусти из корня курса <code>go run ./cmd/quiz</code> или <code>go run ./cmd/quiz -build</code>.</p></div>`;
+    return;
+  }
+  let tot=0, ok=0, bad=0;
+  DATA.forEach(m => { const s = modStats(m); tot+=s.total; ok+=s.ok; bad+=s.bad; });
+  app.innerHTML = `
+    <h1>Тесты по курсу Go</h1>
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="justify-content:space-between">
+        <div><b>${ok}</b> верно · <b>${bad}</b> с ошибкой · ${tot-ok-bad} не пройдено <span class="muted">из ${tot}</span></div>
+        <button class="link" id="reset">Сбросить прогресс</button>
+      </div>
+      ${bar(ok,bad,tot)}
+    </div>
+    <div class="grid">${DATA.map(m => { const s = modStats(m); return `
+      <div class="card mod" data-m="${m.module}">
+        <div class="num">МОДУЛЬ ${m.module}</div>
+        <h2>${esc(m.title)}</h2>
+        <div class="stats">${s.total} вопросов · верно ${s.ok}${s.bad?` · ошибок ${s.bad}`:""}</div>
+        ${bar(s.ok,s.bad,s.total)}
+      </div>`; }).join("")}</div>`;
+  app.querySelectorAll(".mod").forEach(el => el.onclick = () => moduleView(el.dataset.m));
+  document.getElementById("reset").onclick = () => { if (confirmReset()) { store = {}; save(); home(); } };
+}
+let resetArmed = false;
+function confirmReset(){ // без confirm(): двойной клик по кнопке
+  const b = document.getElementById("reset");
+  if (resetArmed) { resetArmed = false; return true; }
+  resetArmed = true; b.textContent = "Точно? Нажми ещё раз"; setTimeout(()=>{resetArmed=false; if(b.isConnected) b.textContent="Сбросить прогресс";}, 3000);
+  return false;
+}
+
+function moduleView(id){
+  tp.style.width = "0";
+  const m = DATA.find(x => x.module === id);
+  const lessons = [...new Set(m.questions.map(q => q.lesson))];
+  const on = new Set(lessons);
+  const render = () => {
+    const pool = m.questions.filter(q => on.has(q.lesson));
+    const unanswered = pool.filter(q => !rec(q.id) || !rec(q.id).ok);
+    app.innerHTML = `
+      <div class="muted">Модуль ${m.module}</div>
+      <h1>${esc(m.title)}</h1>
+      <div class="card">
+        <div class="muted" style="font-size:14px">Уроки (клик — включить/выключить):</div>
+        <div class="chips">${lessons.map((l,i) => {
+          const qs = m.questions.filter(q=>q.lesson===l), okc = qs.filter(q=>rec(q.id)&&rec(q.id).ok).length;
+          return `<span class="chip ${on.has(l)?"on":""}" data-i="${i}">${esc(l)} <span class="muted">${okc}/${qs.length}</span></span>`; }).join("")}</div>
+        <div class="row">
+          <button class="primary" id="go" ${pool.length?"":"disabled"}>Начать · ${pool.length} вопр.</button>
+          <button id="goNew" ${unanswered.length?"":"disabled"}>Только нерешённые · ${unanswered.length}</button>
+          <label class="row" style="gap:6px"><input type="checkbox" id="shuf" checked> перемешать</label>
+        </div>
+      </div>`;
+    app.querySelectorAll(".chip").forEach(c => c.onclick = () => { const l = lessons[+c.dataset.i]; on.has(l)?on.delete(l):on.add(l); render(); });
+    const shuf = () => document.getElementById("shuf").checked;
+    document.getElementById("go").onclick = () => run(shuf()?shuffle(pool):pool, `Модуль ${m.module}`, () => moduleView(id));
+    document.getElementById("goNew").onclick = () => run(shuf()?shuffle(unanswered):unanswered, `Модуль ${m.module}: нерешённые`, () => moduleView(id));
+  };
+  render();
+}
+
+function run(questions, title, back){
+  let i = 0; const results = [];
+  const next = () => { if (i < questions.length) ask(questions[i]); else finish(); };
+  const ask = q => {
+    tp.style.width = `${100*i/questions.length}%`;
+    const opts = q.type === "input" ? null : shuffleOpts(q);
+    app.innerHTML = `
+      <div class="q-meta"><span>${esc(title)} · ${i+1} / ${questions.length}</span><span>${esc(q._mod)} · ${esc(q.lesson)}</span></div>
+      <div class="card">
+        <p class="q-text">${inline(q.q)}</p>
+        ${q.code ? `<pre><code>${hl(q.code)}</code></pre>` : ""}
+        ${q.type === "multi" ? `<div class="muted" style="font-size:14px;margin-bottom:8px">Несколько верных ответов</div>` : ""}
+        ${opts ? `<div class="opts">${opts.map((o,k) => `
+            <label class="opt" data-k="${o.i}"><span class="k">${k+1}</span>
+              <input type="${q.type==="multi"?"checkbox":"radio"}" name="o" value="${o.i}">
+              <span class="txt">${inline(o.t)}</span></label>`).join("")}</div>`
+               : `<input type="text" id="ans" placeholder="Ответ…" autocomplete="off" spellcheck="false">`}
+        <div id="fb"></div>
+        <div class="actions">
+          <button class="link" id="quit">← Выйти</button>
+          <div class="row"><span class="kbd">Enter — проверить / дальше${opts?", 1–9 — выбрать":""}</span>
+          <button class="primary" id="act">Проверить</button></div>
+        </div>
+      </div>`;
+    const act = document.getElementById("act");
+    let checked = false;
+    const inputs = [...app.querySelectorAll(".opt input")];
+    const sync = () => app.querySelectorAll(".opt").forEach(l => l.classList.toggle("sel", l.querySelector("input").checked));
+    inputs.forEach(inp => inp.onchange = sync);
+    const ans = document.getElementById("ans"); if (ans) ans.focus();
+    const check = () => {
+      let ok;
+      if (q.type === "input") {
+        const v = norm(ans.value);
+        if (!v) { ans.focus(); return; }
+        ok = [q.answer, ...(q.accept||[])].some(a => norm(a) === v);
+        ans.disabled = true;
+      } else {
+        const chosen = inputs.filter(x => x.checked).map(x => +x.value).sort();
+        if (!chosen.length) return;
+        const right = q.answer.slice().sort();
+        ok = chosen.length === right.length && chosen.every((v,k) => v === right[k]);
+        app.querySelectorAll(".opt").forEach(l => {
+          const k = +l.dataset.k, isR = q.answer.includes(k), isC = chosen.includes(k);
+          l.classList.remove("sel");
+          if (isR) l.classList.add("right"); else if (isC) l.classList.add("wrong");
+          l.querySelector("input").disabled = true;
+        });
+      }
+      checked = true;
+      const r = rec(q.id) || {n:0}; store[q.id] = {ok, n: r.n+1}; save();
+      results.push({q, ok, given: q.type==="input" ? ans.value : null});
+      const rightTxt = q.type === "input" ? `<div>Правильный ответ: <code>${esc(q.answer)}</code></div>` : "";
+      document.getElementById("fb").innerHTML = `<div class="fb ${ok?"ok":"bad"}"><b>${ok?"Верно":"Неверно"}</b>${ok?"":rightTxt}${q.explain?`<div>${inline(q.explain)}</div>`:""}</div>`;
+      act.textContent = i+1 < questions.length ? "Дальше →" : "Результаты";
+      act.focus();
+    };
+    act.onclick = () => { if (!checked) check(); else { i++; next(); } };
+    document.getElementById("quit").onclick = () => { document.onkeydown = null; results.length ? finish() : back(); };
+    document.onkeydown = e => {
+      if (e.key === "Enter") { e.preventDefault(); act.click(); return; }
+      if (!checked && inputs.length && /^[1-9]$/.test(e.key) && !e.metaKey && !e.ctrlKey) {
+        const inp = inputs[+e.key - 1]; if (!inp) return;
+        inp.checked = inp.type === "checkbox" ? !inp.checked : true; sync();
+      }
+    };
+  };
+  const finish = () => {
+    document.onkeydown = null; tp.style.width = "100%";
+    const ok = results.filter(r => r.ok).length, n = results.length;
+    const wrong = results.filter(r => !r.ok);
+    app.innerHTML = `
+      <div class="card" style="text-align:center">
+        <div class="muted">${esc(title)}</div>
+        <div class="big">${ok} / ${n}</div>
+        <div class="muted">${n ? Math.round(100*ok/n) : 0}% верных ответов</div>
+        <div class="row" style="justify-content:center;margin-top:14px">
+          ${wrong.length?`<button class="primary" id="retry">Повторить ошибки (${wrong.length})</button>`:""}
+          <button id="back">Назад</button>
+        </div>
+      </div>
+      ${wrong.length?`<div class="card review" style="margin-top:16px"><h2>Разбор ошибок</h2>${wrong.map(r => `
+        <div class="item"><div class="muted" style="font-size:13px">${esc(r.q._mod)} · ${esc(r.q.lesson)}</div>
+          <p class="q-text">${inline(r.q.q)}</p>${r.q.code?`<pre><code>${hl(r.q.code)}</code></pre>`:""}
+          <div>Правильно: ${r.q.type==="input" ? `<code>${esc(r.q.answer)}</code>` : r.q.answer.map(k=>`<code>${inline(r.q.options[k])}</code>`).join(", ")}</div>
+          ${r.q.explain?`<div class="muted" style="margin-top:6px">${inline(r.q.explain)}</div>`:""}
+        </div>`).join("")}</div>`:""}`;
+    const rb = document.getElementById("retry"); if (rb) rb.onclick = () => run(shuffle(wrong.map(r=>r.q)), title + " · ошибки", back);
+    document.getElementById("back").onclick = back;
+  };
+  if (!questions.length) { back(); return; }
+  next();
+}
+function shuffleOpts(q){ return shuffle(q.options.map((t,i) => ({t,i}))); }
+
+document.getElementById("home").onclick = () => { document.onkeydown = null; home(); };
+document.getElementById("exam").onclick = () => { document.onkeydown = null; run(shuffle(ALL).slice(0,40), "Экзамен", home); };
+document.getElementById("mistakes").onclick = () => {
+  document.onkeydown = null;
+  const qs = ALL.filter(q => rec(q.id) && !rec(q.id).ok);
+  if (!qs.length) { app.innerHTML = `<div class="card"><h2>Ошибок нет</h2><p class="muted">Здесь собираются вопросы, на которые последний ответ был неверным.</p><button id="b">На главную</button></div>`; document.getElementById("b").onclick = home; return; }
+  run(shuffle(qs), "Работа над ошибками", home);
+};
+home();
+})();
+</script>
+</body>
+</html>

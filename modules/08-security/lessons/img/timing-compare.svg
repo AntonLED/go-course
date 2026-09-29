@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 232" role="img" aria-label="Timing attack: обычное сравнение останавливается на первом несовпавшем байте, поэтому время растёт с длиной совпавшего префикса; ConstantTimeCompare всегда проходит все байты" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Сравнение с ранним выходом и за постоянное время</title>
+  <text x="340" y="16" text-anchor="middle" font-size="12" opacity="0.7">секрет: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600">expected = "a7f3c9e1"</tspan></text>
+  <text x="20" y="44" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#dc2626">token == expected</text>
+  <text x="360" y="44" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#16a34a">subtle.ConstantTimeCompare</text>
+  <text x="20" y="91" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#dc2626">x</tspan>3b9d0f2</text>
+  <rect x="100" y="76" width="20" height="20" rx="2" fill="#dc2626" fill-opacity="0.35" stroke="#dc2626" stroke-width="1"/>
+  <rect x="122" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="144" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="166" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="188" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="210" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="232" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="254" y="76" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <text x="282" y="91" font-size="12">1</text>
+  <text x="20" y="123" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#16a34a">a</tspan><tspan fill="#dc2626">0</tspan>c4e8b1</text>
+  <rect x="100" y="108" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="122" y="108" width="20" height="20" rx="2" fill="#dc2626" fill-opacity="0.35" stroke="#dc2626" stroke-width="1"/>
+  <rect x="144" y="108" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="166" y="108" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="188" y="108" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="210" y="108" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="232" y="108" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="254" y="108" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <text x="282" y="123" font-size="12">2</text>
+  <text x="20" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#16a34a">a</tspan><tspan fill="#16a34a">7</tspan><tspan fill="#dc2626">e</tspan>2b4d8</text>
+  <rect x="100" y="140" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="122" y="140" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="144" y="140" width="20" height="20" rx="2" fill="#dc2626" fill-opacity="0.35" stroke="#dc2626" stroke-width="1"/>
+  <rect x="166" y="140" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="188" y="140" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="210" y="140" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="232" y="140" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <rect x="254" y="140" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity="0.35"/>
+  <text x="282" y="155" font-size="12">3</text>
+  <text x="20" y="187" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#16a34a">a</tspan><tspan fill="#16a34a">7</tspan><tspan fill="#16a34a">f</tspan><tspan fill="#16a34a">3</tspan><tspan fill="#16a34a">c</tspan><tspan fill="#16a34a">9</tspan><tspan fill="#16a34a">e</tspan><tspan fill="#dc2626">0</tspan></text>
+  <rect x="100" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="122" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="144" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="166" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="188" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="210" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="232" y="172" width="20" height="20" rx="2" fill="#16a34a" fill-opacity="0.35" stroke="#16a34a" stroke-width="1"/>
+  <rect x="254" y="172" width="20" height="20" rx="2" fill="#dc2626" fill-opacity="0.35" stroke="#dc2626" stroke-width="1"/>
+  <text x="282" y="187" font-size="12">8</text>
+  <text x="100" y="66" font-size="11" opacity="0.6">сравнённые байты</text>
+  <text x="282" y="66" font-size="11" opacity="0.6">шагов</text>
+  <text x="360" y="91" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#dc2626">x</tspan>3b9d0f2</text>
+  <rect x="440" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="462" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="484" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="506" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="528" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="550" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="572" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="594" y="76" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <text x="622" y="91" font-size="12" fill="#0891b2">8</text>
+  <text x="360" y="123" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#16a34a">a</tspan><tspan fill="#dc2626">0</tspan>c4e8b1</text>
+  <rect x="440" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="462" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="484" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="506" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="528" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="550" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="572" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="594" y="108" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <text x="622" y="123" font-size="12" fill="#0891b2">8</text>
+  <text x="360" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#16a34a">a</tspan><tspan fill="#16a34a">7</tspan><tspan fill="#dc2626">e</tspan>2b4d8</text>
+  <rect x="440" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="462" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="484" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="506" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="528" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="550" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="572" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="594" y="140" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <text x="622" y="155" font-size="12" fill="#0891b2">8</text>
+  <text x="360" y="187" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan fill="#16a34a">a</tspan><tspan fill="#16a34a">7</tspan><tspan fill="#16a34a">f</tspan><tspan fill="#16a34a">3</tspan><tspan fill="#16a34a">c</tspan><tspan fill="#16a34a">9</tspan><tspan fill="#16a34a">e</tspan><tspan fill="#dc2626">0</tspan></text>
+  <rect x="440" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="462" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="484" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="506" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="528" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="550" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="572" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <rect x="594" y="172" width="20" height="20" rx="2" fill="#0891b2" fill-opacity="0.35" stroke="#0891b2" stroke-width="1"/>
+  <text x="622" y="187" font-size="12" fill="#0891b2">8</text>
+  <text x="440" y="66" font-size="11" opacity="0.6">сравнённые байты</text>
+  <text x="622" y="66" font-size="11" opacity="0.6">шагов</text>
+  <text x="20" y="220" font-size="11" fill="#dc2626">время выдаёт длину совпавшего префикса</text>
+  <text x="360" y="220" font-size="11" fill="#16a34a">время одинаково при любом вводе</text>
+</svg>

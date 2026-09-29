@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 262" role="img" aria-label="Слои стадии build: FROM, WORKDIR, COPY go.mod go.sum, RUN go mod download, COPY . ., RUN go build. При правке main.go первые четыре слоя берутся из кэша, пересобираются только COPY . . и go build. При правке go.mod пересобирается всё, начиная с COPY go.mod" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Слои образа и кэш сборки</title>
+  <text x="12" y="18" font-size="11" opacity="0.6">слой (стадия build), сверху вниз</text>
+  <text x="424" y="18" text-anchor="middle" font-size="12" font-weight="600">правка <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">main.go</tspan></text>
+  <text x="584" y="18" text-anchor="middle" font-size="12" font-weight="600">правка <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">go.mod</tspan></text>
+  <rect x="12" y="28" width="320" height="26" rx="3" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.4"/>
+  <text x="22" y="45" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">FROM golang:1.23.4-alpine</text>
+  <rect x="360" y="30" width="128" height="22" rx="11" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+  <text x="424" y="45" text-anchor="middle" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CACHED</text>
+  <rect x="520" y="30" width="128" height="22" rx="11" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+  <text x="584" y="45" text-anchor="middle" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CACHED</text>
+  <rect x="12" y="60" width="320" height="26" rx="3" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.4"/>
+  <text x="22" y="77" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WORKDIR /src</text>
+  <rect x="360" y="62" width="128" height="22" rx="11" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+  <text x="424" y="77" text-anchor="middle" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CACHED</text>
+  <rect x="520" y="62" width="128" height="22" rx="11" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+  <text x="584" y="77" text-anchor="middle" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CACHED</text>
+  <rect x="12" y="92" width="320" height="26" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-opacity="1"/>
+  <text x="22" y="109" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">COPY go.mod go.sum ./</text>
+  <rect x="360" y="94" width="128" height="22" rx="11" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+  <text x="424" y="109" text-anchor="middle" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CACHED</text>
+  <rect x="520" y="94" width="128" height="22" rx="11" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+  <text x="584" y="109" text-anchor="middle" font-size="11" fill="#d97706">пересборка</text>
+  <rect x="12" y="124" width="320" height="26" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-opacity="1"/>
+  <text x="22" y="141" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">RUN go mod download</text>
+  <rect x="360" y="126" width="128" height="22" rx="11" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/>
+  <text x="424" y="141" text-anchor="middle" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CACHED</text>
+  <rect x="520" y="126" width="128" height="22" rx="11" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+  <text x="584" y="141" text-anchor="middle" font-size="11" fill="#d97706">пересборка</text>
+  <rect x="12" y="156" width="320" height="26" rx="3" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.4"/>
+  <text x="22" y="173" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">COPY . .</text>
+  <rect x="360" y="158" width="128" height="22" rx="11" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+  <text x="424" y="173" text-anchor="middle" font-size="11" fill="#d97706">пересборка</text>
+  <rect x="520" y="158" width="128" height="22" rx="11" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+  <text x="584" y="173" text-anchor="middle" font-size="11" fill="#d97706">пересборка</text>
+  <rect x="12" y="188" width="320" height="26" rx="3" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.4"/>
+  <text x="22" y="205" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">RUN go build … -o /out/app</text>
+  <rect x="360" y="190" width="128" height="22" rx="11" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+  <text x="424" y="205" text-anchor="middle" font-size="11" fill="#d97706">пересборка</text>
+  <rect x="520" y="190" width="128" height="22" rx="11" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+  <text x="584" y="205" text-anchor="middle" font-size="11" fill="#d97706">пересборка</text>
+  <path d="M340,92 v58" stroke="#0891b2" stroke-width="2"/>
+  <text x="12" y="238" font-size="11" opacity="0.7">Изменённый слой инвалидирует все слои ниже; go.mod отдельно от кода → зависимости из кэша.</text>
+  <text x="12" y="254" font-size="11" opacity="0.7"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">--mount=type=cache</tspan> сохраняет модули и кэш компиляции даже при пересборке слоя.</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 200" role="img" aria-label="Каждый defer кладёт вызов с уже вычисленным аргументом на вершину стека; при выходе из функции вызовы снимаются с вершины: печатается 2, 1, 0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>defer: стек LIFO</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- код -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="20" y="72">for i := 0; i &lt; 3; i++ {</text>
+    <text x="36" y="92">defer fmt.Println(i)</text>
+    <text x="20" y="112">}</text>
+    <text x="20" y="140" fill="#0891b2">return</text>
+  </g>
+
+  <!-- push -->
+  <path d="M200,88 H236 V28 H336 V40" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="244" y="22" font-size="11" opacity="0.7">push: i = 0, 1, 2</text>
+
+  <!-- стек -->
+  <text x="356" y="188" text-anchor="middle" font-size="11" opacity="0.6">стек отложенных вызовов</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="280" y="84" width="152" height="32" rx="3"/>
+    <rect x="280" y="124" width="152" height="32" rx="3"/>
+  </g>
+  <rect x="280" y="44" width="152" height="32" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.4"/>
+  <path d="M272,44 V164 H440 V44" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.5"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="356" y="65" fill="#0891b2">fmt.Println(2)</text>
+    <text x="356" y="105">fmt.Println(1)</text>
+    <text x="356" y="145">fmt.Println(0)</text>
+  </g>
+
+  <!-- pop -->
+  <g stroke="currentColor" stroke-width="1.3">
+    <line x1="444" y1="100" x2="508" y2="100" marker-end="url(#arr)"/>
+    <line x1="444" y1="140" x2="508" y2="140" marker-end="url(#arr)"/>
+  </g>
+  <line x1="444" y1="60" x2="508" y2="60" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <g font-size="12">
+    <text x="516" y="64"><tspan fill="#0891b2" font-weight="600">1-м</tspan> печатает <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">2</tspan></text>
+    <text x="516" y="104"><tspan font-weight="600">2-м</tspan> печатает <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">1</tspan></text>
+    <text x="516" y="144"><tspan font-weight="600">3-м</tspan> печатает <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</tspan></text>
+  </g>
+  <text x="476" y="36" font-size="11" opacity="0.7" text-anchor="middle">при return</text>
+  <text x="516" y="186" font-size="12">вывод: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600">2 1 0</tspan></text>
+</svg>

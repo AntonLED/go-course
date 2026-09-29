@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 284" role="img" aria-label="Swiss table в Go 1.24: старшие биты хеша выбирают таблицу в директории, H1 — стартовую группу, H2 из 7 бит сравнивается сразу со всеми 8 контрольными байтами группы" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Swiss table (Go 1.24+)</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(0,20)">
+  <!-- хеш -->
+  <text x="168" y="35" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">hash(k)</text>
+  <rect x="180" y="16" width="56" height="28" fill="#7c3aed" fill-opacity="0.15"/>
+  <rect x="604" y="16" width="56" height="28" fill="#0891b2" fill-opacity="0.18"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="180" y="16" width="480" height="28" rx="3"/>
+    <line x1="604" y1="16" x2="604" y2="44"/>
+  </g>
+  <text x="208" y="35" text-anchor="middle" font-size="11" fill="#7c3aed" font-weight="600">dir</text>
+  <line x1="236" y1="16" x2="236" y2="44" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+  <text x="420" y="35" text-anchor="middle" font-size="11" opacity="0.7">→ с какой группы начать поиск</text>
+  <path d="M180,10 v-6 h424 v6" fill="none" stroke="currentColor" stroke-width="1.1" opacity="0.6"/>
+  <text x="392" y="0" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">H1 = hash &gt;&gt; 7</text>
+  <text x="632" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#0891b2" font-weight="600">5C</text>
+  <text x="180" y="60" font-size="11" fill="#7c3aed">старшие биты → таблица</text>
+  <text x="660" y="60" text-anchor="end" font-size="11" fill="#0891b2">H2 = младшие 7 бит</text>
+
+  <!-- директория -->
+  <text x="20" y="82" font-size="11" opacity="0.7">директория</text>
+  <rect x="21" y="119" width="46" height="28" fill="#7c3aed" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="88" width="48" height="120" rx="3"/>
+    <line x1="20" y1="118" x2="68" y2="118"/><line x1="20" y1="148" x2="68" y2="148"/><line x1="20" y1="178" x2="68" y2="178"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="44" y="108">0</text><text x="44" y="138" fill="#7c3aed" font-weight="600">1</text><text x="44" y="168">2</text><text x="44" y="198">3</text>
+  </g>
+  <line x1="68" y1="133" x2="102" y2="106" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+
+  <!-- таблица -->
+  <text x="106" y="82" font-size="11" opacity="0.7">таблица ≤ 1024 слота</text>
+  <rect x="107" y="119" width="118" height="28" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="106" y="88" width="120" height="120" rx="3"/>
+    <line x1="106" y1="118" x2="226" y2="118"/><line x1="106" y1="148" x2="226" y2="148"/><line x1="106" y1="178" x2="226" y2="178"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="166" y="108">group 0</text><text x="166" y="138" fill="#0891b2" font-weight="600">group 1</text>
+    <text x="166" y="168">group 2</text><text x="166" y="198" opacity="0.6">…</text>
+  </g>
+
+  <!-- лупа -->
+  <g stroke="#0891b2" stroke-width="1" stroke-dasharray="3 3" opacity="0.7">
+    <line x1="226" y1="118" x2="264" y2="80"/><line x1="226" y1="148" x2="264" y2="216"/>
+  </g>
+
+  <!-- группа -->
+  <rect x="264" y="80" width="404" height="136" rx="4" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="276" y="100" font-size="11" opacity="0.7">control word: 8 контрольных байт</text>
+  <rect x="364" y="106" width="44" height="28" fill="#0891b2" fill-opacity="0.2"/>
+  <g fill="none" stroke="currentColor" stroke-width="1">
+    <rect x="276" y="106" width="352" height="28"/>
+    <rect x="276" y="162" width="352" height="28"/>
+  </g>
+  <g stroke="currentColor" stroke-width="1" opacity="0.5">
+    <path d="M320,106 v28 M364,106 v28 M408,106 v28 M452,106 v28 M496,106 v28 M540,106 v28 M584,106 v28"/>
+    <path d="M320,162 v28 M364,162 v28 M408,162 v28 M452,162 v28 M496,162 v28 M540,162 v28 M584,162 v28"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="298" y="125">1A</text><text x="342" y="125" opacity="0.5">80</text>
+    <text x="386" y="125" fill="#0891b2" font-weight="600">5C</text>
+    <text x="430" y="125" opacity="0.5">FE</text><text x="474" y="125">33</text>
+    <text x="518" y="125" opacity="0.5">80</text><text x="562" y="125" opacity="0.5">80</text><text x="606" y="125">07</text>
+  </g>
+  <text x="276" y="156" font-size="11" opacity="0.7">8 слотов: ключ + значение</text>
+  <rect x="364" y="162" width="44" height="28" fill="#0891b2" fill-opacity="0.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="298" y="180">k,v</text><text x="386" y="180" fill="#0891b2" font-weight="600">k,v</text>
+    <text x="474" y="180">k,v</text><text x="606" y="180">k,v</text>
+  </g>
+  <text x="276" y="208" font-size="11" opacity="0.7"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">80</tspan> пусто · <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">FE</tspan> удалён · <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0hhhhhhh</tspan> занят, h = H2</text>
+
+  <text x="264" y="240" font-size="12"><tspan fill="#0891b2">H2 = 5C</tspan> сравнивается со всеми 8 байтами за одну операцию;</text>
+  <text x="264" y="256" font-size="12">ключ проверяется только в совпавших слотах</text>
+  </g>
+</svg>

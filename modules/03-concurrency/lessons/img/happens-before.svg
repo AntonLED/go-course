@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 248" role="img" aria-label="Рёбра happens-before: отправка в канал предшествует завершению приёма, close предшествует приёму нулевого значения, Unlock предшествует следующему Lock; вместе с порядком внутри горутины это гарантирует, что print(x) увидит x = 1" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Рёбра happens-before</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="m0891b2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+    <marker id="m7c3aed" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+    <marker id="m16a34a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+  <text x="116" y="16" text-anchor="middle" font-weight="600" fill="#0891b2">Отправка → приём</text>
+  <text x="100" y="40" text-anchor="middle" font-weight="600" font-size="12">G1</text>
+  <text x="140" y="40" text-anchor="middle" font-weight="600" font-size="12">G2</text>
+  <line x1="100" y1="46" x2="100" y2="200" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="140" y1="46" x2="140" y2="200" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="100" cy="60" r="3.5" fill="currentColor"/>
+  <text x="92" y="64" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">x = 1</text>
+  <circle cx="100" cy="100" r="3.5" fill="currentColor"/>
+  <text x="92" y="104" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">ch &lt;- v</text>
+  <circle cx="140" cy="140" r="3.5" fill="currentColor"/>
+  <text x="148" y="144" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">v := &lt;-ch</text>
+  <circle cx="140" cy="180" r="3.5" fill="currentColor"/>
+  <text x="148" y="184" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">print(x)</text>
+  <line x1="100" y1="66" x2="100" y2="94" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="140" y1="146" x2="140" y2="174" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="104" y1="103" x2="135" y2="136" stroke="#0891b2" stroke-width="2" marker-end="url(#m0891b2)"/>
+  <text x="116" y="220" text-anchor="middle" font-size="12">print(x) видит <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#16a34a" font-weight="600">1</tspan></text>
+  <text x="344" y="16" text-anchor="middle" font-weight="600" fill="#7c3aed">close → приём нуля</text>
+  <line x1="230" y1="4" x2="230" y2="226" stroke="currentColor" stroke-opacity="0.15"/>
+  <text x="328" y="40" text-anchor="middle" font-weight="600" font-size="12">G1</text>
+  <text x="368" y="40" text-anchor="middle" font-weight="600" font-size="12">G2</text>
+  <line x1="328" y1="46" x2="328" y2="200" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="368" y1="46" x2="368" y2="200" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="328" cy="60" r="3.5" fill="currentColor"/>
+  <text x="320" y="64" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">x = 1</text>
+  <circle cx="328" cy="100" r="3.5" fill="currentColor"/>
+  <text x="320" y="104" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">close(ch)</text>
+  <circle cx="368" cy="140" r="3.5" fill="currentColor"/>
+  <text x="376" y="144" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">v, ok := &lt;-ch</text>
+  <text x="376" y="158" font-size="11" opacity="0.6">ok == false</text>
+  <circle cx="368" cy="180" r="3.5" fill="currentColor"/>
+  <text x="376" y="184" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">print(x)</text>
+  <line x1="328" y1="66" x2="328" y2="94" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="368" y1="146" x2="368" y2="174" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="332" y1="103" x2="363" y2="136" stroke="#7c3aed" stroke-width="2" marker-end="url(#m7c3aed)"/>
+  <text x="344" y="220" text-anchor="middle" font-size="12">print(x) видит <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#16a34a" font-weight="600">1</tspan></text>
+  <text x="572" y="16" text-anchor="middle" font-weight="600" fill="#16a34a">Unlock → следующий Lock</text>
+  <line x1="458" y1="4" x2="458" y2="226" stroke="currentColor" stroke-opacity="0.15"/>
+  <text x="556" y="40" text-anchor="middle" font-weight="600" font-size="12">G1</text>
+  <text x="596" y="40" text-anchor="middle" font-weight="600" font-size="12">G2</text>
+  <line x1="556" y1="46" x2="556" y2="200" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="596" y1="46" x2="596" y2="200" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="556" cy="60" r="3.5" fill="currentColor"/>
+  <text x="548" y="64" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">mu.Lock()</text>
+  <circle cx="556" cy="92" r="3.5" fill="currentColor"/>
+  <text x="548" y="96" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">x = 1</text>
+  <circle cx="556" cy="124" r="3.5" fill="currentColor"/>
+  <text x="548" y="128" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">mu.Unlock()</text>
+  <circle cx="596" cy="156" r="3.5" fill="currentColor"/>
+  <text x="604" y="160" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">mu.Lock()</text>
+  <circle cx="596" cy="188" r="3.5" fill="currentColor"/>
+  <text x="604" y="192" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">print(x)</text>
+  <line x1="556" y1="66" x2="556" y2="86" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="556" y1="98" x2="556" y2="118" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="596" y1="162" x2="596" y2="182" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="560" y1="127" x2="591" y2="152" stroke="#16a34a" stroke-width="2" marker-end="url(#m16a34a)"/>
+  <text x="572" y="220" text-anchor="middle" font-size="12">print(x) видит <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#16a34a" font-weight="600">1</tspan></text>
+  <text x="340" y="240" text-anchor="middle" font-size="11" opacity="0.7">серые стрелки — порядок внутри горутины; цветные — синхронизация; вместе они транзитивны</text>
+</svg>

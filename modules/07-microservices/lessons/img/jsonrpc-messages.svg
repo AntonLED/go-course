@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 328" role="img" aria-label="Четыре случая JSON-RPC 2.0: запрос с id получает ответ с тем же id и полем result или error; нотификация без поля id не получает ответа вообще; запрос с id null — обычный запрос и получает ответ с id null" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Запросы, ответы и нотификации JSON-RPC 2.0</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-grn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-amb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+  <g font-size="11" opacity="0.6"><text x="16" y="18">клиент → сервер</text><text x="372" y="18">сервер → клиент</text></g>
+  <text x="16" y="40" font-size="12" font-weight="600" fill="currentColor">Request</text>
+  <rect x="16" y="48" width="300" height="40" rx="4" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.2"/>
+  <text x="26" y="64" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","method":"subtract",</text>
+  <text x="26" y="79" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"params":[42,23],"id":1}</text>
+  <line x1="316" y1="68" x2="370" y2="68" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="372" y="48" width="292" height="40" rx="4" fill="#16a34a" fill-opacity="0.10" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="380" y="73" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","result":19,"id":1}</text>
+  <text x="372" y="40" font-size="11" fill="#16a34a">result, тот же id</text>
+  <text x="16" y="116" font-size="12" font-weight="600" fill="currentColor">Request — метода нет</text>
+  <rect x="16" y="124" width="300" height="40" rx="4" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.2"/>
+  <text x="26" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","method":"foo",</text>
+  <text x="26" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"id":"a1"}</text>
+  <line x1="316" y1="144" x2="370" y2="144" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="372" y="124" width="292" height="40" rx="4" fill="#dc2626" fill-opacity="0.10" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="380" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","error":{"code":-32601,</text>
+  <text x="380" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"message":"Method not found"},"id":"a1"}</text>
+  <text x="372" y="116" font-size="11" fill="#dc2626">error вместо result, тот же id</text>
+  <text x="16" y="192" font-size="12" font-weight="600" fill="#d97706">Notification — поля id нет</text>
+  <rect x="16" y="200" width="300" height="40" rx="4" fill="#d97706" fill-opacity="0.08" stroke="#d97706" stroke-width="1.2"/>
+  <text x="26" y="216" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","method":"log",</text>
+  <text x="26" y="231" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"params":["started"]}</text>
+  <line x1="316" y1="220" x2="350" y2="220" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-amb)"/>
+  <rect x="372" y="200" width="292" height="40" rx="4" fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="518" y="217" text-anchor="middle" fill="#d97706">ответа нет</text>
+  <text x="518" y="232" text-anchor="middle" font-size="11" opacity="0.7">даже если метод упал или не найден</text>
+  <text x="16" y="268" font-size="12" font-weight="600" fill="currentColor">Request с "id": null — это не нотификация</text>
+  <rect x="16" y="276" width="300" height="40" rx="4" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.2"/>
+  <text x="26" y="292" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","method":"subtract",</text>
+  <text x="26" y="307" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"params":[42,23],"id":null}</text>
+  <line x1="316" y1="296" x2="370" y2="296" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="372" y="276" width="292" height="40" rx="4" fill="#16a34a" fill-opacity="0.10" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="380" y="301" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0","result":19,"id":null}</text>
+  <text x="372" y="268" font-size="11" fill="#16a34a">ответ обязателен</text>
+</svg>

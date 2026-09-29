@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 240" role="img" aria-label="Рост map с B=2 до B=3: каждый старый бакет i делится на новые i и i+4 по следующему биту хеша; бакеты 0 и 1 уже эвакуированы, 2 и 3 перенесутся при следующих записях и удалениях" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Инкрементальная эвакуация при росте map</title>
+  <defs>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-wait" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="340" y="18" text-anchor="middle" font-size="12" opacity="0.8">в среднем &gt; 6.5 элемента на бакет → B: 2 → 3, новый массив из 8 бакетов</text>
+
+  <g font-size="11" opacity="0.7" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="104" y="48">buckets[0..3]</text>
+    <text x="340" y="48">oldbuckets (4)</text>
+    <text x="576" y="48">buckets[4..7]</text>
+  </g>
+
+  <!-- старые -->
+  <g fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.5">
+    <rect x="296" y="60" width="88" height="28" rx="3"/>
+    <rect x="296" y="96" width="88" height="28" rx="3"/>
+  </g>
+  <g fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2">
+    <rect x="296" y="132" width="88" height="28" rx="3"/>
+    <rect x="296" y="168" width="88" height="28" rx="3"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="340" y="79" opacity="0.5">old 0</text><text x="340" y="115" opacity="0.5">old 1</text>
+    <text x="340" y="151">old 2</text><text x="340" y="187">old 3</text>
+  </g>
+
+  <!-- новые слева -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="60" y="60" width="88" height="28" rx="3"/><rect x="60" y="96" width="88" height="28" rx="3"/>
+    <rect x="60" y="132" width="88" height="28" rx="3" stroke-dasharray="4 3" opacity="0.6"/><rect x="60" y="168" width="88" height="28" rx="3" stroke-dasharray="4 3" opacity="0.6"/>
+    <rect x="532" y="60" width="88" height="28" rx="3"/><rect x="532" y="96" width="88" height="28" rx="3"/>
+    <rect x="532" y="132" width="88" height="28" rx="3" stroke-dasharray="4 3" opacity="0.6"/><rect x="532" y="168" width="88" height="28" rx="3" stroke-dasharray="4 3" opacity="0.6"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="104" y="79">new 0</text><text x="104" y="115">new 1</text>
+    <text x="104" y="151" opacity="0.6">new 2</text><text x="104" y="187" opacity="0.6">new 3</text>
+    <text x="576" y="79">new 4</text><text x="576" y="115">new 5</text>
+    <text x="576" y="151" opacity="0.6">new 6</text><text x="576" y="187" opacity="0.6">new 7</text>
+  </g>
+
+  <!-- стрелки: перенесено -->
+  <g stroke="#16a34a" stroke-width="1.4">
+    <line x1="296" y1="74" x2="152" y2="74" marker-end="url(#arr-ok)"/>
+    <line x1="296" y1="110" x2="152" y2="110" marker-end="url(#arr-ok)"/>
+    <line x1="384" y1="74" x2="528" y2="74" marker-end="url(#arr-ok)"/>
+    <line x1="384" y1="110" x2="528" y2="110" marker-end="url(#arr-ok)"/>
+  </g>
+  <!-- стрелки: ещё нет -->
+  <g stroke="#d97706" stroke-width="1.4" stroke-dasharray="5 3">
+    <line x1="296" y1="146" x2="152" y2="146" marker-end="url(#arr-wait)"/>
+    <line x1="296" y1="182" x2="152" y2="182" marker-end="url(#arr-wait)"/>
+    <line x1="384" y1="146" x2="528" y2="146" marker-end="url(#arr-wait)"/>
+    <line x1="384" y1="182" x2="528" y2="182" marker-end="url(#arr-wait)"/>
+  </g>
+  <g font-size="11" text-anchor="middle" opacity="0.8">
+    <text x="224" y="66">бит 2 хеша = 0</text>
+    <text x="456" y="66">бит 2 хеша = 1</text>
+  </g>
+
+  <!-- легенда -->
+  <line x1="60" y1="222" x2="92" y2="222" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="100" y="226" font-size="12">перенесены (nevacuate = 2)</text>
+  <line x1="316" y1="222" x2="348" y2="222" stroke="#d97706" stroke-width="1.4" stroke-dasharray="5 3"/>
+  <text x="356" y="226" font-size="12">перенесутся при записи/удалении</text>
+</svg>

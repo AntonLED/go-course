@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 258" role="img" aria-label="RWMutex во времени: читатели R1 и R2 держат RLock одновременно; писатель W вызывает Lock и ждёт, пока выйдут все читатели; R3, пришедший после W, тоже ждёт, пока W не отпустит мьютекс" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>sync.RWMutex: читатели и писатель</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- легенда -->
+  <g font-size="12">
+    <rect x="100" y="8" width="14" height="12" rx="2" fill="#0891b2" fill-opacity="0.25" stroke="#0891b2"/><text x="120" y="18">чтение (RLock)</text>
+    <rect x="236" y="8" width="14" height="12" rx="2" fill="#7c3aed" fill-opacity="0.25" stroke="#7c3aed"/><text x="256" y="18">запись (Lock) — эксклюзивно</text>
+    <rect x="460" y="8" width="14" height="12" rx="2" fill="#d97706" fill-opacity="0.2" stroke="#d97706" stroke-dasharray="3 2"/><text x="480" y="18">ожидание</text>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="end" opacity="0.8">
+    <text x="84" y="52">R1</text><text x="84" y="88">R2</text><text x="84" y="124">W</text><text x="84" y="160">R3</text>
+  </g>
+
+  <!-- R1, R2 -->
+  <rect x="120" y="38" width="240" height="20" rx="3" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/>
+  <text x="240" y="52" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">RLock … RUnlock</text>
+  <rect x="168" y="74" width="252" height="20" rx="3" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/>
+  <text x="294" y="88" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">RLock … RUnlock</text>
+
+  <!-- W -->
+  <rect x="240" y="110" width="180" height="20" rx="3" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-dasharray="4 3"/>
+  <text x="330" y="124" text-anchor="middle" font-size="11" fill="#d97706">Lock(): ждёт читателей</text>
+  <rect x="420" y="110" width="100" height="20" rx="3" fill="#7c3aed" fill-opacity="0.22" stroke="#7c3aed"/>
+  <text x="470" y="124" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">пишет</text>
+  <path d="M420,96 V106" stroke="currentColor" stroke-width="1.2" fill="none" marker-end="url(#arr)"/>
+
+  <!-- R3 -->
+  <rect x="300" y="146" width="220" height="20" rx="3" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-dasharray="4 3"/>
+  <text x="410" y="160" text-anchor="middle" font-size="11" fill="#d97706">RLock(): W в очереди → ждёт</text>
+  <rect x="520" y="146" width="112" height="20" rx="3" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/>
+  <text x="576" y="160" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">читает</text>
+  <path d="M520,132 V142" stroke="currentColor" stroke-width="1.2" fill="none" marker-end="url(#arr)"/>
+
+  <!-- ось -->
+  <line x1="100" y1="184" x2="660" y2="184" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="656" y="200" text-anchor="end" font-size="11" opacity="0.6">время</text>
+  <g stroke="currentColor" stroke-opacity="0.35" stroke-dasharray="2 3">
+    <line x1="240" y1="130" x2="240" y2="184"/><line x1="300" y1="166" x2="300" y2="184"/>
+  </g>
+  <g font-size="11" opacity="0.7" text-anchor="middle">
+    <text x="240" y="200">W: Lock()</text><text x="300" y="214">R3: RLock()</text>
+  </g>
+
+  <text x="16" y="240" font-size="12" fill="#dc2626">Рекурсивный RLock опасен: если R1, пока W ждёт, вызовет RLock ещё раз, он встанет за W,</text>
+  <text x="16" y="255" font-size="12" fill="#dc2626">а W ждёт RUnlock от R1 — deadlock.</text>
+</svg>

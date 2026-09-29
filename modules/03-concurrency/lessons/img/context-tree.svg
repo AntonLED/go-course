@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 256" role="img" aria-label="Дерево контекстов Background → WithTimeout(5s) → WithValue(traceID) → WithCancel и WithTimeout(1s). Слева: отмена WithTimeout(5s) закрывает Done у всех потомков, Background не затронут. Справа: отмена WithCancel затрагивает только его самого, вверх отмена не идёт" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Дерево контекстов и отмена</title>
+  <defs>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+  <text x="162" y="16" text-anchor="middle" font-weight="600">cancel() у WithTimeout(5s)</text>
+  <path d="M162,52 V69.0 H162 V86" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2"/>
+  <path d="M162,110 V128.0 H84 V143" fill="none" stroke="#dc2626" stroke-width="1.6" marker-end="url(#arr-bad)"/>
+  <path d="M162,110 V128.0 H244 V143" fill="none" stroke="#dc2626" stroke-width="1.6" marker-end="url(#arr-bad)"/>
+  <path d="M84,170 V188.0 H84 V203" fill="none" stroke="#dc2626" stroke-width="1.6" marker-end="url(#arr-bad)"/>
+  <rect x="106.0" y="28" width="112" height="24" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="162" y="44" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">Background</text>
+  <rect x="94.0" y="86" width="136" height="24" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="2.2"/>
+  <text x="162" y="102" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithTimeout(5s)</text>
+  <text x="236.0" y="102" font-size="10" opacity="0.6">HTTP-запрос</text>
+  <rect x="12.0" y="146" width="144" height="24" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="84" y="162" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithValue(trace)</text>
+  <rect x="178.0" y="146" width="132" height="24" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="244" y="162" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithTimeout(1s)</text>
+  <text x="244" y="184" text-anchor="middle" font-size="10" opacity="0.6">внешний API</text>
+  <rect x="32.0" y="206" width="104" height="24" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="84" y="222" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithCancel</text>
+  <text x="142.0" y="222" font-size="10" opacity="0.6">запрос в БД</text>
+  <text x="16" y="250" font-size="11" fill="#dc2626">Done() закрыт у всего поддерева</text>
+  <text x="226" y="44" font-size="11" fill="#16a34a">не затронут</text>
+  <line x1="340" y1="4" x2="340" y2="250" stroke="currentColor" stroke-opacity="0.2"/>
+  <text x="518" y="16" text-anchor="middle" font-weight="600">cancel() у WithCancel</text>
+  <path d="M518,52 V69.0 H518 V86" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2"/>
+  <path d="M518,110 V128.0 H440 V146" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2"/>
+  <path d="M518,110 V128.0 H600 V146" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2"/>
+  <path d="M440,170 V188.0 H440 V206" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2"/>
+  <rect x="462.0" y="28" width="112" height="24" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="518" y="44" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">Background</text>
+  <rect x="450.0" y="86" width="136" height="24" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="518" y="102" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithTimeout(5s)</text>
+  <text x="592.0" y="102" font-size="10" opacity="0.6">HTTP-запрос</text>
+  <rect x="368.0" y="146" width="144" height="24" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="440" y="162" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithValue(trace)</text>
+  <rect x="534.0" y="146" width="132" height="24" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="600" y="162" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithTimeout(1s)</text>
+  <text x="600" y="184" text-anchor="middle" font-size="10" opacity="0.6">внешний API</text>
+  <rect x="388.0" y="206" width="104" height="24" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="2.2"/>
+  <text x="440" y="222" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithCancel</text>
+  <text x="498.0" y="222" font-size="10" opacity="0.6">запрос в БД</text>
+  <path d="M476,204 V173" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arr-bad)"/>
+  <g stroke="#dc2626" stroke-width="2"><line x1="470" y1="182" x2="482" y2="194"/><line x1="482" y1="182" x2="470" y2="194"/></g>
+  <text x="490" y="194" font-size="11" fill="#dc2626">вверх не идёт</text>
+  <text x="372" y="250" font-size="11" fill="#16a34a">родитель и соседи работают дальше</text>
+</svg>

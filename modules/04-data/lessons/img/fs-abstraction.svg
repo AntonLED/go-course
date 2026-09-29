@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 262" role="img" aria-label="Код, принимающий fs.FS, работает с любой реализацией: os.DirFS, embed.FS, zip.Reader, fstest.MapFS" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Абстракция fs.FS</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1,1 L9,5 L1,9 z" fill="none" stroke="#0891b2" stroke-width="1.2"/></marker>
+  </defs>
+
+  <!-- потребители -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="18" y="8" width="208" height="36" rx="4"/>
+    <rect x="246" y="8" width="208" height="36" rx="4"/>
+    <rect x="474" y="8" width="208" height="36" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="122" y="31">Find(fsys, ".", opts)</text>
+    <text x="350" y="31">fs.WalkDir, fs.ReadFile</text>
+    <text x="578" y="31">http.FileServerFS</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.4">
+    <line x1="122" y1="44" x2="232" y2="94" marker-end="url(#a)"/>
+    <line x1="350" y1="44" x2="350" y2="94" marker-end="url(#a)"/>
+    <line x1="578" y1="44" x2="468" y2="94" marker-end="url(#a)"/>
+  </g>
+  <text x="358" y="72" font-size="11" opacity="0.7">вызывают Open</text>
+
+  <!-- интерфейс -->
+  <rect x="160" y="96" width="380" height="64" rx="6" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="350" y="118" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600" fill="#0891b2">fs.FS</text>
+  <text x="350" y="137" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Open(name string) (fs.File, error)</text>
+  <text x="350" y="152" text-anchor="middle" font-size="11" opacity="0.7">имена вида dir/b.go: «/», без «..» и ведущего «/»</text>
+
+  <!-- реализации -->
+  <g stroke="#0891b2" stroke-width="1.2" stroke-dasharray="5 3" fill="none">
+    <line x1="98" y1="196" x2="220" y2="164" marker-end="url(#ac)"/>
+    <line x1="266" y1="196" x2="310" y2="164" marker-end="url(#ac)"/>
+    <line x1="434" y1="196" x2="390" y2="164" marker-end="url(#ac)"/>
+    <line x1="602" y1="196" x2="480" y2="164" marker-end="url(#ac)"/>
+  </g>
+  <text x="616" y="182" font-size="11" fill="#0891b2">реализуют</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="18" y="198" width="160" height="56" rx="4"/>
+    <rect x="186" y="198" width="160" height="56" rx="4"/>
+    <rect x="354" y="198" width="160" height="56" rx="4"/>
+  </g>
+  <rect x="522" y="198" width="160" height="56" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="98" y="221">os.DirFS(dir)</text>
+    <text x="266" y="221">embed.FS</text>
+    <text x="434" y="221">*zip.Reader</text>
+    <text x="602" y="221">fstest.MapFS</text>
+  </g>
+  <g font-size="11" opacity="0.75" text-anchor="middle">
+    <text x="98" y="241">каталог на диске</text>
+    <text x="266" y="241">вшито в бинарник</text>
+    <text x="434" y="241">содержимое архива</text>
+  </g>
+  <text x="602" y="241" font-size="11" text-anchor="middle" fill="#16a34a">map в памяти — тесты</text>
+</svg>

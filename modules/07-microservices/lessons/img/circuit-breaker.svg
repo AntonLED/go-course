@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 0 691 332" role="img" aria-label="Машина состояний circuit breaker: closed переходит в open после FailureThreshold неудач подряд; open через OpenTimeout переходит в half-open; из half-open SuccessThreshold успехов подряд ведут в closed, а любая неудача — обратно в open с новым таймером" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Состояния circuit breaker</title>
+  <defs>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-grn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-amb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <!-- состояния -->
+  <rect x="40" y="64" width="180" height="56" rx="28" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="130" y="88" text-anchor="middle" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">closed</text>
+  <text x="130" y="106" text-anchor="middle" font-size="11">вызовы проходят</text>
+
+  <rect x="460" y="64" width="180" height="56" rx="28" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.4"/>
+  <text x="550" y="88" text-anchor="middle" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">open</text>
+  <text x="550" y="106" text-anchor="middle" font-size="11">сразу <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ErrOpen</tspan></text>
+
+  <rect x="250" y="232" width="180" height="56" rx="28" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.4"/>
+  <text x="340" y="256" text-anchor="middle" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">half-open</text>
+  <text x="340" y="274" text-anchor="middle" font-size="11">пробные вызовы</text>
+
+  <!-- пояснения под состояниями -->
+  <g font-size="11" opacity="0.65" text-anchor="middle">
+    <text x="130" y="54">успех обнуляет счётчик неудач</text>
+    <text x="550" y="54"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">fn</tspan> не вызывается</text>
+    <text x="340" y="306">не больше <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">HalfOpenMaxCalls</tspan> одновременно,</text>
+    <text x="340" y="320">остальным <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ErrTooManyRequests</tspan></text>
+  </g>
+
+  <!-- closed → open -->
+  <line x1="220" y1="84" x2="458" y2="84" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <text x="339" y="60" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">FailureThreshold</text>
+  <text x="339" y="76" text-anchor="middle" font-size="11" fill="#dc2626">неудач подряд</text>
+
+  <!-- open → half-open -->
+  <path d="M580,120 C580,200 500,260 432,260" fill="none" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-amb)"/>
+  <text x="572" y="204" font-size="11" fill="#d97706">прошло</text>
+  <text x="572" y="218" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#d97706">OpenTimeout</text>
+
+  <!-- half-open → open -->
+  <path d="M400,232 C410,180 460,150 500,122" fill="none" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <text x="422" y="170" text-anchor="end" font-size="11" fill="#dc2626">любая неудача,</text>
+  <text x="422" y="184" text-anchor="end" font-size="11" fill="#dc2626">таймер заново</text>
+
+  <!-- half-open → closed -->
+  <path d="M250,260 C170,260 120,210 120,122" fill="none" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-grn)"/>
+  <text x="108" y="196" text-anchor="end" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#16a34a">SuccessThreshold</text>
+  <text x="108" y="210" text-anchor="end" font-size="11" fill="#16a34a">успехов подряд</text>
+
+  <text x="20" y="16" font-size="11" opacity="0.65">неудача = <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Settings.IsFailure(err)</tspan>; бизнес-ошибки («нет товара») не считаются</text>
+</svg>

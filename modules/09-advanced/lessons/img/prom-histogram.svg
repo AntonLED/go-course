@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 256" role="img" aria-label="Histogram хранит кумулятивные бакеты: каждый le считает все наблюдения не больше границы, поэтому столбцы только растут; le=0.1 равен 900, le=+Inf равен _count 1027; отдельно _sum 53.4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Кумулятивные бакеты гистограммы Prometheus</title>
+  <text x="12" y="18" font-size="12" font-weight="600">http_request_duration_seconds_bucket <tspan font-weight="400" opacity="0.6">— кумулятивно</tspan></text>
+  <line x1="52" y1="196.0" x2="440" y2="196.0" stroke="currentColor" stroke-opacity="0.5"/>
+  <text x="48" y="200.0" text-anchor="end" font-size="10" opacity="0.6">0</text>
+  <line x1="52" y1="159.6" x2="440" y2="159.6" stroke="currentColor" stroke-opacity="0.12"/>
+  <text x="48" y="163.6" text-anchor="end" font-size="10" opacity="0.6">250</text>
+  <line x1="52" y1="123.3" x2="440" y2="123.3" stroke="currentColor" stroke-opacity="0.12"/>
+  <text x="48" y="127.3" text-anchor="end" font-size="10" opacity="0.6">500</text>
+  <line x1="52" y1="86.9" x2="440" y2="86.9" stroke="currentColor" stroke-opacity="0.12"/>
+  <text x="48" y="90.9" text-anchor="end" font-size="10" opacity="0.6">750</text>
+  <line x1="52" y1="50.5" x2="440" y2="50.5" stroke="currentColor" stroke-opacity="0.12"/>
+  <text x="48" y="54.5" text-anchor="end" font-size="10" opacity="0.6">1000</text>
+  <rect x="56" y="190.2" width="22" height="5.8" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="56" y="190.2" width="22" height="5.8" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="67.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">0.005</text>
+  <rect x="88" y="174.2" width="22" height="21.8" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="88" y="174.2" width="22" height="16.0" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="99.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">0.01</text>
+  <rect x="120" y="134.9" width="22" height="61.1" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="120" y="134.9" width="22" height="39.3" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="131.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">0.025</text>
+  <rect x="152" y="91.3" width="22" height="104.7" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="152" y="91.3" width="22" height="43.6" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="163.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">0.05</text>
+  <rect x="184" y="65.1" width="22" height="130.9" fill="#0891b2" fill-opacity="0.3" stroke="#0891b2" stroke-opacity="1"/>
+  <rect x="184" y="65.1" width="22" height="26.2" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="195.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="1">0.1</text>
+  <text x="195.0" y="59.1" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600" fill="#0891b2">900</text>
+  <rect x="216" y="50.5" width="22" height="145.5" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="216" y="50.5" width="22" height="14.5" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="227.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">0.25</text>
+  <rect x="248" y="47.6" width="22" height="148.4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="248" y="47.6" width="22" height="2.9" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="259.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">0.5</text>
+  <rect x="280" y="46.9" width="22" height="149.1" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="280" y="46.9" width="22" height="0.7" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="291.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">1</text>
+  <rect x="312" y="46.6" width="22" height="149.4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <rect x="312" y="46.6" width="22" height="0.3" fill="#0891b2" fill-opacity="0.55"/>
+  <text x="323.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">2.5</text>
+  <rect x="344" y="46.6" width="22" height="149.4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <text x="355.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">5</text>
+  <rect x="376" y="46.6" width="22" height="149.4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/>
+  <text x="387.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">10</text>
+  <rect x="408" y="46.6" width="22" height="149.4" fill="#16a34a" fill-opacity="0.3" stroke="#16a34a" stroke-opacity="1"/>
+  <text x="419.0" y="210" text-anchor="middle" font-size="9.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="1">+Inf</text>
+  <text x="419.0" y="40.6" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600" fill="#16a34a">1027</text>
+  <text x="248" y="226" text-anchor="middle" font-size="11" opacity="0.6">le = «меньше или равно», секунды (DefBuckets)</text>
+  <rect x="56" y="238" width="12" height="10" fill="#0891b2" fill-opacity="0.55"/><text x="74" y="247" font-size="11">новые в этом интервале</text>
+  <rect x="232" y="238" width="12" height="10" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-opacity="0.5"/><text x="250" y="247" font-size="11">все из меньших бакетов</text>
+  <rect x="452" y="36" width="226" height="160" rx="6" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-opacity="0.25"/>
+  <text x="462" y="56" font-size="11" opacity="0.6">/metrics (фрагмент)</text>
+  <text x="462" y="80" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">…_bucket{le="0.05"}</text><text x="668" y="80" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">720</text>
+  <text x="462" y="100" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">…_bucket{le="0.1"}</text><text x="668" y="100" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" fill="#0891b2">900</text>
+  <text x="462" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">…_bucket{le="0.25"}</text><text x="668" y="120" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">1000</text>
+  <text x="462" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">…_bucket{le="+Inf"}</text><text x="668" y="140" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" fill="#16a34a">1027</text>
+  <text x="462" y="160" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">…_sum</text><text x="668" y="160" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">53.4</text>
+  <text x="462" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">…_count</text><text x="668" y="180" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" fill="#16a34a">1027</text>
+  <text x="462" y="226" font-size="11" opacity="0.7">+Inf = _count: все наблюдения</text>
+  <text x="462" y="242" font-size="11" opacity="0.7">_sum / _count = средняя, ≈ 0.052 с</text>
+</svg>

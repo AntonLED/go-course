@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 328" role="img" aria-label="Три состояния ответа: заголовки можно менять; после WriteHeader или первого Write статус и заголовки зафиксированы, повторные изменения игнорируются, тело копится в буфере; после сброса буфера всё уходит в сокет" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Состояния http.ResponseWriter</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <rect x="16" y="16" width="648" height="76" rx="8" fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-width="1.3"/>
+  <text x="32" y="38" font-weight="600" fill="#0891b2">1. Заголовки открыты</text>
+  <text x="48" y="62" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.Header().Set("Content-Type", …)</text>
+  <path d="M312,57 l4,4 l8,-9" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <text x="336" y="62" font-size="12">меняет карту заголовков</text>
+  <text x="48" y="80" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.Header().Del("Content-Length")</text>
+  <path d="M312,75 l4,4 l8,-9" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <text x="336" y="80" font-size="12">тоже можно</text>
+  <line x1="120" y1="92" x2="120" y2="126" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="136" y="114" font-size="12"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">w.WriteHeader(code)</tspan> или первый <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">w.Write</tspan> (тогда код 200)</text>
+  <rect x="16" y="128" width="648" height="94" rx="8" fill="#d97706" fill-opacity="0.08" stroke="#d97706" stroke-width="1.3"/>
+  <text x="32" y="150" font-weight="600" fill="#d97706">2. Статус и заголовки зафиксированы — снимок в памяти</text>
+  <text x="48" y="174" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.Header().Set(…)</text>
+  <path d="M312,164 l9,9 M321,164 l-9,9" stroke="#dc2626" stroke-width="1.8"/>
+  <text x="336" y="174" font-size="12">молча игнорируется</text>
+  <text x="48" y="192" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.WriteHeader(500)</text>
+  <path d="M312,182 l9,9 M321,182 l-9,9" stroke="#dc2626" stroke-width="1.8"/>
+  <text x="336" y="192" font-size="12">лог «superfluous …», код прежний</text>
+  <text x="48" y="210" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.Write(b)</text>
+  <path d="M312,205 l4,4 l8,-9" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <text x="336" y="210" font-size="12">копится в буфере ответа (~2 КБ)</text>
+  <line x1="120" y1="222" x2="120" y2="256" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="136" y="244" font-size="12">буфер переполнен, <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Flush()</tspan> или хендлер вернулся</text>
+  <rect x="16" y="258" width="648" height="58" rx="8" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.3"/>
+  <text x="32" y="280" font-weight="600" fill="currentColor">3. Ушло в сокет</text>
+  <text x="48" y="302" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">HTTP/1.1 200 OK · заголовки · тело…</text><text x="336" y="302" font-size="12">дальше можно только дописывать тело</text>
+</svg>

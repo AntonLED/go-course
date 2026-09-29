@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 240" role="img" aria-label="header := data[:16] — заголовок указывает в начало массива на 1 МБ, и GC держит весь массив, пока жив header. bytes.Clone копирует 16 байт в новый маленький массив, большой становится недостижимым и освобождается" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Утечка через подслайс большого массива</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- строка 1 -->
+  <text x="12" y="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#dc2626">header := data[:16]</text>
+  <rect x="12" y="32" width="210" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g stroke="currentColor" stroke-width="1.2"><line x1="56" y1="32" x2="56" y2="60"/><line x1="112" y1="32" x2="112" y2="60"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="34" y="50">ptr</text><text x="84" y="50">len 16</text><text x="167" y="50">cap 1048576</text>
+  </g>
+  <path d="M34,60 L34,84 L262,84 L262,94" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="262" y="98" width="24" height="28" fill="#0891b2" fill-opacity="0.3" stroke="#0891b2"/>
+  <rect x="286" y="98" width="382" height="28" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626"/>
+  <text x="274" y="140" text-anchor="middle" font-size="10" fill="#0891b2">16 Б</text>
+  <text x="477" y="116" text-anchor="middle" font-size="11" fill="#dc2626">ещё ~1 МБ, который никому не нужен</text>
+  <text x="258" y="116" text-anchor="end" font-size="11" opacity="0.6">backing array 1 МБ</text>
+  <text x="477" y="140" text-anchor="middle" font-size="11" fill="#dc2626">GC держит весь массив, пока жив header</text>
+
+  <line x1="12" y1="156" x2="668" y2="156" stroke="currentColor" stroke-opacity="0.2"/>
+
+  <!-- строка 2 -->
+  <text x="12" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#16a34a">header := bytes.Clone(data[:16])</text>
+  <rect x="12" y="192" width="210" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g stroke="currentColor" stroke-width="1.2"><line x1="56" y1="192" x2="56" y2="220"/><line x1="112" y1="192" x2="112" y2="220"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="34" y="210">ptr</text><text x="84" y="210">len 16</text><text x="167" y="210">cap 16</text>
+  </g>
+  <line x1="222" y1="206" x2="258" y2="206" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="262" y="192" width="24" height="28" fill="#16a34a" fill-opacity="0.3" stroke="#16a34a"/>
+  <text x="296" y="210" font-size="11" fill="#16a34a">новый массив: копия 16 Б</text>
+  <text x="296" y="232" font-size="11" opacity="0.6">старый 1 МБ недостижим → GC освободит</text>
+</svg>

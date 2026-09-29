@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Повтор 0-RTT: атакующий копирует ClientHello с early_data и отправляет его серверу ещё раз, сервер выполняет запрос повторно" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>0-RTT и атака повтором</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <text x="72" y="20" text-anchor="middle" font-weight="600">Клиент</text>
+  <text x="312" y="20" text-anchor="middle" font-weight="600" fill="#dc2626">Атакующий в сети</text>
+  <text x="552" y="20" text-anchor="middle" font-weight="600">Сервер</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.4">
+    <line x1="72" y1="30" x2="72" y2="220"/><line x1="552" y1="30" x2="552" y2="220"/>
+  </g>
+  <line x1="312" y1="30" x2="312" y2="220" stroke="#dc2626" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+
+  <text x="82" y="46" font-size="11" opacity="0.6">есть PSK из прошлой сессии</text>
+
+  <!-- 1. ClientHello + early data -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="82" y="72">ClientHello + early_data</text>
+    <text x="82" y="87">(0-RTT) POST /transfer</text>
+  </g>
+  <line x1="72" y1="96" x2="550" y2="96" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <circle cx="312" cy="96" r="4" fill="#dc2626"/>
+  <text x="322" y="116" font-size="11" fill="#dc2626">записал копию</text>
+  <text x="562" y="92" font-size="12" fill="#16a34a">выполнил</text>
+  <text x="562" y="107" font-size="11" opacity="0.6">сразу, до Finished</text>
+
+  <!-- 2. ServerHello ... -->
+  <text x="432" y="138" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">ServerHello … {Finished}</text>
+  <line x1="552" y1="146" x2="74" y2="146" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- 3. replay -->
+  <text x="432" y="182" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">тот же ClientHello + early_data</text>
+  <line x1="312" y1="190" x2="550" y2="190" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-r)"/>
+  <text x="562" y="186" font-size="12" fill="#dc2626">выполнил</text>
+  <text x="562" y="201" font-size="12" fill="#dc2626">ещё раз</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 292" role="img" aria-label="Клиент закрыл соединение; фоновое чтение сервера видит EOF и отменяет контекст запроса; запрос в БД с этим контекстом прерывается, хендлер получает context.Canceled; задача с context.WithoutCancel продолжает работу" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Отмена контекста запроса при обрыве клиента</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <text x="16" y="28" font-size="12">клиент</text>
+  <text x="16" y="76" font-size="12">сервер</text>
+  <text x="16" y="124" font-size="12">хендлер</text>
+  <text x="16" y="172" font-size="12">запрос в БД</text>
+  <text x="16" y="220" font-size="12">фоновая задача</text>
+  <rect x="172" y="15" width="208" height="18" rx="3" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.2"/>
+  <text x="276.0" y="28" text-anchor="middle" font-size="11" fill="currentColor">отправил запрос, ждёт ответ</text>
+  <path d="M382,18 l12,12 M394,18 l-12,12" stroke="#dc2626" stroke-width="1.8"/>
+  <text x="400" y="28" font-size="11" fill="#dc2626">закрыл соединение</text>
+  <rect x="180" y="63" width="208" height="18" rx="3" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="284.0" y="76" text-anchor="middle" font-size="11" fill="currentColor">фоновое чтение сокета</text>
+  <text x="400" y="76" font-size="11" fill="#dc2626">EOF → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">cancel()</tspan> контекста</text>
+  <rect x="180" y="111" width="264" height="18" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="312.0" y="124" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">ServeHTTP(w, r)</text>
+  <text x="452" y="124" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">context.Canceled → return</text>
+  <rect x="224" y="159" width="172" height="18" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="310.0" y="172" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">db.QueryContext(ctx, q)</text>
+  <path d="M398,162 l12,12 M410,162 l-12,12" stroke="#dc2626" stroke-width="1.8"/>
+  <text x="416" y="172" font-size="11" fill="#dc2626">запрос прерван</text>
+  <rect x="292" y="207" width="372" height="18" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="478.0" y="220" text-anchor="middle" font-size="11" fill="#7c3aed"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">go job(context.WithoutCancel(ctx))</tspan> — не отменяется</text>
+  <path d="M390,81 V159" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="4 3" fill="none" marker-end="url(#arr-red)"/>
+  <text x="384" y="146" text-anchor="end" font-size="11" fill="#dc2626">ctx.Done()</text>
+  <line x1="172" y1="242" x2="664" y2="242" stroke="currentColor" stroke-width="1" opacity="0.4" marker-end="url(#arr)"/>
+  <text x="664" y="258" text-anchor="end" font-size="11" opacity="0.6">время</text>
+  <text x="16" y="282" font-size="12" opacity="0.8"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ctx = r.Context()</tspan>: отменяется и когда <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ServeHTTP</tspan> вернулся; в HTTP/2 — по RST_STREAM.</text>
+</svg>

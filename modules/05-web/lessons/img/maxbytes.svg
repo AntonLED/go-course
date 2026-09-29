@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260" role="img" aria-label="LimitReader на лимите возвращает io.EOF, и декодер получает обрезанный JSON; MaxBytesReader возвращает MaxBytesError, по которому можно ответить 413, и помечает соединение к закрытию" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>LimitReader и MaxBytesReader на лимите</title>
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="currentColor" stroke-width="1.2" opacity="0.25"/>
+    </pattern>
+  </defs>
+  <text x="16" y="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">io.LimitReader(r.Body, 1&lt;&lt;20)</text>
+  <rect x="16" y="34" width="224" height="24" fill="#0891b2" fill-opacity="0.18"/>
+  <rect x="240" y="34" width="424" height="24" fill="url(#hatch)"/>
+  <rect x="16" y="34" width="648" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="128" y="50" text-anchor="middle" font-size="11" fill="#0891b2">прочитано 1 MiB</text>
+  <text x="452" y="50" text-anchor="middle" font-size="11" opacity="0.8">остаток тела (клиент шлёт 10 ГБ)</text>
+  <line x1="240" y1="30" x2="240" y2="78" stroke="#dc2626" stroke-width="2"/>
+  <text x="252" y="78" font-size="12" fill="#dc2626">Read → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">io.EOF</tspan></text>
+  <text x="252" y="96" font-size="12">будто тело кончилось: декодер видит обрывок JSON</text>
+  <text x="252" y="114" font-size="12" fill="#dc2626">unexpected EOF → 400, настоящая причина скрыта</text>
+  <text x="16" y="152" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">http.MaxBytesReader(w, r.Body, 1&lt;&lt;20)</text>
+  <rect x="16" y="166" width="224" height="24" fill="#0891b2" fill-opacity="0.18"/>
+  <rect x="240" y="166" width="424" height="24" fill="url(#hatch)"/>
+  <rect x="16" y="166" width="648" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="128" y="182" text-anchor="middle" font-size="11" fill="#0891b2">прочитано 1 MiB</text>
+  <text x="452" y="182" text-anchor="middle" font-size="11" opacity="0.8">остаток тела (клиент шлёт 10 ГБ)</text>
+  <line x1="240" y1="162" x2="240" y2="210" stroke="#16a34a" stroke-width="2"/>
+  <text x="252" y="210" font-size="12" fill="#16a34a">Read → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*http.MaxBytesError{Limit: 1048576}</tspan></text>
+  <text x="252" y="228" font-size="12"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">errors.As</tspan> распознаёт → ответ 413</text>
+  <text x="252" y="246" font-size="12" fill="#16a34a">сервер закроет соединение после ответа — остаток не читаем</text>
+</svg>

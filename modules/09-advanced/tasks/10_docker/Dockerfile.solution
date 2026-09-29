@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1
+# Эталон. Сборка из КОРНЯ репозитория:
+#   docker build -f modules/09-advanced/tasks/10_docker/Dockerfile.solution \
+#     --build-arg VERSION=1.2.3 --build-arg COMMIT=$(git rev-parse --short HEAD) -t course-server .
+
+ARG GO_VERSION=1.23.4
+
+# ---------- стадия сборки ----------
+FROM golang:${GO_VERSION}-alpine AS build
+WORKDIR /src
+
+# Сначала только go.mod/go.sum: слой с зависимостями кэшируется,
+# пока они не меняются (правки кода его не инвалидируют).
+COPY go.mod ./
+RUN --mount=type=cache,target=/go/pkg/mod go mod download
+
+COPY . .
+ARG VERSION=dev
+ARG COMMIT=unknown
+# CGO_ENABLED=0 — статический бинарник: не нужен libc в финальном образе.
+# -trimpath — убрать локальные пути из бинарника (воспроизводимость).
+# -s -w — выкинуть таблицу символов и DWARF (минус ~30% размера).
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 GOOS=linux \
+    go build -trimpath \
+      -ldflags="-s -w -X main.version=${VERSION} -X main.commit=${COMMIT}" \
+      -o /out/server ./modules/09-advanced/tasks/10_docker/cmd/server
+
+# ---------- финальная стадия ----------
+# distroless/static: CA-сертификаты, tzdata, /etc/passwd с nonroot, без shell. ~2 МБ.
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=build /out/server /server
+USER nonroot:nonroot
+EXPOSE 8080
+# В distroless нет curl — бинарник сам умеет проверять здоровье.
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["/server", "-healthcheck"]
+# exec-форма: процесс — PID 1 и получает SIGTERM напрямую.
+ENTRYPOINT ["/server"]

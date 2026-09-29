@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 280" role="img" aria-label="Escape analysis: указатель на User переживает кадр newUser, поэтому User размещается в куче; локальная total в sum не выходит за кадр и живёт на стеке" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Стек или куча</title>
+  <defs>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- код -->
+  <rect x="16" y="16" width="312" height="176" rx="6" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.35"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="38">func newUser(n string) *User {</text>
+    <text x="48" y="58"><tspan fill="#0891b2">return &amp;User{Name: n}</tspan></text>
+    <text x="28" y="78">}</text>
+    <text x="28" y="106">func sum(xs []int) int {</text>
+    <text x="48" y="126"><tspan fill="#16a34a">total := 0</tspan></text>
+    <text x="48" y="146">for _, x := range xs { total += x }</text>
+    <text x="48" y="166">return total</text>
+    <text x="28" y="184">}</text>
+  </g>
+
+  <!-- стек -->
+  <text x="416" y="30" text-anchor="middle" font-weight="600">стек горутины</text>
+  <rect x="352" y="40" width="128" height="40" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+  <text x="360" y="56" font-size="11" opacity="0.7">main</text>
+  <text x="360" y="73" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">p *User</text>
+  <rect x="352" y="84" width="128" height="40" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+  <text x="360" y="100" font-size="11" opacity="0.7">newUser</text>
+  <text x="360" y="116" font-size="11" opacity="0.6">(снят при return)</text>
+  <g font-size="11" fill="#16a34a">
+    <text x="352" y="156">total из sum не убегает:</text>
+    <text x="352" y="171">живёт в кадре sum и</text>
+    <text x="352" y="186">исчезает с ним — даром</text>
+  </g>
+
+  <!-- куча -->
+  <text x="596" y="30" text-anchor="middle" font-weight="600">куча</text>
+  <rect x="528" y="40" width="136" height="40" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="540" y="65" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">User{Name: n}</text>
+  <text x="596" y="98" text-anchor="middle" font-size="11" opacity="0.7">аллокатор + работа GC</text>
+
+  <!-- указатели -->
+  <line x1="436" y1="68" x2="524" y2="60" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <path d="M436,76 C456,86 456,96 466,100" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 2" marker-end="url(#arr-bad)"/>
+  <text x="488" y="122" font-size="11" fill="#dc2626">на стеке был бы</text>
+  <text x="488" y="136" font-size="11" fill="#dc2626">висячий указатель</text>
+
+  <!-- вывод -gcflags=-m -->
+  <text x="16" y="220" font-size="12" opacity="0.7"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">go build -gcflags=-m</tspan>:</text>
+  <rect x="16" y="228" width="648" height="44" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.3"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="246" fill="#0891b2">./user.go:2:9: &amp;User{...} escapes to heap</text>
+    <text x="28" y="264" opacity="0.8">./user.go:5:10: xs does not escape</text>
+  </g>
+  <text x="652" y="264" text-anchor="end" font-size="11" opacity="0.7">про total — ни слова: он на стеке</text>
+</svg>

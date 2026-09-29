@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 296" role="img" aria-label="Утечка горутин в first(): три горутины отправляют в небуферизованный канал, main принимает одно значение и возвращается, две другие горутины навсегда остаются в sendq канала; с буфером на len(urls) все отправки проходят, и горутины завершаются" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Утечка горутин на отправке</title>
+  <defs>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- горутины -->
+  <g stroke-width="1.2">
+    <rect x="16" y="20" width="176" height="44" rx="6" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a"/>
+    <rect x="16" y="84" width="176" height="44" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626"/>
+    <rect x="16" y="144" width="176" height="44" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="38" font-weight="600">g2</text><text x="28" y="55">ch &lt;- fetch(u2)</text>
+    <text x="28" y="102" font-weight="600">g1</text><text x="28" y="119">ch &lt;- fetch(u1)</text>
+    <text x="28" y="162" font-weight="600">g3</text><text x="28" y="179">ch &lt;- fetch(u3)</text>
+  </g>
+  <g font-size="11" text-anchor="end">
+    <text x="184" y="38" fill="#16a34a">успела первой</text>
+    <text x="184" y="102" fill="#dc2626">_Gwaiting</text>
+    <text x="184" y="162" fill="#dc2626">_Gwaiting</text>
+  </g>
+
+  <!-- канал -->
+  <rect x="264" y="76" width="176" height="112" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="276" y="96" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ch</text>
+  <text x="300" y="96" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">cap 0</text>
+  <text x="428" y="96" font-size="11" opacity="0.6" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">recvq: пусто</text>
+  <text x="276" y="149" font-size="11" opacity="0.7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">sendq</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="320" y="134" width="44" height="22" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626"/><text x="342" y="149">g1</text>
+    <rect x="384" y="134" width="44" height="22" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626"/><text x="406" y="149">g3</text>
+  </g>
+  <line x1="364" y1="145" x2="384" y2="145" stroke="#dc2626" stroke-width="1.2"/>
+
+  <!-- стрелки -->
+  <path d="M192,42 H516" fill="none" stroke="#16a34a" stroke-width="1.6" marker-end="url(#arr-ok)"/>
+  <text x="352" y="36" text-anchor="middle" font-size="11" fill="#16a34a">рандеву: значение передано напрямую</text>
+  <path d="M192,106 H342 V131" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-bad)"/>
+  <path d="M192,172 H406 V159" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-bad)"/>
+
+  <!-- main -->
+  <rect x="520" y="18" width="144" height="48" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="532" y="37" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">first()</text>
+  <text x="532" y="56" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">return &lt;-ch</text>
+  <text x="592" y="86" text-anchor="middle" font-size="11" opacity="0.7">вернулась,</text>
+  <text x="592" y="100" text-anchor="middle" font-size="11" opacity="0.7">больше не читает</text>
+  <text x="552" y="144" font-size="11" fill="#dc2626">g1, g3 висят</text>
+  <text x="552" y="158" font-size="11" fill="#dc2626">навсегда; GC</text>
+  <text x="552" y="172" font-size="11" fill="#dc2626">их не соберёт</text>
+
+  <line x1="16" y1="206" x2="664" y2="206" stroke="currentColor" stroke-opacity="0.2"/>
+
+  <!-- исправление -->
+  <text x="16" y="230" font-weight="600" fill="#16a34a">Исправление: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="400">make(chan string, len(urls))</tspan></text>
+  <rect x="16" y="244" width="168" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g stroke="currentColor" stroke-width="1"><line x1="72" y1="244" x2="72" y2="272"/><line x1="128" y1="244" x2="128" y2="272"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="44" y="262">u1</text><text x="100" y="262">u3</text><text x="156" y="262" opacity="0.5">—</text>
+  </g>
+  <text x="200" y="256" font-size="12">все три отправки проходят без ожидания — горутины завершаются;</text>
+  <text x="200" y="274" font-size="12">непрочитанные u1, u3 в буфере соберёт GC вместе с каналом</text>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "go-course-book",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node gen.mjs && (node gen.mjs --watch & vitepress dev --open)",
+    "build": "node gen.mjs && vitepress build",
+    "preview": "vitepress preview --open"
+  },
+  "devDependencies": {
+    "@vscode/markdown-it-katex": "^1.1.2",
+    "katex": "^0.18.9",
+    "vitepress": "1.6.4"
+  }
+}

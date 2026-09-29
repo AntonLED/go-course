@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Слева: массив при передаче в функцию копируется целиком, изменение копии не видно снаружи. Справа: у среза копируется только заголовок, обе копии указывают на один массив, поэтому s[0] = 100 видно снаружи" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Массив и срез как аргумент функции</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <line x1="340" y1="8" x2="340" y2="228" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity="0.4"/>
+
+  <!-- ЛЕВО: массив -->
+  <text x="20" y="22" font-weight="600">массив <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="400" font-size="12">[3]int</tspan></text>
+  <text x="20" y="40" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.7">func f(a [3]int) { a[0] = 100 }</text>
+
+  <text x="20" y="70" font-size="11" opacity="0.6">a в вызывающем</text>
+  <text x="184" y="70" font-size="11" opacity="0.6">a внутри f</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="78" width="132" height="32" rx="3"/>
+    <line x1="64" y1="78" x2="64" y2="110"/><line x1="108" y1="78" x2="108" y2="110"/>
+    <rect x="184" y="78" width="132" height="32" rx="3"/>
+    <line x1="228" y1="78" x2="228" y2="110"/><line x1="272" y1="78" x2="272" y2="110"/>
+  </g>
+  <rect x="185" y="79" width="42" height="30" fill="#0891b2" fill-opacity="0.18"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="42" y="99">1</text><text x="86" y="99">2</text><text x="130" y="99">3</text>
+    <text x="206" y="99" fill="#0891b2" font-weight="600">100</text><text x="250" y="99">2</text><text x="294" y="99">3</text>
+  </g>
+  <path d="M86,110 V132 H250 V116" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="168" y="148" text-anchor="middle" font-size="11" opacity="0.7">копируются все элементы</text>
+  <text x="20" y="186" font-size="12">снаружи: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">a[0] == 1</tspan></text>
+
+  <!-- ПРАВО: срез -->
+  <text x="360" y="22" font-weight="600">срез <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="400" font-size="12">[]int</tspan></text>
+  <text x="360" y="40" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.7">func set(s []int) { s[0] = 100 }</text>
+
+  <text x="352" y="70" font-size="11" opacity="0.6">s в вызывающем</text>
+  <text x="520" y="70" font-size="11" opacity="0.6">s внутри set (копия)</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="352" y="78" width="144" height="32" rx="3"/>
+    <line x1="400" y1="78" x2="400" y2="110"/><line x1="448" y1="78" x2="448" y2="110"/>
+    <rect x="520" y="78" width="144" height="32" rx="3"/>
+    <line x1="568" y1="78" x2="568" y2="110"/><line x1="616" y1="78" x2="616" y2="110"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="376" y="99">ptr</text><text x="424" y="99">len 3</text><text x="472" y="99">cap 3</text>
+    <text x="544" y="99">ptr</text><text x="592" y="99">len 3</text><text x="640" y="99">cap 3</text>
+  </g>
+  <line x1="498" y1="94" x2="516" y2="94" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- указатели -->
+  <line x1="376" y1="110" x2="466" y2="162" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="544" y1="110" x2="478" y2="162" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <!-- общий массив -->
+  <rect x="451" y="167" width="42" height="30" fill="#0891b2" fill-opacity="0.18"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="450" y="166" width="132" height="32" rx="3"/>
+    <line x1="494" y1="166" x2="494" y2="198"/><line x1="538" y1="166" x2="538" y2="198"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="472" y="187" fill="#0891b2" font-weight="600">100</text><text x="516" y="187">2</text><text x="560" y="187">3</text>
+  </g>
+  <text x="516" y="220" text-anchor="middle" font-size="11" opacity="0.7">один backing array — изменение видно снаружи</text>
+</svg>

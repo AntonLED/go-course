@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 192" role="img" aria-label="Цепочка контекстов как односвязный список: timerCtx → valueCtx(userKey) → cancelCtx → valueCtx(traceKey) → Background; ctx.Value(traceKey{}) проверяет узлы по очереди вверх к корню и находит значение на четвёртом шаге" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Value: поиск вверх по цепочке</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+  </defs>
+  <text x="16" y="18"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">ctx.Value(traceKey{})</tspan> — идём от ctx к корню, пока ключ не совпадёт: O(глубина)</text>
+  <rect x="16" y="36" width="96" height="58" rx="6" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="64.0" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">backgroundCtx</text>
+  <text x="64.0" y="70" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">Background</text>
+  <rect x="136" y="36" width="128" height="58" rx="6" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="200.0" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">valueCtx</text>
+  <text x="200.0" y="70" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">key: traceKey{}</text>
+  <text x="200.0" y="84" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">val: "abc"</text>
+  <rect x="288" y="36" width="104" height="58" rx="6" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="340.0" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">cancelCtx</text>
+  <text x="340.0" y="70" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">WithCancel</text>
+  <rect x="416" y="36" width="128" height="58" rx="6" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="480.0" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">valueCtx</text>
+  <text x="480.0" y="70" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">key: userKey{}</text>
+  <text x="480.0" y="84" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">val: u</text>
+  <rect x="568" y="36" width="96" height="58" rx="6" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="616.0" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">timerCtx</text>
+  <text x="616.0" y="70" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">WithTimeout</text>
+  <text x="616.0" y="84" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">← ctx</text>
+  <line x1="135" y1="65.0" x2="115" y2="65.0" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="287" y1="65.0" x2="267" y2="65.0" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="415" y1="65.0" x2="395" y2="65.0" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="567" y1="65.0" x2="547" y2="65.0" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="664" y="108" text-anchor="end" font-size="10" opacity="0.6">стрелка — ссылка на родителя</text>
+  <line x1="616.0" y1="132" x2="208.0" y2="132" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <circle cx="616.0" cy="132" r="4" fill="#0891b2"/>
+  <text x="616.0" y="152" text-anchor="middle" font-size="11" fill="currentColor">1. не valueCtx</text>
+  <circle cx="480.0" cy="132" r="4" fill="#0891b2"/>
+  <text x="480.0" y="152" text-anchor="middle" font-size="11" fill="currentColor">2. userKey ≠ traceKey</text>
+  <circle cx="340.0" cy="132" r="4" fill="#0891b2"/>
+  <text x="340.0" y="152" text-anchor="middle" font-size="11" fill="currentColor">3. не valueCtx</text>
+  <circle cx="200.0" cy="132" r="4" fill="#16a34a"/>
+  <text x="200.0" y="152" text-anchor="middle" font-size="11" fill="#16a34a">4. совпал → "abc"</text>
+  <text x="64" y="152" text-anchor="middle" font-size="11" opacity="0.5">не дошли</text>
+  <text x="16" y="182" font-size="11" opacity="0.7">Ключи сравниваются как интерфейсы (тип + значение): <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ctxKey{}</tspan> разных пакетов не совпадут.</text>
+</svg>

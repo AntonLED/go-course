@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 208" role="img" aria-label="Захват переменной цикла: до Go 1.22 все три замыкания ссылаются на одну переменную i, которая к моменту запуска горутин равна 3; с Go 1.22 у каждой итерации своя переменная i со значениями 0, 1, 2" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Переменная цикла и замыкания</title>
+  <defs>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- до 1.22 -->
+  <text x="172" y="18" text-anchor="middle" font-weight="600">до Go 1.22: одна <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">i</tspan> на весь цикл</text>
+  <g fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2">
+    <rect x="28" y="36" width="88" height="30" rx="5"/>
+    <rect x="128" y="36" width="88" height="30" rx="5"/>
+    <rect x="228" y="36" width="88" height="30" rx="5"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="72" y="56">go func#1</text><text x="172" y="56">go func#2</text><text x="272" y="56">go func#3</text>
+  </g>
+  <g stroke="#dc2626" stroke-width="1.4" fill="none">
+    <line x1="72" y1="66" x2="148" y2="116" marker-end="url(#arr-bad)"/>
+    <line x1="172" y1="66" x2="172" y2="116" marker-end="url(#arr-bad)"/>
+    <line x1="272" y1="66" x2="196" y2="116" marker-end="url(#arr-bad)"/>
+  </g>
+  <rect x="124" y="120" width="96" height="34" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="172" y="142" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">i = 3</text>
+  <text x="232" y="136" font-size="11" opacity="0.6">i++ меняет</text>
+  <text x="232" y="150" font-size="11" opacity="0.6">её для всех</text>
+  <text x="172" y="184" text-anchor="middle" font-size="12">вывод: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">333</tspan> (чаще всего)</text>
+
+  <line x1="340" y1="8" x2="340" y2="200" stroke="currentColor" stroke-opacity="0.2"/>
+
+  <!-- с 1.22 -->
+  <text x="508" y="18" text-anchor="middle" font-weight="600">Go 1.22+: своя <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">i</tspan> на итерацию</text>
+  <g fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2">
+    <rect x="364" y="36" width="88" height="30" rx="5"/>
+    <rect x="464" y="36" width="88" height="30" rx="5"/>
+    <rect x="564" y="36" width="88" height="30" rx="5"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="408" y="56">go func#1</text><text x="508" y="56">go func#2</text><text x="608" y="56">go func#3</text>
+  </g>
+  <g stroke="#16a34a" stroke-width="1.4" fill="none">
+    <line x1="408" y1="66" x2="408" y2="116" marker-end="url(#arr-ok)"/>
+    <line x1="508" y1="66" x2="508" y2="116" marker-end="url(#arr-ok)"/>
+    <line x1="608" y1="66" x2="608" y2="116" marker-end="url(#arr-ok)"/>
+  </g>
+  <g fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2">
+    <rect x="368" y="120" width="80" height="34" rx="4"/>
+    <rect x="468" y="120" width="80" height="34" rx="4"/>
+    <rect x="568" y="120" width="80" height="34" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" text-anchor="middle">
+    <text x="408" y="142">i = 0</text><text x="508" y="142">i = 1</text><text x="608" y="142">i = 2</text>
+  </g>
+  <text x="508" y="184" text-anchor="middle" font-size="12">вывод: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#16a34a">0 1 2</tspan> в любом порядке</text>
+</svg>

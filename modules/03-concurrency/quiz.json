@@ -1,0 +1,620 @@
+{
+  "module": "03",
+  "title": "Параллельное программирование",
+  "questions": [
+    {
+      "id": "03-001",
+      "lesson": "Введение в параллельное программирование. Модель PMG",
+      "type": "single",
+      "q": "Чему по умолчанию равно GOMAXPROCS (Go 1.23)?",
+      "options": [
+        "runtime.NumCPU() — числу логических CPU, доступных процессу",
+        "1",
+        "Числу потоков ОС процесса",
+        "256 — размеру локальной очереди P"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "По умолчанию число P равно runtime.NumCPU(). В Go 1.23 CPU-квота cgroup не учитывается, поэтому в контейнерах значение часто выставляют вручную."
+    },
+    {
+      "id": "03-002",
+      "lesson": "Введение в параллельное программирование. Модель PMG",
+      "type": "single",
+      "q": "Закон Амдала: 75% программы идеально параллелится, а остальное выполняется строго последовательно. Каково максимальное ускорение при бесконечном числе ядер?",
+      "options": [
+        "$\\times 4$",
+        "$\\times 75$",
+        "$\\times 1.33$",
+        "Неограниченное"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Предел ускорения равен $S_\\infty = \\frac{1}{1 - p} = \\frac{1}{0.25} = 4$: последовательная четверть программы ограничивает ускорение сверху, сколько ядер ни добавляй."
+    },
+    {
+      "id": "03-003",
+      "lesson": "Введение в параллельное программирование. Модель PMG",
+      "type": "multi",
+      "q": "Горутина вошла в блокирующий системный вызов (чтение файла), который длится долго. Что верно?",
+      "options": [
+        "Поток M остаётся заблокированным в syscall",
+        "sysmon отбирает P у заблокированного M и передаёт его другому M (handoff)",
+        "Все горутины из локальной очереди этого P ждут окончания syscall",
+        "Горутина передаётся в netpoller, а поток освобождается"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explain": "Блокирующий syscall держит поток ОС, но P передаётся другому M, чтобы остальные горутины продолжали выполняться. Netpoller используется для сетевого I/O, а не для обычных файлов."
+    },
+    {
+      "id": "03-004",
+      "lesson": "Введение в параллельное программирование. Модель PMG",
+      "type": "single",
+      "q": "Что произойдёт в Go 1.14+?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"runtime\"\n\t\"time\"\n)\n\nfunc main() {\n\truntime.GOMAXPROCS(1)\n\tgo func() {\n\t\tfor {\n\t\t}\n\t}()\n\ttime.Sleep(10 * time.Millisecond)\n\tfmt.Println(\"done\")\n}",
+      "options": [
+        "Напечатает done",
+        "Зависнет навсегда: горутина с for {} не отдаёт единственный P",
+        "fatal error: all goroutines are asleep - deadlock!",
+        "Ошибка компиляции: пустой бесконечный цикл"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "С Go 1.14 работает асинхронное вытеснение: sysmon замечает горутину, которая выполняется дольше 10 мс, и прерывает её сигналом SIGURG. До 1.14 эта программа зависла бы."
+    },
+    {
+      "id": "03-005",
+      "lesson": "Введение в параллельное программирование. Модель PMG",
+      "type": "single",
+      "q": "У P пуста локальная очередь, пуста глобальная очередь и netpoller ничего не вернул. Что сделает планировщик дальше?",
+      "options": [
+        "Попробует украсть половину локальной очереди случайного другого P (work stealing)",
+        "Создаст новую горутину-заглушку",
+        "Сразу завершит поток M",
+        "Уменьшит GOMAXPROCS на 1"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "После своих очередей и netpoller'а findRunnable пытается украсть работу у других P и забирает половину их локальной очереди. Только если красть нечего, M паркуется."
+    },
+    {
+      "id": "03-006",
+      "lesson": "Введение в параллельное программирование. Модель PMG",
+      "type": "input",
+      "q": "Каков начальный размер стека новой горутины (в КБ, классическое значение)?",
+      "answer": "2",
+      "accept": [
+        "2 КБ",
+        "2кб",
+        "2 kb",
+        "2kb",
+        "2048",
+        "2 килобайта",
+        "2 KiB",
+        "2KiB"
+      ],
+      "explain": "Стек стартует с 2 КБ и при нехватке места растёт копированием, каждый раз удваиваясь; максимум — 1 ГБ на 64-битных платформах."
+    },
+    {
+      "id": "03-007",
+      "lesson": "Горутины",
+      "type": "single",
+      "q": "Что выведет программа (go.mod: go 1.22 или новее)?",
+      "code": "func main() {\n\tvar wg sync.WaitGroup\n\tfor i := 0; i < 3; i++ {\n\t\twg.Add(1)\n\t\tgo func() {\n\t\t\tdefer wg.Done()\n\t\t\tfmt.Print(i)\n\t\t}()\n\t}\n\twg.Wait()\n}",
+      "options": [
+        "Цифры 0, 1, 2 — каждая ровно один раз, в произвольном порядке",
+        "333",
+        "Всегда 012",
+        "Недетерминированно из-за гонки на i"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "С Go 1.22 у каждой итерации своя переменная i, поэтому каждая горутина печатает своё значение; порядок выполнения горутин не определён. До 1.22 часто было бы 333 (и гонка)."
+    },
+    {
+      "id": "03-008",
+      "lesson": "Горутины",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tgo fmt.Println(\"hello\")\n}",
+      "options": [
+        "Скорее всего ничего: main завершится, не дожидаясь горутины",
+        "Всегда hello",
+        "hello, затем deadlock",
+        "Ошибка компиляции: результат go не используется"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Возврат из main немедленно завершает процесс, остальных горутин никто не ждёт. Чтобы увидеть hello, нужна синхронизация — WaitGroup или канал."
+    },
+    {
+      "id": "03-009",
+      "lesson": "Горутины",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "func worker(wg sync.WaitGroup) {\n\tdefer wg.Done()\n}\n\nfunc main() {\n\tvar wg sync.WaitGroup\n\twg.Add(1)\n\tgo worker(wg)\n\twg.Wait()\n}",
+      "options": [
+        "fatal error: all goroutines are asleep - deadlock!",
+        "Программа нормально завершится",
+        "panic: sync: negative WaitGroup counter",
+        "Ошибка компиляции"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "WaitGroup передан по значению, поэтому worker уменьшает счётчик копии, а wg.Wait() в main ждёт вечно. Код компилируется, но go vet (copylocks) об этом предупредит."
+    },
+    {
+      "id": "03-010",
+      "lesson": "Горутины",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "func main() {\n\tdefer func() {\n\t\tif r := recover(); r != nil {\n\t\t\tfmt.Println(\"recovered:\", r)\n\t\t}\n\t}()\n\tgo func() {\n\t\tpanic(\"boom\")\n\t}()\n\ttime.Sleep(time.Second)\n\tfmt.Println(\"end\")\n}",
+      "options": [
+        "Процесс аварийно завершится с panic: boom — recover в main её не поймает",
+        "Напечатает recovered: boom",
+        "Напечатает end",
+        "Напечатает recovered: boom и end"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "recover работает только в defer той же горутины, где произошла паника. Неперехваченная паника в любой горутине роняет весь процесс с exit status 2, и main не успевает напечатать end."
+    },
+    {
+      "id": "03-011",
+      "lesson": "Горутины",
+      "type": "multi",
+      "q": "Какие фрагменты приводят к утечке горутины (она никогда не завершится)?",
+      "options": [
+        "ch := make(chan int); go func() { ch <- 1 }() — и из ch никто не читает",
+        "ch := make(chan int, 1); go func() { ch <- 1 }() — и из ch никто не читает",
+        "go func() { for v := range ch { use(v) } }() — и ch никто никогда не закроет",
+        "go func() { for { select { case <-ctx.Done(): return; case v := <-ch: use(v) } } }() — и ctx отменяется"
+      ],
+      "answer": [
+        0,
+        2
+      ],
+      "explain": "Отправка в небуферизованный канал без читателя и range по каналу, который никто не закроет, блокируют горутину навсегда. С буфером 1 отправка проходит сразу, а горутина, слушающая ctx.Done(), выходит при отмене."
+    },
+    {
+      "id": "03-012",
+      "lesson": "Горутины",
+      "type": "input",
+      "q": "Что вернёт runtime.NumGoroutine(), вызванная первой строкой main в программе, которая сама не запускает горутин?",
+      "answer": "1",
+      "accept": [
+        "одна",
+        "one"
+      ],
+      "explain": "Считается только main-горутина: системные горутины рантайма (GC, finalizer и т. п.) в NumGoroutine не входят."
+    },
+    {
+      "id": "03-013",
+      "lesson": "Синхронизация данных",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tvar wg sync.WaitGroup\n\tcounter := 0\n\tfor i := 0; i < 1000; i++ {\n\t\twg.Add(1)\n\t\tgo func() {\n\t\t\tdefer wg.Done()\n\t\t\tcounter++\n\t\t}()\n\t}\n\twg.Wait()\n\tfmt.Println(counter)\n}",
+      "options": [
+        "Недетерминированно (data race): может вывести 1000, а может меньше",
+        "Всегда 1000",
+        "panic: concurrent write",
+        "Ошибка компиляции"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "counter++ состоит из чтения, сложения и записи, поэтому без синхронизации инкременты могут теряться; на практике часто выходит ровно 1000, но это не делает код корректным. go run -race сообщит о гонке, а исправляется она через atomic.Int64 или мьютекс."
+    },
+    {
+      "id": "03-014",
+      "lesson": "Синхронизация данных",
+      "type": "single",
+      "q": "Что произойдёт при вызове f()?",
+      "code": "var mu sync.Mutex\n\nfunc f() {\n\tmu.Lock()\n\tdefer mu.Unlock()\n\tg()\n}\n\nfunc g() {\n\tmu.Lock()\n\tdefer mu.Unlock()\n\tfmt.Println(\"g\")\n}\n\nfunc main() { f() }",
+      "options": [
+        "fatal error: all goroutines are asleep - deadlock!",
+        "Напечатает g — мьютекс в Go реентерабелен",
+        "panic: sync: unlock of unlocked mutex",
+        "Напечатает g дважды"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "sync.Mutex не реентерабелен: повторный Lock в той же горутине ждёт вечно. Так как других горутин нет, рантайм обнаруживает глобальный deadlock."
+    },
+    {
+      "id": "03-015",
+      "lesson": "Синхронизация данных",
+      "type": "multi",
+      "q": "Какие пары событий связаны отношением happens-before по модели памяти Go?",
+      "options": [
+        "wg.Done() → возврат из wg.Wait(), который он разблокировал",
+        "close(ch) → приём из ch, вернувший нулевое значение из-за закрытия",
+        "Завершение горутины → код в main после time.Sleep(time.Second)",
+        "mu.Unlock() → возврат из следующего mu.Lock()",
+        "Обычная запись в переменную → обычное чтение её в другой горутине секундой позже"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explain": "Выход горутины и «прошедшее время» ничего не синхронизируют: без канала, мьютекса, WaitGroup или атомика это гонка, даже если на практике всё «работает»."
+    },
+    {
+      "id": "03-016",
+      "lesson": "Синхронизация данных",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "type C struct {\n\tmu sync.Mutex\n\tn  int\n}\n\nfunc (c C) Inc() { c.mu.Lock(); c.n++; c.mu.Unlock() }\n\nfunc main() {\n\tvar c C\n\tc.Inc()\n\tc.Inc()\n\tfmt.Println(c.n)\n}",
+      "options": [
+        "0, и go vet предупредит: Inc passes lock by value",
+        "2",
+        "fatal error: deadlock",
+        "Ошибка компиляции: нельзя копировать sync.Mutex"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "У метода Inc получатель по значению, поэтому он работает с копией структуры вместе с копией мьютекса, и изменения теряются. Компилятор такое копирование не запрещает, его ловит go vet (copylocks)."
+    },
+    {
+      "id": "03-017",
+      "lesson": "Синхронизация данных",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tvar once sync.Once\n\tfor i := 0; i < 2; i++ {\n\t\tfunc() {\n\t\t\tdefer func() { recover() }()\n\t\t\tonce.Do(func() {\n\t\t\t\tfmt.Println(\"init\")\n\t\t\t\tpanic(\"x\")\n\t\t\t})\n\t\t}()\n\t}\n\tfmt.Println(\"done\")\n}",
+      "options": [
+        "init, затем done",
+        "init, init, затем done",
+        "fatal error: deadlock",
+        "Паника завершит программу"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Если f в once.Do паникует, Once всё равно считается выполненным, и повторный Do не вызовет f. А вот sync.OnceFunc и OnceValue в этом случае повторяют ту же панику при каждом вызове."
+    },
+    {
+      "id": "03-018",
+      "lesson": "Синхронизация данных",
+      "type": "multi",
+      "q": "Что верно про sync.Pool?",
+      "options": [
+        "Объекты из пула могут быть выброшены при любой сборке мусора",
+        "Get может вернуть объект с данными прошлого использования — его нужно сбрасывать",
+        "Pool хорошо подходит для пула соединений к базе данных",
+        "Get гарантированно вернёт объект, ранее положенный через Put, если такой есть"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explain": "Pool — это кэш временных объектов для снижения нагрузки на GC, а не хранилище: его содержимое очищается при сборке мусора (с victim cache — через цикл), и никаких гарантий возврата объекта нет."
+    },
+    {
+      "id": "03-019",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "func main() {\n\tvar ch chan int\n\tfmt.Println(<-ch)\n}",
+      "options": [
+        "fatal error: all goroutines are asleep - deadlock!",
+        "Выведет 0",
+        "panic: receive from nil channel",
+        "Ошибка компиляции"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Чтение из nil-канала блокирует навсегда, а других горутин нет, поэтому рантайм сообщает о deadlock. Сами операции с nil-каналом не паникуют — кроме close."
+    },
+    {
+      "id": "03-020",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "input",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tch := make(chan int, 2)\n\tch <- 1\n\tch <- 2\n\tclose(ch)\n\tfor v := range ch {\n\t\tfmt.Print(v)\n\t}\n\tv, ok := <-ch\n\tfmt.Print(v, ok)\n}",
+      "answer": "120 false",
+      "accept": [
+        "12 0 false",
+        "1 2 0 false"
+      ],
+      "explain": "range по закрытому каналу дочитывает буфер (1 и 2) и завершается, после чего приём из закрытого пустого канала сразу возвращает нулевое значение и ok == false. fmt.Print ставит пробел между двумя соседними не-строковыми операндами."
+    },
+    {
+      "id": "03-021",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "func main() {\n\tch := make(chan int)\n\tclose(ch)\n\tselect {\n\tcase ch <- 1:\n\t\tfmt.Println(\"sent\")\n\tdefault:\n\t\tfmt.Println(\"default\")\n\t}\n}",
+      "options": [
+        "panic: send on closed channel",
+        "Выведет default",
+        "Выведет sent",
+        "fatal error: deadlock"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Отправка в закрытый канал «готова» немедленно и паникует, даже внутри select с default. Ветка default выбирается, только если ни одна операция не готова."
+    },
+    {
+      "id": "03-022",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "func main() {\n\tch := make(chan int)\n\tch <- 1\n\tfmt.Println(<-ch)\n}",
+      "options": [
+        "fatal error: all goroutines are asleep - deadlock!",
+        "Выведет 1",
+        "Выведет 0",
+        "panic: send on unbuffered channel"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Отправка в небуферизованный канал ждёт получателя, но получатель — та же горутина строкой ниже, и до него дело не дойдёт. Нужен буфер или отдельная горутина."
+    },
+    {
+      "id": "03-023",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "multi",
+      "q": "Что верно про select?",
+      "options": [
+        "Если готовы несколько веток, выбирается случайная",
+        "Ветки проверяются сверху вниз, выбирается первая готовая",
+        "Ветка с nil-каналом никогда не выбирается",
+        "select {} без веток блокирует горутину навсегда",
+        "default выполняется, только если все каналы в select равны nil"
+      ],
+      "answer": [
+        0,
+        2,
+        3
+      ],
+      "explain": "Среди готовых веток select выбирает равномерно случайную, приоритетов у веток нет. Ветка с nil-каналом отключена, а default срабатывает, когда не готова ни одна ветка."
+    },
+    {
+      "id": "03-024",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "single",
+      "q": "Несколько горутин-воркеров пишут результаты в общий канал out. Кто и когда должен закрыть out?",
+      "options": [
+        "Отдельная горутина после wg.Wait(), дождавшись всех воркеров",
+        "Каждый воркер после своей последней отправки",
+        "Потребитель, когда прочитал достаточно",
+        "Никто: каналы обязательно закрывать нельзя"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Закрывает отправитель, и только когда больше никто не пишет; при нескольких отправителях это делает координатор после wg.Wait(). Повторный close или запись после close вызовут панику."
+    },
+    {
+      "id": "03-025",
+      "lesson": "Concurrency в Go: каналы и паттерны",
+      "type": "multi",
+      "q": "Какие операции вызывают панику?",
+      "options": [
+        "close(ch) для nil-канала",
+        "close(ch) для уже закрытого канала",
+        "Приём из закрытого канала",
+        "Отправка в nil-канал",
+        "Отправка в закрытый канал"
+      ],
+      "answer": [
+        0,
+        1,
+        4
+      ],
+      "explain": "Паникуют три операции: close nil-канала, повторный close и отправка в закрытый канал. Приём из закрытого канала возвращает нулевое значение, а отправка в nil-канал блокирует навсегда."
+    },
+    {
+      "id": "03-026",
+      "lesson": "Контекст (Context)",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tctx, cancel := context.WithTimeout(context.Background(), time.Hour)\n\tdefer cancel()\n\tchild, cancelChild := context.WithCancel(ctx)\n\tcancelChild()\n\tfmt.Println(ctx.Err(), child.Err())\n}",
+      "options": [
+        "<nil> context canceled",
+        "context canceled context canceled",
+        "<nil> <nil>",
+        "context deadline exceeded context canceled"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Отмена распространяется только вниз по дереву: отмена потомка не затрагивает родителя."
+    },
+    {
+      "id": "03-027",
+      "lesson": "Контекст (Context)",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tparent, cancel := context.WithCancel(context.Background())\n\tchild, cancelChild := context.WithTimeout(parent, time.Hour)\n\tdefer cancelChild()\n\tcancel()\n\t<-child.Done()\n\tfmt.Println(child.Err())\n}",
+      "options": [
+        "context canceled",
+        "context deadline exceeded",
+        "<nil>",
+        "Зависнет на час"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Отмена родителя каскадно отменяет потомка. Его дедлайн ещё не истёк, поэтому Err потомка возвращает context.Canceled."
+    },
+    {
+      "id": "03-028",
+      "lesson": "Контекст (Context)",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "func main() {\n\tctx, cancel := context.WithCancelCause(context.Background())\n\tcancel(errors.New(\"db down\"))\n\tfmt.Println(ctx.Err(), \"|\", context.Cause(ctx))\n}",
+      "options": [
+        "context canceled | db down",
+        "db down | db down",
+        "context canceled | context canceled",
+        "db down | context canceled"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Ради совместимости Err() по-прежнему возвращает context.Canceled, а саму причину отмены отдаёт context.Cause (Go 1.20+)."
+    },
+    {
+      "id": "03-029",
+      "lesson": "Контекст (Context)",
+      "type": "input",
+      "q": "Что выведет программа?",
+      "code": "type key string\n\nfunc main() {\n\tctx := context.WithValue(context.Background(), key(\"user\"), \"alice\")\n\tfmt.Println(ctx.Value(\"user\"), ctx.Value(key(\"user\")))\n}",
+      "answer": "<nil> alice",
+      "accept": [
+        "nil alice"
+      ],
+      "explain": "Ключи сравниваются как interface-значения, а string(\"user\") и key(\"user\") имеют разные типы и потому не равны. Именно поэтому ключи делают собственными неэкспортируемыми типами: так коллизии между пакетами исключены."
+    },
+    {
+      "id": "03-030",
+      "lesson": "Контекст (Context)",
+      "type": "multi",
+      "q": "Какие рекомендации по работе с context верны?",
+      "options": [
+        "ctx — первый параметр функции",
+        "Хранить ctx в поле долгоживущей структуры сервиса и использовать во всех методах",
+        "Передавать nil, если контекст функции не нужен",
+        "Вызывать cancel() (обычно через defer), даже если таймаут истечёт сам",
+        "Ключи WithValue — неэкспортируемые собственные типы"
+      ],
+      "answer": [
+        0,
+        3,
+        4
+      ],
+      "explain": "Контекст передают явно в каждый вызов и не хранят в структурах, а вместо nil используют context.TODO(). Без cancel дочерний контекст остаётся в списке детей родителя до его отмены, а таймер WithTimeout живёт до истечения срока."
+    },
+    {
+      "id": "03-031",
+      "lesson": "Контекст (Context)",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "type k struct{}\n\nfunc main() {\n\tbase := context.WithValue(context.Background(), k{}, 1)\n\tparent, cancel := context.WithCancel(base)\n\tbg := context.WithoutCancel(parent)\n\tcancel()\n\tfmt.Println(bg.Err(), bg.Value(k{}))\n}",
+      "options": [
+        "<nil> 1",
+        "context canceled 1",
+        "context canceled <nil>",
+        "<nil> <nil>"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "context.WithoutCancel (Go 1.21) сохраняет значения родителя, но не наследует его отмену и дедлайн. Это удобно для фоновой работы, которая продолжается после ответа клиенту."
+    },
+    {
+      "id": "03-032",
+      "lesson": "Concurrency в Go: errgroup, singleflight",
+      "type": "single",
+      "q": "Три горутины errgroup вернули ошибки e1, e2, e3 (в таком порядке по времени). Что вернёт g.Wait()?",
+      "options": [
+        "e1 — первую ошибку; остальные отбрасываются",
+        "errors.Join(e1, e2, e3)",
+        "e3 — последнюю ошибку",
+        "Случайную из трёх"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "errgroup запоминает только первую ненулевую ошибку (через sync.Once). Если нужны все ошибки, собирайте их сами."
+    },
+    {
+      "id": "03-033",
+      "lesson": "Concurrency в Go: errgroup, singleflight",
+      "type": "single",
+      "q": "Когда отменяется контекст, полученный из errgroup.WithContext(ctx)?",
+      "options": [
+        "При первой ошибке из любой горутины или после возврата из Wait — что наступит раньше",
+        "Только при первой ошибке",
+        "Только при отмене родительского ctx",
+        "Никогда: его нужно отменять вручную"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Контекст отменяется первой ошибкой (context.Cause вернёт именно её) или возвратом из Wait, поэтому пользоваться им после Wait нельзя. Отмена родителя, разумеется, тоже его отменит."
+    },
+    {
+      "id": "03-034",
+      "lesson": "Concurrency в Go: errgroup, singleflight",
+      "type": "single",
+      "q": "Что выведет программа (golang.org/x/sync/errgroup)?",
+      "code": "func main() {\n\tvar g errgroup.Group\n\tg.SetLimit(1)\n\tblock := make(chan struct{})\n\tg.Go(func() error { <-block; return nil })\n\tfmt.Println(g.TryGo(func() error { return nil }))\n\tclose(block)\n\tfmt.Println(g.Wait())\n}",
+      "options": [
+        "false, затем <nil>",
+        "true, затем <nil>",
+        "Зависнет: TryGo ждёт свободный слот",
+        "panic: лимит изменён при активных горутинах"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Единственный слот занят первой горутиной, поэтому TryGo сразу возвращает false и функцию не запускает. После close(block) Wait возвращает nil."
+    },
+    {
+      "id": "03-035",
+      "lesson": "Concurrency в Go: errgroup, singleflight",
+      "type": "input",
+      "q": "Что выведет программа (golang.org/x/sync/singleflight)?",
+      "code": "func main() {\n\tvar g singleflight.Group\n\tcalls := 0\n\tfor i := 0; i < 3; i++ {\n\t\tg.Do(\"k\", func() (interface{}, error) {\n\t\t\tcalls++\n\t\t\treturn nil, nil\n\t\t})\n\t}\n\tfmt.Println(calls)\n}",
+      "answer": "3",
+      "accept": [
+        "три"
+      ],
+      "explain": "singleflight объединяет только одновременные вызовы. Последовательный вызов, пришедший после завершения предыдущего, снова выполняет fn, потому что результат не кэшируется."
+    },
+    {
+      "id": "03-036",
+      "lesson": "Concurrency в Go: errgroup, singleflight",
+      "type": "multi",
+      "q": "Что верно про singleflight.Group?",
+      "options": [
+        "Если fn использует контекст первого вызывающего и его отменят, ошибку отмены получат и все ожидающие",
+        "Результат кэшируется на время TTL",
+        "Forget(key) позволяет следующему вызову начать новое выполнение, не дожидаясь текущего",
+        "shared == true означает, что значение взято из кэша",
+        "Ошибка fn тоже раздаётся всем ожидающим"
+      ],
+      "answer": [
+        0,
+        2,
+        4
+      ],
+      "explain": "singleflight ничего не кэширует и не знает про TTL, а shared означает лишь, что результат получили несколько вызывающих. От отмены лидера защищаются через context.WithoutCancel, а также DoChan вместе с select."
+    },
+    {
+      "id": "03-037",
+      "lesson": "Concurrency в Go: errgroup, singleflight",
+      "type": "single",
+      "q": "Что такое cache stampede (эффект толпы) и как помогает singleflight?",
+      "options": [
+        "Много запросов одновременно промахиваются по протухшему ключу и идут в БД; singleflight сводит их к одному запросу",
+        "Кэш переполняется и вытесняет горячие ключи; singleflight увеличивает ёмкость",
+        "Два процесса пишут в кэш разные значения; singleflight упорядочивает записи",
+        "Кэш отдаёт устаревшие данные; singleflight проверяет их актуальность"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Когда истекает популярный ключ, сотни одновременных промахов бьют в хранилище. singleflight выполняет загрузку один раз, а остальные вызовы ждут её результата."
+    }
+  ]
+}

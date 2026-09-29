@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 232" role="img" aria-label="YAML: отступ задаёт вложенность отображений; якорь &amp;defaults и merge key &lt;&lt;: *defaults подмешивают поля в prod, а явное retries: 10 перекрывает подмешанное" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>YAML: отступы, якорь и merge key</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ap" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <!-- исходный YAML -->
+  <text x="16" y="16" font-size="11" opacity="0.6">config.yaml</text>
+  <rect x="16" y="24" width="276" height="152" rx="4" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <!-- полосы вложенности -->
+  <rect x="40" y="52" width="4" height="44" fill="#0891b2" opacity="0.5"/>
+  <rect x="40" y="118" width="4" height="44" fill="#0891b2" opacity="0.5"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="46">defaults: <tspan fill="#7c3aed">&amp;defaults</tspan></text>
+    <text x="52" y="68">timeout: 5s</text>
+    <text x="52" y="90">retries: 3</text>
+    <text x="28" y="112">prod:</text>
+    <text x="52" y="134"><tspan fill="#7c3aed">&lt;&lt;: *defaults</tspan></text>
+    <text x="52" y="156" fill="#16a34a">retries: 10</text>
+  </g>
+  <!-- якорь → алиас -->
+  <path d="M196,50 C 250,70 250,110 162,128" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ap)"/>
+  <text x="16" y="198" font-size="11" opacity="0.7">+2 пробела = уровень глубже (синие полосы).</text>
+  <text x="16" y="214" font-size="11" opacity="0.7">Табуляция запрещена; «съехавший» пробел</text>
+  <text x="16" y="228" font-size="11" opacity="0.7">молча меняет структуру.</text>
+
+  <line x1="300" y1="100" x2="336" y2="100" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- дерево результата -->
+  <text x="344" y="16" font-size="11" opacity="0.6">yaml.Unmarshal → map[string]any</text>
+  <g stroke="currentColor" stroke-width="1" fill="none" opacity="0.45">
+    <path d="M352,42 V148 M352,62 H364 M352,148 H364"/>
+    <path d="M376,70 V110 M376,88 H388 M376,110 H388"/>
+    <path d="M376,156 V196 M376,174 H388 M376,196 H388"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="344" y="38" font-weight="600">{}</text>
+    <text x="368" y="66">defaults</text>
+    <text x="392" y="92">timeout: <tspan fill="#0891b2">"5s"</tspan></text>
+    <text x="392" y="114">retries: <tspan fill="#0891b2">3</tspan></text>
+    <text x="368" y="152">prod</text>
+    <text x="392" y="178">timeout: <tspan fill="#0891b2">"5s"</tspan></text>
+    <text x="392" y="200">retries: <tspan fill="#16a34a" font-weight="600">10</tspan></text>
+  </g>
+  <g font-size="11">
+    <text x="528" y="92" opacity="0.6">string</text>
+    <text x="528" y="114" opacity="0.6">int</text>
+    <text x="528" y="178" fill="#7c3aed">подмешано из &lt;&lt;</text>
+    <text x="528" y="200" fill="#16a34a">явный ключ перекрыл 3</text>
+  </g>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Cache stampede: без singleflight тысяча одновременных промахов кэша превращается в тысячу запросов к базе; с singleflight все промахи по одному ключу сливаются в один запрос, который заодно заполняет кэш" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Cache stampede до и после</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+  <text x="160" y="18" text-anchor="middle" font-weight="600" fill="#dc2626">без singleflight</text>
+  <circle cx="24" cy="48" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="34" y1="48" x2="77" y2="48" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="24" cy="76" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="34" y1="76" x2="77" y2="76" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="24" cy="104" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="34" y1="104" x2="77" y2="104" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="24" cy="132" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="34" y1="132" x2="77" y2="132" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="24" cy="160" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="34" y1="160" x2="77" y2="160" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <text x="24" y="186" text-anchor="middle" font-size="11" opacity="0.7">×1000</text>
+  <rect x="80" y="36" width="64" height="136" rx="6" fill="#d97706" fill-opacity="0.1" stroke="#d97706" stroke-width="1.2"/>
+  <text x="112" y="98" text-anchor="middle" font-size="12">кэш</text>
+  <text x="112" y="114" text-anchor="middle" font-size="11" fill="#d97706">промах</text>
+  <line x1="144" y1="48" x2="263" y2="84" stroke="#dc2626" stroke-width="1.2" marker-end="url(#arr-bad)"/>
+  <line x1="144" y1="76" x2="263" y2="94" stroke="#dc2626" stroke-width="1.2" marker-end="url(#arr-bad)"/>
+  <line x1="144" y1="104" x2="263" y2="104" stroke="#dc2626" stroke-width="1.2" marker-end="url(#arr-bad)"/>
+  <line x1="144" y1="132" x2="263" y2="114" stroke="#dc2626" stroke-width="1.2" marker-end="url(#arr-bad)"/>
+  <line x1="144" y1="160" x2="263" y2="124" stroke="#dc2626" stroke-width="1.2" marker-end="url(#arr-bad)"/>
+  <path d="M266,86 v36 a26,8 0 0 0 52,0 v-36" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.2"/>
+  <ellipse cx="292" cy="86" rx="26" ry="8" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="292" y="114" text-anchor="middle" font-size="12">БД</text>
+  <text x="160" y="206" text-anchor="middle" font-size="12" fill="#dc2626">1000 одинаковых запросов в БД</text>
+  <text x="160" y="222" text-anchor="middle" font-size="11" opacity="0.7">таймауты, каскадный отказ</text>
+  <line x1="340" y1="4" x2="340" y2="228" stroke="currentColor" stroke-opacity="0.2"/>
+  <text x="512" y="18" text-anchor="middle" font-weight="600" fill="#16a34a">с singleflight</text>
+  <circle cx="376" cy="48" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="386" y1="48" x2="429" y2="48" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="376" cy="76" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="386" y1="76" x2="429" y2="76" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="376" cy="104" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="386" y1="104" x2="429" y2="104" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="376" cy="132" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="386" y1="132" x2="429" y2="132" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <circle cx="376" cy="160" r="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1"/>
+  <line x1="386" y1="160" x2="429" y2="160" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <text x="376" y="186" text-anchor="middle" font-size="11" opacity="0.7">×1000</text>
+  <rect x="432" y="36" width="64" height="136" rx="6" fill="#d97706" fill-opacity="0.1" stroke="#d97706" stroke-width="1.2"/>
+  <text x="464" y="98" text-anchor="middle" font-size="12">кэш</text>
+  <text x="464" y="114" text-anchor="middle" font-size="11" fill="#d97706">промах</text>
+  <line x1="496" y1="48" x2="519" y2="48" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <line x1="496" y1="76" x2="519" y2="76" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <line x1="496" y1="104" x2="519" y2="104" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <line x1="496" y1="132" x2="519" y2="132" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <line x1="496" y1="160" x2="519" y2="160" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.7" marker-end="url(#arr)"/>
+  <rect x="522" y="36" width="68" height="136" rx="6" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="556" y="98" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">sf.Do</text>
+  <text x="556" y="114" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.8">"user:42"</text>
+  <line x1="590" y1="104" x2="615" y2="104" stroke="#16a34a" stroke-width="1.8" marker-end="url(#arr-ok)"/>
+  <path d="M618,86 v36 a26,8 0 0 0 52,0 v-36" fill="#16a34a" fill-opacity="0.08" stroke="#16a34a" stroke-width="1.2"/>
+  <ellipse cx="644" cy="86" rx="26" ry="8" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="644" y="114" text-anchor="middle" font-size="12">БД</text>
+  <text x="512" y="206" text-anchor="middle" font-size="12" fill="#16a34a">1 запрос; ответ получают все 1000</text>
+  <text x="512" y="222" text-anchor="middle" font-size="11" opacity="0.7">и заодно cache.Set — следующие попадут в кэш</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 318" role="img" aria-label="Дедлайн 200 мс, поставленный клиентом, уходит в orders заголовком grpc-timeout 200m; orders тратит 30 мс и вызывает inventory уже с grpc-timeout 170m; inventory через 20 мс ходит в БД с остатком 150 мс. Все упираются в один и тот же абсолютный дедлайн. Отмена клиента передаётся по цепочке через RST_STREAM и ctx.Done" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Передача дедлайна по цепочке</title>
+  <defs>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <text x="16" y="55" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">client</text>
+  <rect x="150" y="40" width="480" height="22" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.1"/>
+  <text x="390" y="55" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">WithTimeout(ctx, 200ms)</text>
+  <text x="16" y="115" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">orders</text>
+  <rect x="150" y="100" width="480" height="22" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.1"/>
+  <rect x="150" y="100" width="72" height="22" rx="3" fill="#d97706" fill-opacity="0.35"/>
+  <text x="186" y="115" text-anchor="middle" font-size="10">30 мс</text>
+  <text x="16" y="175" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">inventory</text>
+  <rect x="222" y="160" width="408" height="22" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.1"/>
+  <rect x="222" y="160" width="48" height="22" rx="3" fill="#d97706" fill-opacity="0.35"/>
+  <text x="246" y="175" text-anchor="middle" font-size="10">20 мс</text>
+  <text x="16" y="235" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">БД</text>
+  <rect x="270" y="220" width="360" height="22" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.1"/>
+  <line x1="154" y1="62" x2="154" y2="98" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="162" y="85" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">grpc-timeout: 200m</text>
+  <line x1="222" y1="122" x2="222" y2="158" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="230" y="145" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">grpc-timeout: 170m</text>
+  <line x1="270" y1="182" x2="270" y2="218" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="278" y="205" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">ctx: осталось 150 мс</text>
+  <text x="622" y="115" text-anchor="end" font-size="10" opacity="0.75">осталось 170 мс</text>
+  <text x="622" y="175" text-anchor="end" font-size="10" opacity="0.75">осталось 150 мс</text>
+  <line x1="630" y1="28" x2="630" y2="250" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="5 3"/>
+  <text x="630" y="20" text-anchor="middle" font-size="11" fill="#dc2626">общий дедлайн</text>
+  <line x1="150" y1="256" x2="630" y2="256" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <line x1="150" y1="253" x2="150" y2="259" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="150" y="272" text-anchor="middle" font-size="10" opacity="0.7">0</text>
+  <line x1="222" y1="253" x2="222" y2="259" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="222" y="272" text-anchor="middle" font-size="10" opacity="0.7">30</text>
+  <line x1="270" y1="253" x2="270" y2="259" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="270" y="272" text-anchor="middle" font-size="10" opacity="0.7">50</text>
+  <line x1="390" y1="253" x2="390" y2="259" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="390" y="272" text-anchor="middle" font-size="10" opacity="0.7">100</text>
+  <line x1="510" y1="253" x2="510" y2="259" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="510" y="272" text-anchor="middle" font-size="10" opacity="0.7">150</text>
+  <line x1="630" y1="253" x2="630" y2="259" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+  <text x="630" y="272" text-anchor="middle" font-size="10" opacity="0.7">200</text>
+  <text x="16" y="272" font-size="10" opacity="0.7">мс</text>
+  <text x="16" y="304" font-size="11"><tspan fill="#dc2626">отмена клиента</tspan> → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">RST_STREAM</tspan> → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">ctx.Done()</tspan> в orders → отмена его исходящих вызовов → …</text>
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 268" role="img" aria-label="Handoff P при блокирующем системном вызове: G1 входит в syscall вместе с M0 и P0; sysmon отбирает P0 и отдаёт его потоку M1, который выполняет G2; когда syscall завершился, а свободного P нет, G1 уходит в глобальную очередь, а M0 засыпает" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Handoff P при блокирующем syscall</title>
+  <defs>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- заголовки -->
+  <g font-weight="600">
+    <text x="16" y="18">1. Вход в syscall</text>
+    <text x="240" y="18">2. sysmon: handoff P</text>
+    <text x="464" y="18">3. Syscall вернулся</text>
+  </g>
+  <g stroke="currentColor" stroke-opacity="0.2" stroke-width="1">
+    <line x1="228" y1="6" x2="228" y2="262"/><line x1="452" y1="6" x2="452" y2="262"/>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <!-- столбец 1: одна дорожка x=72..168 -->
+    <rect x="64" y="32" width="104" height="36" rx="5" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+    <text x="116" y="47" font-size="12" font-weight="600">G1</text><text x="116" y="61">_Gsyscall</text>
+    <rect x="64" y="88" width="104" height="36" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="116" y="103" font-size="12" font-weight="600">M0</text><text x="116" y="117">read(fd)</text>
+    <rect x="64" y="144" width="104" height="48" rx="5" fill="#0891b2" fill-opacity="0.1" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="116" y="159" font-size="12" font-weight="600">P0</text><text x="116" y="173">_Psyscall</text><text x="116" y="186" opacity="0.7">runq: G2 G3</text>
+
+    <!-- столбец 2: дорожки A x=236..332, B x=348..444 -->
+    <rect x="236" y="32" width="96" height="36" rx="5" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+    <text x="284" y="47" font-size="12" font-weight="600">G1</text><text x="284" y="61">_Gsyscall</text>
+    <rect x="236" y="88" width="96" height="36" rx="5" fill="#d97706" fill-opacity="0.06" stroke="#d97706" stroke-width="1.2"/>
+    <text x="284" y="103" font-size="12" font-weight="600">M0</text><text x="284" y="117">блок в ядре</text>
+    <rect x="236" y="144" width="96" height="48" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+    <text x="284" y="172" opacity="0.6" font-family="ui-sans-serif, system-ui, sans-serif">нет P</text>
+
+    <rect x="348" y="32" width="96" height="36" rx="5" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="396" y="47" font-size="12" font-weight="600">G2</text><text x="396" y="61">_Grunning</text>
+    <rect x="348" y="88" width="96" height="36" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="396" y="103" font-size="12" font-weight="600">M1</text><text x="396" y="117" font-family="ui-sans-serif, system-ui, sans-serif">другой/новый</text>
+    <rect x="348" y="144" width="96" height="48" rx="5" fill="#0891b2" fill-opacity="0.1" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="396" y="159" font-size="12" font-weight="600">P0</text><text x="396" y="173">_Prunning</text><text x="396" y="186" opacity="0.7">runq: G3</text>
+
+    <!-- столбец 3 -->
+    <rect x="460" y="32" width="96" height="36" rx="5" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="508" y="47" font-size="12" font-weight="600">G1</text><text x="508" y="61">_Grunnable</text>
+    <rect x="460" y="88" width="96" height="36" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="508" y="110" font-size="11">global runq</text>
+    <rect x="460" y="144" width="96" height="48" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+    <text x="508" y="164" font-size="12" font-weight="600" opacity="0.6">M0</text><text x="508" y="180" opacity="0.6">stopm: спит</text>
+
+    <rect x="572" y="32" width="96" height="36" rx="5" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="620" y="47" font-size="12" font-weight="600">G3</text><text x="620" y="61">_Grunning</text>
+    <rect x="572" y="88" width="96" height="36" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="620" y="103" font-size="12" font-weight="600">M1</text><text x="620" y="117" opacity="0.7">…</text>
+    <rect x="572" y="144" width="96" height="48" rx="5" fill="#0891b2" fill-opacity="0.1" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="620" y="159" font-size="12" font-weight="600">P0</text><text x="620" y="173">_Prunning</text><text x="620" y="186" opacity="0.7">runq: пусто</text>
+  </g>
+
+  <!-- связи G–M–P -->
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="116" y1="68" x2="116" y2="88"/><line x1="116" y1="124" x2="116" y2="144"/>
+    <line x1="284" y1="68" x2="284" y2="88"/>
+    <line x1="396" y1="68" x2="396" y2="88"/><line x1="396" y1="124" x2="396" y2="144"/>
+    <line x1="620" y1="68" x2="620" y2="88"/><line x1="620" y1="124" x2="620" y2="144"/>
+  </g>
+
+  <!-- handoff стрелка -->
+  <path d="M284,192 V208 H396 V198" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="340" y="224" text-anchor="middle" font-size="12" fill="#0891b2">retake → handoffp</text>
+
+  <!-- G1 в глобальную очередь -->
+  <path d="M508,68 V86" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <!-- пояснения -->
+  <g font-size="11" opacity="0.7">
+    <text x="16" y="224">M0 держит P0, но P0 простаивает:</text>
+    <text x="16" y="238">G2 и G3 ждут своей очереди</text>
+    <text x="236" y="248">P0 в syscall дольше тика sysmon</text>
+    <text x="236" y="262">(≥ 20 мкс) → P0 отдают M1</text>
+    <text x="460" y="224">P0 занят, свободных P нет →</text>
+    <text x="460" y="238">G1 в глобальную очередь</text>
+  </g>
+</svg>

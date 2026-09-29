@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="Потоковый разбор большого массива: Token читает открывающую скобку, затем пока More возвращает true, Decode читает по одному элементу, в конце Token читает закрывающую скобку" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Decoder.Token и потоковый массив</title>
+
+  <!-- лента потока -->
+  <text x="100" y="16" font-size="11" opacity="0.6">поток r (читается слева направо)</text>
+  <text x="96" y="47" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">r</text>
+  <rect x="104" y="26" width="40" height="32" fill="#7c3aed" fill-opacity="0.15"/>
+  <rect x="144" y="26" width="112" height="32" fill="#0891b2" fill-opacity="0.12"/>
+  <rect x="284" y="26" width="112" height="32" fill="#0891b2" fill-opacity="0.24"/>
+  <rect x="424" y="26" width="112" height="32" fill="#0891b2" fill-opacity="0.12"/>
+  <rect x="536" y="26" width="40" height="32" fill="#7c3aed" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="104" y="26" width="472" height="32" rx="3"/>
+    <path d="M144,26 v32 M256,26 v32 M284,26 v32 M396,26 v32 M424,26 v32 M536,26 v32"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="124" y="47" fill="#7c3aed">[</text>
+    <text x="200" y="47">{"id":1}</text>
+    <text x="270" y="47" opacity="0.4">,</text>
+    <text x="340" y="47">{"id":2}</text>
+    <text x="410" y="47" opacity="0.4">,</text>
+    <text x="480" y="47">{"id":3}</text>
+    <text x="556" y="47" fill="#7c3aed">]</text>
+  </g>
+  <text x="592" y="40" font-size="11" opacity="0.6">запятые Decoder</text>
+  <text x="592" y="54" font-size="11" opacity="0.6">пропускает сам</text>
+
+  <!-- номера вызовов под лентой -->
+  <g font-size="11" font-weight="600" text-anchor="middle">
+    <circle cx="124" cy="76" r="9" fill="none" stroke="#7c3aed"/><text x="124" y="80" fill="#7c3aed">1</text>
+    <circle cx="200" cy="76" r="9" fill="none" stroke="#0891b2"/><text x="200" y="80" fill="#0891b2">2</text>
+    <circle cx="340" cy="76" r="9" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/><text x="340" y="80" fill="#0891b2">3</text>
+    <circle cx="480" cy="76" r="9" fill="none" stroke="#0891b2"/><text x="480" y="80" fill="#0891b2">4</text>
+    <circle cx="556" cy="76" r="9" fill="none" stroke="#7c3aed"/><text x="556" y="80" fill="#7c3aed">5</text>
+  </g>
+
+  <!-- список вызовов -->
+  <g font-size="11" font-weight="600" text-anchor="middle">
+    <circle cx="28" cy="116" r="9" fill="none" stroke="#7c3aed"/><text x="28" y="120" fill="#7c3aed">1</text>
+    <circle cx="28" cy="144" r="9" fill="none" stroke="#0891b2"/><text x="28" y="148" fill="#0891b2">2</text>
+    <circle cx="28" cy="172" r="9" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/><text x="28" y="176" fill="#0891b2">3</text>
+    <circle cx="28" cy="200" r="9" fill="none" stroke="#0891b2"/><text x="28" y="204" fill="#0891b2">4</text>
+    <circle cx="28" cy="228" r="9" fill="none" stroke="#7c3aed"/><text x="28" y="232" fill="#7c3aed">5</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="48" y="120">dec.Token()</text>
+    <text x="48" y="148">dec.More() == true;  dec.Decode(&amp;item)</text>
+    <text x="48" y="176">dec.More() == true;  dec.Decode(&amp;item)</text>
+    <text x="48" y="204">dec.More() == true;  dec.Decode(&amp;item)</text>
+    <text x="48" y="232">dec.More() == false; dec.Token()</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="344" y="120" fill="#7c3aed">→ json.Delim('[')</text>
+    <text x="344" y="148">→ Item{ID: 1}</text>
+    <text x="344" y="176" fill="#0891b2" font-weight="600">→ Item{ID: 2}</text>
+    <text x="344" y="204">→ Item{ID: 3}</text>
+    <text x="344" y="232" fill="#7c3aed">→ json.Delim(']')</text>
+  </g>
+  <text x="480" y="176" font-size="11" fill="#0891b2">сейчас в памяти только он</text>
+  <text x="16" y="264" font-size="11" opacity="0.7">Память — O(один элемент) + буфер Decoder, а не весь массив, как у json.Unmarshal.</text>
+</svg>

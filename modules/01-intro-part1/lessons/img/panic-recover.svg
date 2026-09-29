@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 348" role="img" aria-label="Последовательность safe(f): defer регистрируется, f паникует, стек раскручивается до safe, отложенная функция вызывает recover и записывает err, safe возвращается нормально" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>panic и recover в safe(f)</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- головы -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="28" y="12" width="104" height="28" rx="4"/>
+    <rect x="208" y="12" width="104" height="28" rx="4"/>
+    <rect x="388" y="12" width="104" height="28" rx="4"/>
+  </g>
+  <rect x="548" y="12" width="120" height="28" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="80" y="31">caller</text>
+    <text x="260" y="31">safe</text>
+    <text x="440" y="31">f</text>
+    <text x="608" y="31" fill="#0891b2">defer func</text>
+  </g>
+
+  <!-- линии жизни -->
+  <g stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.4">
+    <line x1="80" y1="40" x2="80" y2="336"/>
+    <line x1="260" y1="40" x2="260" y2="336"/>
+    <line x1="440" y1="40" x2="440" y2="336"/>
+    <line x1="608" y1="40" x2="608" y2="336"/>
+  </g>
+
+  <!-- 1. вызов safe -->
+  <line x1="80" y1="64" x2="256" y2="64" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="168" y="58" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">safe(f)</text>
+
+  <!-- 2. регистрация defer -->
+  <rect x="268" y="78" width="144" height="24" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1"/>
+  <text x="340" y="94" text-anchor="middle" font-size="12" fill="#0891b2">defer: регистрация</text>
+
+  <!-- 3. вызов f -->
+  <line x1="260" y1="124" x2="436" y2="124" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="348" y="118" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">f()</text>
+
+  <!-- 4. panic -->
+  <rect x="448" y="138" width="120" height="24" rx="3" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="508" y="154" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">panic("boom")</text>
+
+  <!-- 5. раскрутка -->
+  <line x1="440" y1="184" x2="264" y2="184" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-bad)"/>
+  <text x="352" y="178" text-anchor="middle" font-size="12" fill="#dc2626">раскрутка стека</text>
+  <text x="250" y="203" text-anchor="end" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">return nil — пропущен</text>
+
+  <!-- 6. запуск defer -->
+  <line x1="260" y1="214" x2="604" y2="214" stroke="#0891b2" stroke-width="1.3" marker-end="url(#arr-acc)"/>
+  <text x="432" y="208" text-anchor="middle" font-size="12" fill="#0891b2">выполняются defer'ы safe</text>
+
+  <!-- 7. recover -->
+  <rect x="496" y="226" width="172" height="44" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="582" y="244">recover() → "boom"</text>
+    <text x="582" y="261">err = recovered: boom</text>
+  </g>
+
+  <!-- 8. возврат в safe -->
+  <line x1="608" y1="290" x2="264" y2="290" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arr)"/>
+  <text x="436" y="284" text-anchor="middle" font-size="12" opacity="0.8">паника остановлена</text>
+
+  <!-- 9. нормальный возврат -->
+  <line x1="260" y1="324" x2="84" y2="324" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-ok)"/>
+  <text x="172" y="318" text-anchor="middle" font-size="12" fill="#16a34a">обычный return err</text>
+</svg>

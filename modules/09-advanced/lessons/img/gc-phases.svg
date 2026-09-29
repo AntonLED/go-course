@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Цикл GC во времени: короткая STW-пауза sweep termination включает write barrier; конкурентная маркировка идёт фоновыми воркерами и mark assist; короткая STW-пауза mark termination; write barrier выключается; конкурентный sweep. Мутатор останавливается только на две паузы" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Фазы цикла GC по времени</title>
+
+  <!-- подписи дорожек -->
+  <g font-size="12">
+    <text x="12" y="44">мутатор</text>
+    <text x="12" y="84">GC</text>
+    <text x="12" y="124">write barrier</text>
+  </g>
+  <g font-size="11" opacity="0.6">
+    <text x="12" y="58">ваши горутины</text>
+  </g>
+
+  <!-- мутатор -->
+  <g fill="currentColor" fill-opacity="0.12" stroke="currentColor" stroke-opacity="0.4">
+    <rect x="120" y="32" width="50" height="28" rx="2"/>
+    <rect x="186" y="32" width="244" height="28" rx="2"/>
+    <rect x="446" y="32" width="222" height="28" rx="2"/>
+  </g>
+  <rect x="186" y="32" width="244" height="28" rx="2" fill="#d97706" fill-opacity="0.12"/>
+  <text x="308" y="50" text-anchor="middle" font-size="11">работает + <tspan fill="#d97706">mark assist</tspan> при аллокациях</text>
+  <text x="557" y="50" text-anchor="middle" font-size="11">работает</text>
+
+  <!-- GC -->
+  <rect x="186" y="72" width="244" height="28" rx="2" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/>
+  <text x="308" y="90" text-anchor="middle" font-size="11"><tspan font-weight="600">mark</tspan> · воркеры ~25% CPU</text>
+  <rect x="446" y="72" width="222" height="28" rx="2" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed"/>
+  <text x="557" y="90" text-anchor="middle" font-size="11"><tspan font-weight="600">sweep</tspan> · фон + при аллокации</text>
+
+  <!-- write barrier -->
+  <rect x="170" y="112" width="276" height="28" rx="2" fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-dasharray="4 3"/>
+  <text x="308" y="130" text-anchor="middle" font-size="11">включён · новые объекты сразу чёрные</text>
+  <text x="557" y="130" text-anchor="middle" font-size="11" opacity="0.5">выключен</text>
+  <text x="145" y="130" text-anchor="middle" font-size="11" opacity="0.5">выкл</text>
+
+  <!-- STW -->
+  <g fill="#dc2626" fill-opacity="0.25" stroke="#dc2626">
+    <rect x="170" y="26" width="16" height="120"/>
+    <rect x="430" y="26" width="16" height="120"/>
+  </g>
+  <g stroke="#dc2626" stroke-width="1.2">
+    <line x1="178" y1="146" x2="178" y2="160"/>
+    <line x1="438" y1="146" x2="438" y2="160"/>
+  </g>
+  <g font-size="11" text-anchor="middle" fill="#dc2626">
+    <text x="178" y="174">STW</text>
+    <text x="438" y="174">STW</text>
+  </g>
+  <g font-size="11" text-anchor="middle">
+    <text x="178" y="190">1. sweep termination</text>
+    <text x="178" y="204" opacity="0.6">WB вкл, корни в очередь</text>
+    <text x="438" y="190">3. mark termination</text>
+    <text x="438" y="204" opacity="0.6">затем WB выкл</text>
+  </g>
+  <g font-size="11" text-anchor="middle" opacity="0.6">
+    <text x="308" y="18">2. mark (конкурентно)</text>
+    <text x="557" y="18">4. sweep (конкурентно)</text>
+  </g>
+
+  <!-- ось -->
+  <line x1="120" y1="220" x2="664" y2="220" stroke="currentColor" stroke-opacity="0.4"/>
+  <path d="M660,216 L668,220 L660,224 z" fill="currentColor" fill-opacity="0.4"/>
+  <text x="664" y="234" text-anchor="end" font-size="11" opacity="0.6">время</text>
+  <text x="120" y="234" font-size="11" opacity="0.6">куча достигла цели → старт цикла</text>
+</svg>

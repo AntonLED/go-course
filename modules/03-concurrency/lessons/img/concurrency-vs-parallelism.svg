@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 232" role="img" aria-label="Две задачи A и B: на одном ядре они чередуются во времени (конкурентность), на двух ядрах выполняются одновременно и заканчиваются вдвое раньше (параллелизм)" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Конкурентность и параллелизм</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- панель 1 -->
+  <text x="16" y="20" font-weight="600">Конкурентность: 1 ядро (GOMAXPROCS=1)</text>
+  <text x="100" y="51" text-anchor="end" opacity="0.7">ядро 0</text>
+  <g stroke-width="1.2">
+    <rect x="113" y="32" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="181" y="32" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+    <rect x="249" y="32" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="317" y="32" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+    <rect x="385" y="32" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="453" y="32" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+    <rect x="521" y="32" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="589" y="32" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle" font-weight="600">
+    <text x="146" y="50" fill="#0891b2">A</text><text x="214" y="50" fill="#7c3aed">B</text>
+    <text x="282" y="50" fill="#0891b2">A</text><text x="350" y="50" fill="#7c3aed">B</text>
+    <text x="418" y="50" fill="#0891b2">A</text><text x="486" y="50" fill="#7c3aed">B</text>
+    <text x="554" y="50" fill="#0891b2">A</text><text x="622" y="50" fill="#7c3aed">B</text>
+  </g>
+  <text x="384" y="80" text-anchor="middle" font-size="12" opacity="0.6">задачи перемежаются; в каждый момент выполняется только одна</text>
+
+  <!-- панель 2 -->
+  <text x="16" y="112" font-weight="600">Параллелизм: 2 ядра (GOMAXPROCS=2)</text>
+  <text x="100" y="143" text-anchor="end" opacity="0.7">ядро 0</text>
+  <text x="100" y="179" text-anchor="end" opacity="0.7">ядро 1</text>
+  <g stroke-width="1.2">
+    <rect x="113" y="124" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="181" y="124" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="249" y="124" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="317" y="124" width="66" height="28" rx="3" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2"/>
+    <rect x="113" y="160" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+    <rect x="181" y="160" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+    <rect x="249" y="160" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+    <rect x="317" y="160" width="66" height="28" rx="3" fill="#7c3aed" fill-opacity="0.16" stroke="#7c3aed"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle" font-weight="600">
+    <text x="146" y="142" fill="#0891b2">A</text><text x="214" y="142" fill="#0891b2">A</text>
+    <text x="282" y="142" fill="#0891b2">A</text><text x="350" y="142" fill="#0891b2">A</text>
+    <text x="146" y="178" fill="#7c3aed">B</text><text x="214" y="178" fill="#7c3aed">B</text>
+    <text x="282" y="178" fill="#7c3aed">B</text><text x="350" y="178" fill="#7c3aed">B</text>
+  </g>
+  <line x1="384" y1="120" x2="384" y2="192" stroke="#16a34a" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="396" y="143" fill="#16a34a" font-size="12">обе готовы —</text>
+  <text x="396" y="159" fill="#16a34a" font-size="12">вдвое раньше</text>
+  <text x="396" y="179" font-size="12" opacity="0.6">(если работа делится)</text>
+
+  <!-- ось времени -->
+  <line x1="113" y1="212" x2="660" y2="212" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="656" y="228" text-anchor="end" font-size="12" opacity="0.7">время</text>
+</svg>

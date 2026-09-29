@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 680 270" role="img" aria-label="Transactional outbox: сервис orders в одной транзакции пишет строку заказа и событие в таблицу outbox. Отдельный relay читает неотправленные события из outbox, публикует их в брокер и помечает отправленными; потребитель дедуплицирует события по ID" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Transactional outbox</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- сервис -->
+  <rect x="20" y="96" width="100" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="70" y="122" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">orders</text>
+  <line x1="120" y1="118" x2="170" y2="118" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="145" y="110" text-anchor="middle" font-size="10" fill="#0891b2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">tx</text>
+
+  <!-- БД -->
+  <rect x="172" y="28" width="220" height="200" rx="6" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.2"/>
+  <text x="184" y="46" font-size="11" opacity="0.6">БД сервиса orders</text>
+  <rect x="182" y="56" width="200" height="162" rx="4" fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="374" y="72" text-anchor="end" font-size="11" fill="#0891b2">одна транзакция → Commit()</text>
+
+  <!-- таблица orders -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="194" y="94" font-weight="600">orders</text>
+    <rect x="194" y="100" width="176" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="202" y="115">42 · PENDING · 100 ₽</text>
+
+    <text x="194" y="148" font-weight="600">outbox</text>
+    <rect x="194" y="154" width="176" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+    <text x="202" y="169" opacity="0.6">e-6 · order.paid · sent</text>
+    <rect x="194" y="182" width="176" height="22" rx="2" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-width="1"/>
+    <text x="202" y="197">e-7 · order.created</text>
+  </g>
+
+  <!-- relay -->
+  <rect x="440" y="172" width="96" height="40" rx="4" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="488" y="190" text-anchor="middle" font-size="12" fill="#7c3aed" font-weight="600">relay</text>
+  <text x="488" y="205" text-anchor="middle" font-size="10" opacity="0.7">отдельный цикл</text>
+  <line x1="370" y1="193" x2="438" y2="193" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="416" y="185" text-anchor="middle" font-size="10" opacity="0.8">читает</text>
+  <path d="M488,212 V240 H300 V206" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <text x="394" y="256" text-anchor="middle" font-size="10" opacity="0.8">пометить sent после публикации</text>
+
+  <!-- брокер -->
+  <rect x="440" y="40" width="96" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="488" y="60" text-anchor="middle" font-size="12">брокер</text>
+  <text x="488" y="76" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">order.created</text>
+  <line x1="488" y1="172" x2="488" y2="86" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="496" y="126" font-size="10" opacity="0.8">publish</text>
+  <text x="496" y="139" font-size="10" opacity="0.8">at-least-once</text>
+
+  <!-- потребитель -->
+  <rect x="572" y="40" width="96" height="44" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="620" y="60" text-anchor="middle" font-size="12">потребитель</text>
+  <text x="620" y="76" text-anchor="middle" font-size="10" opacity="0.8">дедуп по ID</text>
+  <line x1="536" y1="62" x2="570" y2="62" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <text x="20" y="282" font-size="11" opacity="0.65">запись заказа и события атомарны: либо обе строки, либо ни одной — «записал, но не отправил» невозможно</text>
+</svg>

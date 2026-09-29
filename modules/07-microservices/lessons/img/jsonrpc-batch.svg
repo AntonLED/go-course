@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 332" role="img" aria-label="Batch JSON-RPC 2.0: массив из пяти элементов, среди них нотификация и невалидный объект; ответ — массив из четырёх ответов в другом порядке, сопоставляются по id, на нотификацию ответа нет. Ниже особые случаи: пустой массив, невалидный JSON, массив чисел, пакет из одних нотификаций" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Batch в JSON-RPC 2.0</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="16" y="18" font-weight="600">запрос: массив</text>
+  <text x="380" y="18" font-weight="600">ответ: массив, порядок любой</text>
+  <line x1="316" y1="74" x2="336" y2="74" stroke="#d97706" stroke-width="1.4" stroke-dasharray="3 2"/>
+  <g stroke="#d97706" stroke-width="1.8"><line x1="339" y1="69" x2="349" y2="79"/><line x1="349" y1="69" x2="339" y2="79"/></g>
+  <rect x="16" y="32" width="300" height="24" rx="3" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.1"/>
+  <text x="24" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"method":"sum","params":[1,2],"id":1}</text>
+  <rect x="16" y="62" width="300" height="24" rx="3" fill="#d97706" fill-opacity="0.08" stroke="#d97706" stroke-width="1.1"/>
+  <text x="24" y="78" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"method":"log","params":["x"]}</text>
+  <rect x="16" y="92" width="300" height="24" rx="3" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="1.1"/>
+  <text x="24" y="108" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"method":"sub","params":[42,23],"id":2}</text>
+  <rect x="16" y="122" width="300" height="24" rx="3" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.1"/>
+  <text x="24" y="138" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"foo":"boo"}</text>
+  <rect x="16" y="152" width="300" height="24" rx="3" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.1"/>
+  <text x="24" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"method":"nope","id":5}</text>
+  <rect x="380" y="32" width="284" height="24" rx="3" fill="#16a34a" fill-opacity="0.10" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="388" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"result":19,"id":2}</text>
+  <rect x="380" y="62" width="284" height="24" rx="3" fill="#16a34a" fill-opacity="0.10" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="388" y="78" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"result":3,"id":1}</text>
+  <rect x="380" y="92" width="284" height="24" rx="3" fill="#dc2626" fill-opacity="0.10" stroke="#dc2626" stroke-width="1.1"/>
+  <text x="388" y="108" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"error":{"code":-32600,…},"id":null}</text>
+  <rect x="380" y="122" width="284" height="24" rx="3" fill="#dc2626" fill-opacity="0.10" stroke="#dc2626" stroke-width="1.1"/>
+  <text x="388" y="138" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"error":{"code":-32601,…},"id":5}</text>
+  <line x1="316" y1="44" x2="378" y2="74" stroke="currentColor" stroke-width="1.2" opacity="0.8" marker-end="url(#arr)"/>
+  <line x1="316" y1="104" x2="378" y2="44" stroke="currentColor" stroke-width="1.2" opacity="0.8" marker-end="url(#arr)"/>
+  <line x1="316" y1="134" x2="378" y2="104" stroke="currentColor" stroke-width="1.2" opacity="0.8" marker-end="url(#arr)"/>
+  <line x1="316" y1="164" x2="378" y2="134" stroke="currentColor" stroke-width="1.2" opacity="0.8" marker-end="url(#arr)"/>
+  <text x="380" y="168" font-size="11" fill="#d97706">нотификации (оранжевая) ответ не положен</text>
+  <text x="16" y="192" font-size="10" opacity="0.6">поле "jsonrpc":"2.0" в каждом объекте опущено для краткости; ответы сопоставляются по id</text>
+  <line x1="16" y1="210" x2="664" y2="210" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-dasharray="4 4"/>
+  <text x="16" y="230" font-weight="600">особые случаи</text>
+  <text x="16" y="256" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">[]</text>
+  <text x="236" y="256" opacity="0.5">→</text>
+  <text x="258" y="256" font-size="12">один объект (не массив): -32600 Invalid Request</text>
+  <text x="16" y="278" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">[{"method":"sum"</text>
+  <text x="236" y="278" opacity="0.5">→</text>
+  <text x="258" y="278" font-size="12">JSON оборван → один объект: -32700, id: null</text>
+  <text x="16" y="300" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">[1, 2]</text>
+  <text x="236" y="300" opacity="0.5">→</text>
+  <text x="258" y="300" font-size="12">массив из двух -32600 с id: null</text>
+  <text x="16" y="322" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">[нотификация, нотификация]</text>
+  <text x="236" y="322" opacity="0.5">→</text>
+  <text x="258" y="322" font-size="12">ничего (в HTTP обычно 204 No Content)</text>
+</svg>

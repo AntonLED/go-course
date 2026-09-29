@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 472" role="img" aria-label="Шаги x509.Verify в Go: срок leaf, имя хоста по SAN, построение пути с проверкой подписи, срока, CA:TRUE и MaxPathLen на каждом звене, затем EKU по всей цепочке; справа ошибки, которые возвращает каждый шаг" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Что проверяет x509.Verify</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-r" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+  </defs>
+  <text x="218" y="16" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">leaf.Verify(opts)</text>
+  <line x1="218" y1="22" x2="218" y2="30" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="36" y="32" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="52" font-size="12">1. срок leaf: NotBefore ≤ CurrentTime ≤ NotAfter</text>
+  <line x1="400" y1="48" x2="438" y2="48" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="45" font-size="10.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626" opacity="0.75">CertificateInvalidError</text>
+  <text x="444" y="59" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">Reason: Expired</text>
+  <line x1="218" y1="64" x2="218" y2="74" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="36" y="76" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="96" font-size="12">2. opts.DNSName есть в SAN leaf</text>
+  <line x1="400" y1="92" x2="438" y2="92" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="96" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">HostnameError</text>
+  <line x1="218" y1="108" x2="218" y2="118" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="12" y="120" width="400" height="232" rx="6" fill="#0891b2" fill-opacity="0.05" stroke="#0891b2" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="36" y="138" font-size="12" fill="#0891b2">3. путь вверх: родители из Roots и Intermediates</text>
+  <rect x="36" y="148" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="168" font-size="12">подпись ребёнка ключом родителя</text>
+  <rect x="36" y="188" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="208" font-size="12">срок родителя</text>
+  <rect x="36" y="228" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="248" font-size="12">intermediate: BasicConstraints CA:TRUE</text>
+  <rect x="36" y="268" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="288" font-size="12">MaxPathLen ≥ число intermediate ниже</text>
+  <line x1="400" y1="164" x2="438" y2="164" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="168" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">UnknownAuthorityError</text>
+  <line x1="400" y1="204" x2="438" y2="204" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="201" font-size="10.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626" opacity="0.75">CertificateInvalidError</text>
+  <text x="444" y="215" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">Reason: Expired</text>
+  <line x1="400" y1="244" x2="438" y2="244" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="241" font-size="10.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626" opacity="0.75">CertificateInvalidError</text>
+  <text x="444" y="255" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">Reason: NotAuthorizedToSign</text>
+  <line x1="400" y1="284" x2="438" y2="284" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="281" font-size="10.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626" opacity="0.75">CertificateInvalidError</text>
+  <text x="444" y="295" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">Reason: TooManyIntermediates</text>
+  <line x1="218" y1="180" x2="218" y2="186" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="218" y1="220" x2="218" y2="226" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="218" y1="260" x2="218" y2="266" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="218" y1="300" x2="218" y2="306" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="36" y="308" width="364" height="32" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="48" y="328" font-size="12">родитель из Roots → путь готов, иначе повтор ↺</text>
+  <path d="M36,324 H24 V164 H34" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <line x1="218" y1="340" x2="218" y2="362" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="36" y="364" width="364" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="48" y="384" font-size="12">4. EKU каждого звена допускает opts.KeyUsages</text>
+  <line x1="400" y1="380" x2="438" y2="380" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="444" y="377" font-size="10.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626" opacity="0.75">CertificateInvalidError</text>
+  <text x="444" y="391" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">Reason: IncompatibleUsage</text>
+  <line x1="218" y1="396" x2="218" y2="406" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="36" y="408" width="364" height="32" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="48" y="428" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">chains: [][]*Certificate{leaf … root}</text>
+  <text x="36" y="462" font-size="11" opacity="0.6">Биты KeyUsage (например, keyCertSign у издателя) x509.Verify не проверяет.</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 682 256" role="img" aria-label="Work stealing: у P1 пустая очередь, он забирает половину (3 из 6) горутин с головы очереди P0; одну из украденных сразу запускает, остальные кладёт в свою очередь" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Work stealing</title>
+  <defs>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <text x="16" y="18" font-weight="600">До</text>
+  <!-- P0 до -->
+  <rect x="16" y="28" width="320" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="28" y="50" font-weight="600">P0</text>
+  <text x="28" y="72" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">runq</text>
+  <text x="84" y="46" font-size="11" opacity="0.6">head</text>
+  <text x="324" y="46" font-size="11" opacity="0.6" text-anchor="end">tail</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="80" y="52" width="40" height="26" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/><text x="100" y="69">G1</text>
+    <rect x="120" y="52" width="40" height="26" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/><text x="140" y="69">G2</text>
+    <rect x="160" y="52" width="40" height="26" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/><text x="180" y="69">G3</text>
+    <rect x="200" y="52" width="40" height="26" rx="3" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.6"/><text x="220" y="69">G4</text>
+    <rect x="240" y="52" width="40" height="26" rx="3" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.6"/><text x="260" y="69">G5</text>
+    <rect x="280" y="52" width="40" height="26" rx="3" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.6"/><text x="300" y="69">G6</text>
+  </g>
+
+  <!-- P1 до -->
+  <rect x="424" y="28" width="240" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="436" y="50" font-weight="600">P1</text>
+  <text x="436" y="72" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">runq</text>
+  <rect x="488" y="52" width="160" height="26" rx="3" fill="none" stroke="currentColor" stroke-opacity="0.5"/>
+  <text x="568" y="69" text-anchor="middle" font-size="12" opacity="0.6">пусто</text>
+  <text x="652" y="46" font-size="11" text-anchor="end" fill="#d97706">findRunnable: нечего делать</text>
+
+  <!-- стрелка кражи -->
+  <path d="M80,82 v4 h120 v-4" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <path d="M140,86 V124 H528 V84" fill="none" stroke="#0891b2" stroke-width="1.6" marker-end="url(#arr-acc)"/>
+  <text x="334" y="116" text-anchor="middle" font-size="12" fill="#0891b2">runqsteal: n − n/2 = 3 горутины с головы (CAS по runqhead)</text>
+
+  <text x="16" y="146" font-weight="600">После</text>
+  <!-- P0 после -->
+  <rect x="16" y="156" width="320" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="28" y="178" font-weight="600">P0</text>
+  <text x="28" y="200" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">runq</text>
+  <rect x="80" y="180" width="120" height="26" rx="3" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-dasharray="3 3"/>
+  <text x="204" y="174" font-size="11" opacity="0.6">head</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="200" y="180" width="40" height="26" rx="3" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.6"/><text x="220" y="197">G4</text>
+    <rect x="240" y="180" width="40" height="26" rx="3" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.6"/><text x="260" y="197">G5</text>
+    <rect x="280" y="180" width="40" height="26" rx="3" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.6"/><text x="300" y="197">G6</text>
+  </g>
+
+  <!-- P1 после -->
+  <rect x="424" y="156" width="240" height="60" rx="6" fill="#0891b2" fill-opacity="0.06" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="436" y="178" font-weight="600">P1</text>
+  <text x="436" y="200" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">runq</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="488" y="180" width="40" height="26" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/><text x="508" y="197">G1</text>
+    <rect x="528" y="180" width="40" height="26" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/><text x="548" y="197">G2</text>
+    <rect x="596" y="162" width="56" height="26" rx="3" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/><text x="624" y="179">G3</text>
+  </g>
+  <text x="624" y="206" text-anchor="middle" font-size="11" fill="#16a34a">запущена</text>
+
+  <text x="16" y="248" font-size="12" opacity="0.7">Жертва выбирается случайно; последняя из украденных G запускается сразу, остальные — в свою runq.</text>
+</svg>

@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 262" role="img" aria-label="Разбор 12 байт сообщения Test с a=150 и b=testing: 08 — tag поля 1 с wire type 0, 96 01 — varint 150; 12 — tag поля 2 с wire type 2, 07 — длина, затем 7 байт строки testing. Ниже биты тегов: номер поля в старших битах, wire type в младших трёх" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Wire format сообщения Test</title>
+  <text x="16" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">message Test { int32 a = 1; string b = 2; }</tspan><tspan opacity="0.7">  a=150, b="testing"</tspan></text>
+  <rect x="52" y="32" width="44" height="40" rx="3" fill="#0891b2" fill-opacity="0.13" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="74" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">08</text>
+  <rect x="100" y="32" width="44" height="40" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="122" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">96</text>
+  <rect x="148" y="32" width="44" height="40" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="170" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">01</text>
+  <rect x="196" y="32" width="44" height="40" rx="3" fill="#0891b2" fill-opacity="0.13" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="218" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">12</text>
+  <rect x="244" y="32" width="44" height="40" rx="3" fill="#d97706" fill-opacity="0.13" stroke="#d97706" stroke-width="1.2"/>
+  <text x="266" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">07</text>
+  <rect x="292" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="314" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">74</text>
+  <text x="314" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'t'</text>
+  <rect x="340" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="362" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">65</text>
+  <text x="362" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'e'</text>
+  <rect x="388" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="410" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">73</text>
+  <text x="410" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'s'</text>
+  <rect x="436" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="458" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">74</text>
+  <text x="458" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'t'</text>
+  <rect x="484" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="506" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">69</text>
+  <text x="506" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'i'</text>
+  <rect x="532" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="554" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">6e</text>
+  <text x="554" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'n'</text>
+  <rect x="580" y="32" width="44" height="40" rx="3" fill="#7c3aed" fill-opacity="0.13" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="602" y="51" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">67</text>
+  <text x="602" y="66" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.65">'g'</text>
+  <path d="M54,80 v6 H94 v-6" fill="none" stroke="#0891b2" stroke-width="1.3"/>
+  <text x="74" y="102" text-anchor="middle" font-size="11" fill="#0891b2">tag</text>
+  <path d="M102,80 v6 H190 v-6" fill="none" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="146" y="102" text-anchor="middle" font-size="11" fill="#16a34a">varint 150</text>
+  <path d="M198,80 v6 H238 v-6" fill="none" stroke="#0891b2" stroke-width="1.3"/>
+  <text x="218" y="102" text-anchor="middle" font-size="11" fill="#0891b2">tag</text>
+  <path d="M246,80 v6 H286 v-6" fill="none" stroke="#d97706" stroke-width="1.3"/>
+  <text x="266" y="102" text-anchor="middle" font-size="11" fill="#d97706">длина 7</text>
+  <path d="M294,80 v6 H622 v-6" fill="none" stroke="#7c3aed" stroke-width="1.3"/>
+  <text x="458" y="102" text-anchor="middle" font-size="11" fill="#7c3aed">7 байт UTF-8: "testing"</text>
+  <path d="M54,114 v6 H190 v-6" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <text x="122" y="136" text-anchor="middle" font-size="11" opacity="0.75">поле a</text>
+  <path d="M198,114 v6 H622 v-6" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <text x="410" y="136" text-anchor="middle" font-size="11" opacity="0.75">поле b</text>
+  <text x="40" y="172" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">08</tspan> = </text>
+  <rect x="84" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="94" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="106" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="116" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="128" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="138" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="150" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="160" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="172" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="182" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">1</text>
+  <rect x="194" y="158" width="20" height="22" rx="2" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1"/>
+  <text x="204" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="216" y="158" width="20" height="22" rx="2" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1"/>
+  <text x="226" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="238" y="158" width="20" height="22" rx="2" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1"/>
+  <text x="248" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <path d="M85,186 v5 H191 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="139" y="206" text-anchor="middle" font-size="11" fill="#0891b2">field = 1</text>
+  <path d="M195,186 v5 H257 v-5" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="226" y="206" text-anchor="middle" font-size="11" fill="#d97706">type = 0</text>
+  <text x="226" y="220" text-anchor="middle" font-size="10" fill="#d97706">VARINT</text>
+  <text x="360" y="172" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">12</tspan> = </text>
+  <rect x="404" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="414" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="426" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="436" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="448" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="458" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="470" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="480" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">1</text>
+  <rect x="492" y="158" width="20" height="22" rx="2" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+  <text x="502" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="514" y="158" width="20" height="22" rx="2" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1"/>
+  <text x="524" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <rect x="536" y="158" width="20" height="22" rx="2" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1"/>
+  <text x="546" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">1</text>
+  <rect x="558" y="158" width="20" height="22" rx="2" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1"/>
+  <text x="568" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">0</text>
+  <path d="M405,186 v5 H511 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="459" y="206" text-anchor="middle" font-size="11" fill="#0891b2">field = 2</text>
+  <path d="M515,186 v5 H577 v-5" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="546" y="206" text-anchor="middle" font-size="11" fill="#d97706">type = 2</text>
+  <text x="546" y="220" text-anchor="middle" font-size="10" fill="#d97706">LEN</text>
+  <text x="16" y="250" font-size="11" opacity="0.7">tag = varint(<tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">field_number &lt;&lt; 3 | wire_type</tspan>): 1&lt;&lt;3|0 = 0x08, 2&lt;&lt;3|2 = 0x12</text>
+</svg>

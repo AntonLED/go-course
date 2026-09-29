@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 326" role="img" aria-label="Таблица операций над каналом: для nil-канала отправка, приём и range блокируют навсегда, close паникует; для закрытого отправка и close паникуют, приём отдаёт остаток буфера и затем нулевое значение; для открытого операции блокируются до готовности второй стороны" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Операции над каналом</title>
+  <text x="232.0" y="20" text-anchor="middle" font-weight="600">nil-канал</text>
+  <text x="232.0" y="37" text-anchor="middle" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">var ch chan T</text>
+  <text x="408.0" y="20" text-anchor="middle" font-weight="600">закрытый</text>
+  <text x="408.0" y="37" text-anchor="middle" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">после close(ch)</text>
+  <text x="584.0" y="20" text-anchor="middle" font-weight="600">открытый</text>
+  <text x="584.0" y="37" text-anchor="middle" font-size="11" opacity="0.6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">make(chan T, n)</text>
+  <text x="136" y="74.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">ch &lt;- v</text>
+  <rect x="148" y="48" width="168" height="44" rx="5" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+  <text x="232.0" y="74.0" text-anchor="middle" font-size="12" fill="#d97706">блок навсегда</text>
+  <rect x="324" y="48" width="168" height="44" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="408.0" y="74.0" text-anchor="middle" font-size="12" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">panic</text>
+  <rect x="500" y="48" width="168" height="44" rx="5" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="584.0" y="66" text-anchor="middle" font-size="12" fill="#0891b2">блок, пока нет места</text>
+  <text x="584.0" y="82" text-anchor="middle" font-size="12" fill="#0891b2">или получателя</text>
+  <text x="136" y="124.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">&lt;-ch</text>
+  <rect x="148" y="98" width="168" height="44" rx="5" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+  <text x="232.0" y="124.0" text-anchor="middle" font-size="12" fill="#d97706">блок навсегда</text>
+  <rect x="324" y="98" width="168" height="44" rx="5" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="408.0" y="116" text-anchor="middle" font-size="12" fill="#16a34a">остаток буфера,</text>
+  <text x="408.0" y="132" text-anchor="middle" font-size="12" fill="#16a34a">затем 0, ok = false</text>
+  <rect x="500" y="98" width="168" height="44" rx="5" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="584.0" y="124.0" text-anchor="middle" font-size="12" fill="#0891b2">блок, пока нет значения</text>
+  <text x="136" y="174.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">close(ch)</text>
+  <rect x="148" y="148" width="168" height="44" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="232.0" y="174.0" text-anchor="middle" font-size="12" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">panic</text>
+  <rect x="324" y="148" width="168" height="44" rx="5" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="408.0" y="174.0" text-anchor="middle" font-size="12" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">panic</text>
+  <rect x="500" y="148" width="168" height="44" rx="5" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="584.0" y="166" text-anchor="middle" font-size="12" fill="#16a34a">ок: будит всех</text>
+  <text x="584.0" y="182" text-anchor="middle" font-size="12" fill="#16a34a">ждущих получателей</text>
+  <text x="136" y="224.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">for range ch</text>
+  <rect x="148" y="198" width="168" height="44" rx="5" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+  <text x="232.0" y="224.0" text-anchor="middle" font-size="12" fill="#d97706">блок навсегда</text>
+  <rect x="324" y="198" width="168" height="44" rx="5" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="408.0" y="216" text-anchor="middle" font-size="12" fill="#16a34a">дочитает буфер</text>
+  <text x="408.0" y="232" text-anchor="middle" font-size="12" fill="#16a34a">и выйдет</text>
+  <rect x="500" y="198" width="168" height="44" rx="5" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="584.0" y="224.0" text-anchor="middle" font-size="12" fill="#0891b2">ждёт до close</text>
+  <text x="136" y="274.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">len / cap</text>
+  <rect x="148" y="248" width="168" height="44" rx="5" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.2"/>
+  <text x="232.0" y="274.0" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="currentColor">0 / 0</text>
+  <rect x="324" y="248" width="168" height="44" rx="5" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.2"/>
+  <text x="408.0" y="274.0" text-anchor="middle" font-size="12" fill="currentColor">остаток / ёмкость</text>
+  <rect x="500" y="248" width="168" height="44" rx="5" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.2"/>
+  <text x="584.0" y="274.0" text-anchor="middle" font-size="12" fill="currentColor">в буфере / ёмкость</text>
+  <rect x="148" y="306" width="12" height="12" rx="2" fill="#dc2626" fill-opacity="0.2" stroke="#dc2626"/>
+  <text x="166" y="316" font-size="11">паника</text>
+  <rect x="224.4" y="306" width="12" height="12" rx="2" fill="#d97706" fill-opacity="0.2" stroke="#d97706"/>
+  <text x="242.4" y="316" font-size="11">вечная блокировка</text>
+  <rect x="371.20000000000005" y="306" width="12" height="12" rx="2" fill="#0891b2" fill-opacity="0.2" stroke="#0891b2"/>
+  <text x="389.20000000000005" y="316" font-size="11">обычное ожидание</text>
+  <rect x="511.6" y="306" width="12" height="12" rx="2" fill="#16a34a" fill-opacity="0.2" stroke="#16a34a"/>
+  <text x="529.6" y="316" font-size="11">завершается</text>
+</svg>

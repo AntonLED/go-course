@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 182" role="img" aria-label="repeated int32 xs = 4 со значениями 1, 2, 300. Packed-форма: один tag 22 (поле 4, LEN), длина 04 и подряд varint-значения 01 02 ac 02 — 6 байт. Непакованная: перед каждым значением свой tag 20 (поле 4, VARINT) — 7 байт" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Packed и непакованный repeated</title>
+  <text x="16" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">repeated int32 xs = 4;</tspan><tspan opacity="0.7">  xs = [1, 2, 300]</tspan></text>
+  <text x="16" y="53" font-weight="600">packed</text>
+  <text x="16" y="69" font-size="11" opacity="0.65">proto3 по умолчанию</text>
+  <rect x="150" y="34" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.13" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="171" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">22</text>
+  <rect x="196" y="34" width="42" height="30" rx="3" fill="#d97706" fill-opacity="0.13" stroke="#d97706" stroke-width="1.2"/>
+  <text x="217" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">04</text>
+  <rect x="242" y="34" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="263" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">01</text>
+  <rect x="288" y="34" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="309" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">02</text>
+  <rect x="334" y="34" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="355" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">ac</text>
+  <rect x="380" y="34" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="401" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">02</text>
+  <path d="M152,70 v5 H190 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="171" y="89" text-anchor="middle" font-size="10" fill="#0891b2">4&lt;&lt;3|2</text>
+  <path d="M198,70 v5 H236 v-5" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="217" y="89" text-anchor="middle" font-size="10" fill="#d97706">длина</text>
+  <path d="M244,70 v5 H282 v-5" fill="none" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="263" y="89" text-anchor="middle" font-size="10" fill="#16a34a">1</text>
+  <path d="M290,70 v5 H328 v-5" fill="none" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="309" y="89" text-anchor="middle" font-size="10" fill="#16a34a">2</text>
+  <path d="M336,70 v5 H420 v-5" fill="none" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="378" y="89" text-anchor="middle" font-size="10" fill="#16a34a">300</text>
+  <text x="434" y="54" font-size="12">6 байт</text>
+  <text x="16" y="135" font-weight="600">по одному</text>
+  <text x="16" y="151" font-size="11" opacity="0.65">тоже валидно</text>
+  <rect x="150" y="116" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.13" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="171" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">20</text>
+  <rect x="196" y="116" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="217" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">01</text>
+  <rect x="242" y="116" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.13" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="263" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">20</text>
+  <rect x="288" y="116" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="309" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">02</text>
+  <rect x="334" y="116" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.13" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="355" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">20</text>
+  <rect x="380" y="116" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="401" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">ac</text>
+  <rect x="426" y="116" width="42" height="30" rx="3" fill="#16a34a" fill-opacity="0.13" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="447" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">02</text>
+  <path d="M152,152 v5 H190 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="171" y="171" text-anchor="middle" font-size="10" fill="#0891b2">4&lt;&lt;3|0</text>
+  <path d="M198,152 v5 H236 v-5" fill="none" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="217" y="171" text-anchor="middle" font-size="10" fill="#16a34a">1</text>
+  <path d="M244,152 v5 H282 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="263" y="171" text-anchor="middle" font-size="10" fill="#0891b2">tag</text>
+  <path d="M290,152 v5 H328 v-5" fill="none" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="309" y="171" text-anchor="middle" font-size="10" fill="#16a34a">2</text>
+  <path d="M336,152 v5 H374 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="355" y="171" text-anchor="middle" font-size="10" fill="#0891b2">tag</text>
+  <path d="M382,152 v5 H466 v-5" fill="none" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="424" y="171" text-anchor="middle" font-size="10" fill="#16a34a">300</text>
+  <text x="480" y="136" font-size="12">7 байт</text>
+</svg>

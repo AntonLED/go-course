@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 294" role="img" aria-label="Две группы делают append к общему срезу middleware с запасом ёмкости: обе пишут в один и тот же элемент массива, и вторая затирает middleware первой" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Ловушка append при создании групп</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <text x="106" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="currentColor">group.mws</text>
+  <rect x="16" y="30" width="180" height="28" rx="4" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="76" y1="30" x2="76" y2="58" stroke="currentColor" stroke-width="1.2"/><line x1="136" y1="30" x2="136" y2="58" stroke="currentColor" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle"><text x="46" y="49">ptr</text><text x="106" y="49">len 2</text><text x="166" y="49">cap 4</text></g>
+  <text x="340" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#0891b2">api (+Auth)</text>
+  <rect x="250" y="30" width="180" height="28" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <line x1="310" y1="30" x2="310" y2="58" stroke="#0891b2" stroke-width="1.2"/><line x1="370" y1="30" x2="370" y2="58" stroke="#0891b2" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle"><text x="280" y="49">ptr</text><text x="340" y="49">len 3</text><text x="400" y="49">cap 4</text></g>
+  <text x="574" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#dc2626">admin (+Admin)</text>
+  <rect x="484" y="30" width="180" height="28" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <line x1="544" y1="30" x2="544" y2="58" stroke="#dc2626" stroke-width="1.2"/><line x1="604" y1="30" x2="604" y2="58" stroke="#dc2626" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle"><text x="514" y="49">ptr</text><text x="574" y="49">len 3</text><text x="634" y="49">cap 4</text></g>
+  <text x="164" y="155" text-anchor="end" font-size="12" opacity="0.7">общий массив</text>
+  <rect x="340" y="132" width="82" height="36" fill="#dc2626" fill-opacity="0.14"/>
+  <rect x="176" y="132" width="328" height="36" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="258" y1="132" x2="258" y2="168" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="340" y1="132" x2="340" y2="168" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="422" y1="132" x2="422" y2="168" stroke="currentColor" stroke-width="1.2"/>
+  <text x="217.0" y="155" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Logger</text>
+  <text x="217.0" y="126" text-anchor="middle" font-size="11" opacity="0.6">[0]</text>
+  <text x="299.0" y="155" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Recover</text>
+  <text x="299.0" y="126" text-anchor="middle" font-size="11" opacity="0.6">[1]</text>
+  <text x="381.0" y="126" text-anchor="middle" font-size="11" opacity="0.6">[2]</text>
+  <text x="463.0" y="126" text-anchor="middle" font-size="11" opacity="0.6">[3]</text>
+  <text x="381.0" y="148" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.55">Auth</text><line x1="365.0" y1="144" x2="397.0" y2="144" stroke="currentColor" stroke-width="1" opacity="0.7"/>
+  <text x="381.0" y="163" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626" font-weight="600">Admin</text>
+  <line x1="46" y1="58" x2="217.0" y2="114" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="280" y1="58" x2="217.0" y2="114" stroke="#0891b2" stroke-width="1.3" marker-end="url(#arr-acc)"/>
+  <line x1="514" y1="58" x2="217.0" y2="114" stroke="#dc2626" stroke-width="1.3" marker-end="url(#arr-red)"/>
+  <text x="16" y="200" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">api<tspan x="59.4">:=</tspan> append(group.mws, Auth)<tspan x="272" fill="#0891b2">// пишет в [2]</tspan></text>
+  <text x="16" y="218" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">admin<tspan x="59.4">:=</tspan> append(group.mws, Admin)<tspan x="272" fill="#dc2626">// тоже в [2] — затёрло Auth</tspan></text>
+  <text x="16" y="242" font-size="12" fill="#dc2626">маршруты api теперь проверяют Admin вместо Auth</text>
+  <text x="16" y="266" font-size="12" fill="#16a34a">исправление: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">append(slices.Clip(group.mws), mw)</tspan> — у копии len == cap,</text>
+  <text x="16" y="284" font-size="12" fill="#16a34a">поэтому append выделит новый массив для каждой группы</text>
+</svg>

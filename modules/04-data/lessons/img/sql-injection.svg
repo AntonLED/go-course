@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 312" role="img" aria-label="SQL-инъекция: при конкатенации ввод пользователя становится частью текста SQL и превращается в новую команду DROP TABLE; с плейсхолдером текст запроса и значение передаются раздельно, и значение остаётся данными" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Конкатенация против плейсхолдера</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ag" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+
+  <!-- ===== плохо ===== -->
+  <text x="16" y="16" font-weight="600" fill="#dc2626">Конкатенация: ввод становится частью SQL</text>
+  <text x="16" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.8">name = <tspan fill="#dc2626">"x'; DROP TABLE users; --"</tspan></text>
+
+  <rect x="16" y="50" width="452" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <rect x="272.8" y="54" width="172.8" height="22" rx="2" fill="#dc2626" fill-opacity="0.15"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="70" textLength="244.8" lengthAdjust="spacing">SELECT * FROM users WHERE name = '</text>
+    <text x="272.8" y="70" textLength="172.8" lengthAdjust="spacing" fill="#dc2626">x'; DROP TABLE users; --</text>
+    <text x="445.6" y="70">'</text>
+  </g>
+  <text x="484" y="62" font-size="11" opacity="0.7">один текст уходит</text>
+  <text x="484" y="76" font-size="11" opacity="0.7">в парсер SQL</text>
+
+  <!-- как видит парсер -->
+  <g fill="none" stroke-width="1.4">
+    <path d="M28,86 v6 h266.4 v-6" stroke="currentColor" opacity="0.6"/>
+    <path d="M301.6,86 v6 h122.4 v-6" stroke="#dc2626"/>
+    <path d="M431.2,86 v6 h21.6 v-6" stroke="currentColor" opacity="0.6"/>
+  </g>
+  <g font-size="11" text-anchor="middle">
+    <text x="161" y="108" opacity="0.7">команда 1: SELECT … = 'x'</text>
+    <text x="363" y="108" fill="#dc2626" font-weight="600">команда 2: DROP TABLE</text>
+    <text x="442" y="124" opacity="0.7">комментарий</text>
+  </g>
+  <text x="16" y="146" font-size="11" opacity="0.7">Кавычка из ввода закрыла строку, «;» начал новую команду, «--» закомментировал хвост.</text>
+
+  <line x1="16" y1="162" x2="684" y2="162" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+
+  <!-- ===== хорошо ===== -->
+  <text x="16" y="186" font-weight="600" fill="#16a34a">Плейсхолдер: текст и данные передаются раздельно</text>
+
+  <text x="16" y="212" font-size="11" opacity="0.6">текст запроса</text>
+  <rect x="16" y="218" width="336" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="28" y="238" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">SELECT * FROM users WHERE name = <tspan fill="#0891b2" font-weight="600">?</tspan></text>
+  <text x="16" y="268" font-size="11" opacity="0.6">аргументы</text>
+  <rect x="16" y="274" width="336" height="30" rx="4" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="28" y="294" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">[<tspan fill="#16a34a">"x'; DROP TABLE users; --"</tspan>]</text>
+
+  <path d="M352,233 C 380,233 380,252 410,252" fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+  <path d="M352,289 C 380,289 380,270 410,270" fill="none" stroke="#16a34a" stroke-width="1.4" marker-end="url(#ag)"/>
+
+  <rect x="412" y="218" width="272" height="86" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="424" y="238" font-size="12">БД разбирает только текст:</text>
+  <text x="424" y="254" font-size="12">одна команда, <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">?</tspan> — место для значения</text>
+  <text x="424" y="276" font-size="12" fill="#16a34a">значение — просто строка: ищется</text>
+  <text x="424" y="292" font-size="12" fill="#16a34a">такое имя целиком, таблица цела</text>
+</svg>

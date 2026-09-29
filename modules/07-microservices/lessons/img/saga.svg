@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 408" role="img" aria-label="Сага заказа: локальная транзакция ReserveStock в inventory успешна, ChargeCard в payments падает, поэтому выполняется компенсация ReleaseStock и заказ отменяется. Внизу два способа координации: оркестратор рассылает команды, либо сервисы реагируют на события друг друга" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Saga с компенсацией</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-grn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-amb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- ===== ход саги ===== -->
+  <g font-size="11" opacity="0.6">
+    <text x="20" y="20">прямые шаги — локальные транзакции</text>
+    <text x="20" y="226">компенсации — в обратном порядке</text>
+  </g>
+
+  <rect x="20" y="40" width="104" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="72" y="60" text-anchor="middle" font-size="12">заказ</text>
+  <text x="72" y="77" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.8">PENDING</text>
+
+  <rect x="176" y="40" width="168" height="48" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="260" y="60" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">1. ReserveStock</text>
+  <text x="260" y="77" text-anchor="middle" font-size="11" opacity="0.7">inventory · commit ✓</text>
+
+  <rect x="400" y="40" width="168" height="48" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="484" y="60" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">2. ChargeCard</text>
+  <text x="484" y="77" text-anchor="middle" font-size="11" fill="#dc2626">payments · отказ ✗</text>
+
+  <line x1="124" y1="64" x2="174" y2="64" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-grn)"/>
+  <line x1="344" y1="64" x2="398" y2="64" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-grn)"/>
+
+  <rect x="596" y="46" width="72" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+  <text x="632" y="68" text-anchor="middle" font-size="11" opacity="0.5">3. …</text>
+  <text x="632" y="102" text-anchor="middle" font-size="10" opacity="0.5">не выполняется</text>
+
+  <!-- компенсация -->
+  <path d="M484,88 V184 H346" fill="none" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-amb)"/>
+  <text x="494" y="140" font-size="11" fill="#d97706">запустить компенсации</text>
+  <text x="494" y="154" font-size="11" fill="#d97706">выполненных шагов</text>
+
+  <rect x="176" y="160" width="168" height="48" rx="4" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+  <text x="260" y="180" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">ReleaseStock</text>
+  <text x="260" y="197" text-anchor="middle" font-size="11" opacity="0.7">компенсирует шаг 1</text>
+  <line x1="260" y1="90" x2="260" y2="158" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3" opacity="0.5"/>
+
+  <line x1="176" y1="184" x2="126" y2="184" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-amb)"/>
+  <rect x="20" y="160" width="104" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="72" y="180" text-anchor="middle" font-size="12">заказ</text>
+  <text x="72" y="197" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.8">CANCELLED</text>
+
+  <line x1="20" y1="244" x2="660" y2="244" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-dasharray="4 4"/>
+
+  <!-- ===== оркестрация ===== -->
+  <text x="170" y="268" text-anchor="middle" font-weight="600">Оркестрация</text>
+  <rect x="96" y="282" width="148" height="34" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="170" y="304" text-anchor="middle" font-size="12" fill="#0891b2">координатор саги</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="30" y="358" width="120" height="34" rx="4"/>
+    <rect x="190" y="358" width="120" height="34" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="90" y="380">inventory</text><text x="250" y="380">payments</text>
+  </g>
+  <line x1="140" y1="316" x2="100" y2="356" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <line x1="200" y1="316" x2="240" y2="356" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="170" y="346" text-anchor="middle" font-size="11" opacity="0.7">команды</text>
+
+  <line x1="340" y1="256" x2="340" y2="400" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-dasharray="4 4"/>
+
+  <!-- ===== хореография ===== -->
+  <text x="510" y="268" text-anchor="middle" font-weight="600">Хореография</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="360" y="282" width="92" height="34" rx="4"/>
+    <rect x="568" y="282" width="92" height="34" rx="4"/>
+    <rect x="464" y="358" width="92" height="34" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="406" y="304">orders</text><text x="614" y="304">inventory</text><text x="510" y="380">payments</text>
+  </g>
+  <line x1="452" y1="299" x2="566" y2="299" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="509" y="292" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">OrderCreated</text>
+  <line x1="600" y1="316" x2="544" y2="356" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="562" y="336" text-anchor="end" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">StockReserved</text>
+  <path d="M476,358 C440,340 430,330 418,318" fill="none" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <text x="442" y="352" text-anchor="end" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">PaymentFailed</text>
+  <path d="M556,376 C616,376 640,356 636,318" fill="none" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <text x="510" y="404" text-anchor="middle" font-size="10" opacity="0.6">каждый сам реагирует на события</text>
+</svg>

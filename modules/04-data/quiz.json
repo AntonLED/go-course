@@ -1,0 +1,560 @@
+{
+  "module": "04",
+  "title": "Работа с данными",
+  "questions": [
+    {
+      "id": "04-001",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"io\"\n\t\"strings\"\n)\n\nfunc main() {\n\tr := strings.NewReader(\"hello\")\n\tbuf := make([]byte, 3)\n\tfor i := 0; i < 3; i++ {\n\t\tn, err := io.ReadFull(r, buf)\n\t\tfmt.Println(n, err)\n\t}\n}",
+      "options": [
+        "3 <nil>\n2 unexpected EOF\n0 EOF",
+        "3 <nil>\n2 EOF\n0 EOF",
+        "3 <nil>\n2 <nil>\n0 EOF",
+        "3 <nil>\n3 unexpected EOF\n0 EOF"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "`io.ReadFull` возвращает `io.ErrUnexpectedEOF`, если поток кончился посреди буфера (здесь прочитано 2 байта из 3), а `io.EOF` — только когда не удалось прочитать ни одного байта."
+    },
+    {
+      "id": "04-002",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tlong := strings.Repeat(\"x\", 70000)\n\tsc := bufio.NewScanner(strings.NewReader(\"a\\n\" + long + \"\\nb\\n\"))\n\tn := 0\n\tfor sc.Scan() {\n\t\tn++\n\t}\n\tfmt.Println(n, sc.Err())\n}",
+      "options": [
+        "3 <nil>",
+        "1 bufio.Scanner: token too long",
+        "2 <nil>",
+        "1 <nil>"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "По умолчанию `bufio.Scanner` принимает токены не длиннее 64 КиБ, а строка в 70 000 байт в этот лимит не помещается. Поэтому `Scan()` возвращает `false`, а `Err()` — `bufio.ErrTooLong`; лимит поднимают вызовом `sc.Buffer(buf, max)`."
+    },
+    {
+      "id": "04-003",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "input",
+      "q": "Что напечатает программа (одно число)?",
+      "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"bytes\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar b bytes.Buffer\n\tw := bufio.NewWriter(&b)\n\tfmt.Fprint(w, \"hello\")\n\tfmt.Println(b.Len())\n}",
+      "answer": "0",
+      "explain": "`bufio.Writer` копит данные в своём буфере размером 4 КиБ. Пока не вызван `Flush` и буфер не переполнился, в `bytes.Buffer` не попадает ничего."
+    },
+    {
+      "id": "04-004",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "multi",
+      "q": "Какие из этих типов реализуют `io.ReadSeeker`?",
+      "options": [
+        "*os.File",
+        "*strings.Reader",
+        "*bytes.Reader",
+        "*bytes.Buffer",
+        "*bufio.Reader"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explain": "У `bytes.Buffer` и `bufio.Reader` нет метода `Seek`: буфер «потребляет» прочитанное, а `bufio.Reader` оборачивает произвольный поток, по которому перемещаться нельзя."
+    },
+    {
+      "id": "04-005",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "single",
+      "q": "Что произойдёт при запуске?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"io\"\n)\n\nfunc main() {\n\tpr, pw := io.Pipe()\n\tgo func() {\n\t\tpw.Write([]byte(\"hi\"))\n\t}()\n\tb, err := io.ReadAll(pr)\n\tfmt.Println(string(b), err)\n}",
+      "options": [
+        "Напечатает «hi <nil>»",
+        "Напечатает «hi EOF»",
+        "fatal error: all goroutines are asleep - deadlock!",
+        "Напечатает « <nil>» (пустую строку)"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Писатель не закрыл трубу вызовом `pw.Close()`, поэтому `io.ReadAll` после «hi» бесконечно ждёт новых данных или EOF. Других горутин нет, и рантайм обнаруживает дедлок."
+    },
+    {
+      "id": "04-006",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "package main\n\nimport (\n\t\"bytes\"\n\t\"fmt\"\n\t\"io\"\n\t\"strings\"\n)\n\nfunc main() {\n\tvar log bytes.Buffer\n\tr := io.LimitReader(io.TeeReader(strings.NewReader(\"abcdef\"), &log), 4)\n\tb, _ := io.ReadAll(r)\n\tfmt.Println(string(b), log.String())\n}",
+      "answer": "abcd abcd",
+      "explain": "`LimitReader` запрашивает у нижележащего `TeeReader` не больше четырёх байт, а исчерпав лимит, сразу возвращает EOF и дальше не читает. Поэтому в `log` попадают только прочитанные «abcd»."
+    },
+    {
+      "id": "04-007",
+      "lesson": "Работа с потоками ввода/вывода",
+      "type": "single",
+      "q": "Что делает `io.Copy(dst, src)`, если `src` реализует `io.WriterTo`?",
+      "options": [
+        "Игнорирует это и копирует через буфер 32 КиБ",
+        "Вызывает src.WriteTo(dst) — источник сам решает, как эффективно записать данные",
+        "Вызывает dst.ReadFrom(src)",
+        "Паникует: нужно использовать io.CopyBuffer"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`io.Copy` сначала проверяет `WriterTo` у источника, затем `ReaderFrom` у приёмника и только потом копирует через собственный буфер. Благодаря этому копирование из `*os.File` в сокет превращается в `sendfile` без копирования в user space."
+    },
+    {
+      "id": "04-008",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"flag\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tfs := flag.NewFlagSet(\"app\", flag.ContinueOnError)\n\tv := fs.Bool(\"v\", false, \"verbose\")\n\tfs.Parse([]string{\"file.txt\", \"-v\"})\n\tfmt.Println(*v, fs.Args())\n}",
+      "options": [
+        "true [file.txt]",
+        "false [file.txt -v]",
+        "true [file.txt -v]",
+        "ошибка: flag provided but not defined"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Пакет `flag` прекращает разбор на первом позиционном аргументе, поэтому всё после `file.txt`, включая `-v`, попадает в `fs.Args()`."
+    },
+    {
+      "id": "04-009",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "package main\n\nimport (\n\t\"flag\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tfs := flag.NewFlagSet(\"app\", flag.ContinueOnError)\n\tv := fs.Bool(\"v\", false, \"verbose\")\n\tfs.Parse([]string{\"-v\", \"false\", \"x\"})\n\tfmt.Println(*v, fs.NArg())\n}",
+      "answer": "true 2",
+      "explain": "Булев флаг принимает значение только через «=», как в `-v=false`. В записи `-v false` флаг получает значение `true`, а `false` становится первым позиционным аргументом."
+    },
+    {
+      "id": "04-010",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "single",
+      "q": "Что выведет программа (stdout) и с каким кодом она завершится?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tdefer fmt.Println(\"bye\")\n\tfmt.Println(\"hi\")\n\tos.Exit(3)\n}",
+      "options": [
+        "hi, bye; код 3",
+        "hi; код 3",
+        "hi, bye; код 0",
+        "bye, hi; код 3"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`os.Exit` завершает процесс немедленно, и отложенные вызовы не выполняются. Поэтому ни `log.Fatal`, ни `os.Exit` нельзя вызывать там, где нужна очистка через `defer`."
+    },
+    {
+      "id": "04-011",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "single",
+      "q": "Флаг объявлен как `fs.Duration(\"timeout\", time.Second, \"\")`. Что вернёт `fs.Parse`, если передать ему `[]string{\"-timeout\", \"5\"}`?",
+      "options": [
+        "nil, timeout = 5ns",
+        "nil, timeout = 5s",
+        "ошибку разбора флага: time.ParseDuration(\"5\") не принимает число без единицы измерения",
+        "nil, timeout остаётся 1s"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Флаги типа `Duration` разбираются через `time.ParseDuration`, а для него «5» без единицы измерения — ошибка (исключение только «0»). `flag` вернёт `invalid value \"5\" for flag -timeout: parse error`; писать нужно `5s`, `500ms` или `1m30s`."
+    },
+    {
+      "id": "04-012",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "multi",
+      "q": "Какие утверждения о `flag.Value` верны?",
+      "options": [
+        "Set вызывается при каждом появлении флага — так делают повторяемые флаги",
+        "String может быть вызван на нулевом значении (например, nil-указателе), поэтому должен быть к этому готов",
+        "Set вызывается один раз, с последним значением флага",
+        "Свой тип регистрируется через fs.Var(&v, name, usage)",
+        "Реализовав IsBoolFlag() bool { return true }, можно задавать флаг без значения"
+      ],
+      "answer": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "explain": "`flag` вызывает `Set` на каждое вхождение флага, а документация прямо требует, чтобы `String` работал на нулевом получателе. `fs.Var` регистрирует любой `flag.Value`, а метод `IsBoolFlag` делает флаг «булевым» по синтаксису."
+    },
+    {
+      "id": "04-013",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "input",
+      "q": "С каким кодом завершится программа, если глобальный `flag.CommandLine` (режим `ExitOnError`) встретит неизвестный флаг?",
+      "answer": "2",
+      "explain": "В режиме `flag.ExitOnError` при ошибке разбора пакет печатает сообщение и справку в stderr и вызывает `os.Exit(2)` — общепринятый код для неверного использования. Для `-h` и `-help` вызывается `os.Exit(0)`."
+    },
+    {
+      "id": "04-014",
+      "lesson": "Работа с аргументами командной строки",
+      "type": "single",
+      "q": "Чем `os.LookupEnv` отличается от `os.Getenv`?",
+      "options": [
+        "LookupEnv ищет без учёта регистра",
+        "LookupEnv возвращает второй результат ok, различая «переменная не задана» и «задана пустой строкой»",
+        "LookupEnv читает также .env-файл",
+        "Ничем, это синонимы"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`os.Getenv` возвращает пустую строку в обоих случаях. Если пустое значение осмысленно (например, чтобы отключить прокси), нужен `LookupEnv`."
+    },
+    {
+      "id": "04-015",
+      "lesson": "Работа с файлами",
+      "type": "single",
+      "q": "Процесс с umask `022` выполняет `os.OpenFile(\"a.txt\", os.O_CREATE|os.O_WRONLY, 0o666)`. Какие права будут у нового файла?",
+      "options": [
+        "0666",
+        "0644",
+        "0600",
+        "0022"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "При создании файла `perm` урезается umask: `0666 &^ 022 = 0644`. Чтобы выставить права точно, после создания вызывают `os.Chmod` — к нему umask не применяется."
+    },
+    {
+      "id": "04-016",
+      "lesson": "Работа с файлами",
+      "type": "single",
+      "q": "Почему при атомарной записи временный файл создают в том же каталоге, что и целевой, а не в `os.TempDir()`?",
+      "options": [
+        "Так быстрее создаётся файл",
+        "rename атомарен только в пределах одной файловой системы; между ФС он невозможен (EXDEV) или превращается в копирование",
+        "os.TempDir() недоступен обычным пользователям",
+        "Иначе не сработает O_EXCL"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`rename(2)` атомарно меняет запись каталога только в пределах одной файловой системы, а `/tmp` часто смонтирован отдельно как tmpfs."
+    },
+    {
+      "id": "04-017",
+      "lesson": "Работа с файлами",
+      "type": "single",
+      "q": "Колбэк `filepath.WalkDir` вернул `fs.SkipDir` для файла, а не для каталога. Что произойдёт?",
+      "options": [
+        "Будет пропущен только этот файл",
+        "Будут пропущены оставшиеся элементы родительского каталога",
+        "Обход завершится с ошибкой SkipDir",
+        "Весь обход остановится"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Для файла `SkipDir` означает «пропустить остаток каталога, в котором он лежит». Чтобы пропустить один файл, достаточно вернуть `nil`, а чтобы остановить весь обход, есть `fs.SkipAll`."
+    },
+    {
+      "id": "04-018",
+      "lesson": "Работа с файлами",
+      "type": "single",
+      "q": "Каким пакетом работать с путями внутри `embed.FS` (например, склеивать каталог и имя файла), чтобы код работал и на Windows?",
+      "options": [
+        "path/filepath — он учитывает ОС",
+        "path — пути в fs.FS всегда разделяются «/»",
+        "strings.Join с os.PathSeparator",
+        "любым, embed сам нормализует разделители"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`fs.FS` (включая `embed.FS`, zip и `fstest.MapFS`) использует только «/». На Windows `filepath.Join` поставит «\\», и `Open` вернёт ошибку."
+    },
+    {
+      "id": "04-019",
+      "lesson": "Работа с файлами",
+      "type": "single",
+      "q": "В чём проблема этого кода, если в `names` 100 000 файлов?",
+      "code": "func process(names []string) error {\n\tfor _, name := range names {\n\t\tf, err := os.Open(name)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tdefer f.Close()\n\t\tif err := handle(f); err != nil {\n\t\t\treturn err\n\t\t}\n\t}\n\treturn nil\n}",
+      "options": [
+        "Никакой проблемы нет",
+        "Файлы закрываются только при выходе из функции — можно исчерпать лимит дескрипторов (too many open files)",
+        "defer в цикле не компилируется",
+        "f.Close() будет вызван 100 000 раз для последнего файла"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`defer` выполняется при возврате из функции, а не в конце итерации, поэтому все файлы остаются открытыми до конца цикла. Тело цикла выносят в отдельную функцию или закрывают файл явно."
+    },
+    {
+      "id": "04-020",
+      "lesson": "Работа с файлами",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tfmt.Println(os.RemoveAll(\"/definitely/not/exists/here\"))\n}",
+      "answer": "<nil>",
+      "accept": [
+        "nil"
+      ],
+      "explain": "`os.RemoveAll` возвращает `nil`, если пути не существует, так же как `rm -rf`. А вот `os.Remove` в этой ситуации вернул бы ошибку `fs.ErrNotExist`."
+    },
+    {
+      "id": "04-021",
+      "lesson": "Работа с файлами",
+      "type": "multi",
+      "q": "Какие имена проходят проверку `fs.ValidPath`, то есть допустимы в `fs.FS`?",
+      "options": [
+        "a/b.txt",
+        ".",
+        "/etc/passwd",
+        "a/../b",
+        "dir/",
+        ""
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explain": "Пути в `fs.FS` непустые, без ведущего и завершающего «/» и без элементов «.» и «..»; единственное исключение — сама «.», обозначающая корень."
+    },
+    {
+      "id": "04-022",
+      "lesson": "Работа с JSON, YAML",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar m map[string]any\n\tjson.Unmarshal([]byte(`{\"n\": 1}`), &m)\n\tfmt.Printf(\"%T\\n\", m[\"n\"])\n}",
+      "answer": "float64",
+      "explain": "При декодировании в `interface{}` любое JSON-число становится `float64`. Чтобы сохранить точность, используют `Decoder.UseNumber()` (`json.Number`) или поле конкретного типа."
+    },
+    {
+      "id": "04-023",
+      "lesson": "Работа с JSON, YAML",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\ntype T struct {\n\tA int\n\tb int\n}\n\nfunc main() {\n\tout, _ := json.Marshal(T{1, 2})\n\tfmt.Println(string(out))\n}",
+      "options": [
+        "{\"A\":1,\"b\":2}",
+        "{\"A\":1}",
+        "{\"A\":1,\"B\":2}",
+        "{}"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`encoding/json` работает через reflect и видит только экспортируемые поля, поэтому поле `b` игнорируется и при кодировании, и при декодировании."
+    },
+    {
+      "id": "04-024",
+      "lesson": "Работа с JSON, YAML",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\ntype R struct {\n\tItems []int    `json:\"items\"`\n\tTags  []string `json:\"tags,omitempty\"`\n}\n\nfunc main() {\n\tb, _ := json.Marshal(R{})\n\tfmt.Println(string(b))\n}",
+      "options": [
+        "{\"items\":[]}",
+        "{\"items\":null}",
+        "{\"items\":null,\"tags\":null}",
+        "{}"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "nil-слайс кодируется как `null`, а не `[]`, а пустой или nil-слайс `tags` пропускается благодаря `omitempty`. Если API обещает массив, инициализируйте поле как `[]int{}`."
+    },
+    {
+      "id": "04-025",
+      "lesson": "Работа с JSON, YAML",
+      "type": "single",
+      "q": "Что выведет программа (Go 1.23)?",
+      "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"time\"\n)\n\ntype E struct {\n\tAt time.Time `json:\"at,omitempty\"`\n}\n\nfunc main() {\n\tb, _ := json.Marshal(E{})\n\tfmt.Println(string(b))\n}",
+      "options": [
+        "{}",
+        "{\"at\":\"0001-01-01T00:00:00Z\"}",
+        "{\"at\":null}",
+        "{\"at\":\"\"}"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`omitempty` никогда не считает структуру «пустой», а `time.Time` — это структура. Опция `omitzero`, которая учитывает `IsZero()`, появилась только в Go 1.24, а в 1.23 для этого используют `*time.Time`."
+    },
+    {
+      "id": "04-026",
+      "lesson": "Работа с JSON, YAML",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\ntype D int\n\nfunc (d *D) MarshalJSON() ([]byte, error) { return []byte(`\"custom\"`), nil }\n\ntype S struct{ X D }\n\nfunc main() {\n\tb, _ := json.Marshal(S{X: 5})\n\tfmt.Println(string(b))\n\tb, _ = json.Marshal(&S{X: 5})\n\tfmt.Println(string(b))\n}",
+      "options": [
+        "{\"X\":\"custom\"}\n{\"X\":\"custom\"}",
+        "{\"X\":5}\n{\"X\":\"custom\"}",
+        "{\"X\":5}\n{\"X\":5}",
+        "{\"X\":\"custom\"}\n{\"X\":5}"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`MarshalJSON` объявлен на `*D`. В значении `S{X: 5}`, переданном по значению, поле неадресуемо, и метод не вызывается; через `&S{}` поле становится адресуемым, и json вызывает `(*D).MarshalJSON`. Поэтому `MarshalJSON` объявляют на значении."
+    },
+    {
+      "id": "04-027",
+      "lesson": "Работа с JSON, YAML",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\ntype P struct{ A, B int }\n\nfunc main() {\n\tp := P{A: 1, B: 2}\n\tjson.Unmarshal([]byte(`{\"B\": 3}`), &p)\n\tfmt.Println(p)\n}",
+      "answer": "{1 3}",
+      "explain": "`json.Unmarshal` не обнуляет структуру: поля, которых нет во входном JSON, сохраняют прежние значения. Если переиспользовать переменную в цикле, данные из прошлой итерации «протекают» в следующую."
+    },
+    {
+      "id": "04-028",
+      "lesson": "Работа с JSON, YAML",
+      "type": "single",
+      "q": "В YAML-файле есть строка `country: NO`. Что получит парсер, реализующий YAML 1.1 (например, yaml.v2 или PyYAML), при разборе в `interface{}`?",
+      "options": [
+        "строку \"NO\"",
+        "bool false",
+        "null",
+        "ошибку разбора"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Это «норвежская проблема»: в YAML 1.1 булевыми считаются y/n, yes/no, on/off и true/false в разных вариантах регистра (no, No, NO и т. п.), а core schema YAML 1.2 оставила только true/false (а также True/TRUE и False/FALSE). Защищаются кавычками: `country: \"NO\"`."
+    },
+    {
+      "id": "04-029",
+      "lesson": "Работа с JSON, YAML",
+      "type": "single",
+      "q": "В `config.yaml` записано `version: 1.10`. Что окажется в `map[string]any` после разбора через yaml.v3?",
+      "options": [
+        "строка \"1.10\"",
+        "float64 1.1",
+        "int 110",
+        "строка \"1.1\""
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Срабатывает неявная типизация: `1.10` — корректное число с плавающей точкой, и хвостовой ноль теряется. Версии, почтовые индексы и телефоны поэтому пишут в кавычках."
+    },
+    {
+      "id": "04-030",
+      "lesson": "Работа с SQL базами данных",
+      "type": "single",
+      "q": "Что делает `sql.Open(\"pgx\", dsn)`?",
+      "options": [
+        "Открывает TCP-соединение и проверяет логин/пароль",
+        "Создаёт пул *sql.DB, проверяя наличие драйвера (и, в зависимости от драйвера, синтаксис DSN); соединения открываются лениво, проверить доступность — db.PingContext",
+        "Открывает ровно одно соединение, которое нужно закрывать после каждого запроса",
+        "Выполняет миграции"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Ошибка в пароле или адресе всплывёт только на первом запросе, поэтому при старте сервиса делают `Ping` с таймаутом."
+    },
+    {
+      "id": "04-031",
+      "lesson": "Работа с SQL базами данных",
+      "type": "single",
+      "q": "Таблица `users` пуста. Что вернут эти два вызова?",
+      "code": "err1 := db.QueryRowContext(ctx, `SELECT name FROM users WHERE id = ?`, 1).Scan(&name)\nrows, err2 := db.QueryContext(ctx, `SELECT name FROM users`)",
+      "options": [
+        "оба — sql.ErrNoRows",
+        "QueryRow(...).Scan вернёт sql.ErrNoRows; Query вернёт rows без ошибки, и цикл rows.Next() не выполнится ни разу",
+        "оба — nil",
+        "QueryRow вернёт nil, Query — sql.ErrNoRows"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`sql.ErrNoRows` возвращает только `QueryRow().Scan`. Пустой результат `Query` — нормальная ситуация, а не ошибка."
+    },
+    {
+      "id": "04-032",
+      "lesson": "Работа с SQL базами данных",
+      "type": "multi",
+      "q": "Что обязательно нужно сделать при работе с `*sql.Rows`?",
+      "options": [
+        "defer rows.Close() сразу после проверки ошибки Query",
+        "проверить rows.Err() после цикла for rows.Next()",
+        "вызвать rows.Next() до первого rows.Scan()",
+        "вызвать db.Close() после чтения, чтобы вернуть соединение в пул",
+        "вызывать rows.Scan() с числом аргументов, равным числу колонок"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explain": "`Close` возвращает соединение в пул (особенно важно при досрочном выходе из цикла), `Err` сообщает об ошибке посреди выборки, `Scan` без `Next` — ошибка, а число аргументов `Scan` должно совпадать с числом колонок. `db.Close` закрывает весь пул, так делать нельзя."
+    },
+    {
+      "id": "04-033",
+      "lesson": "Работа с SQL базами данных",
+      "type": "single",
+      "q": "Колонка `phone` может быть `NULL`. Что произойдёт при `rows.Scan(&phone)`, где `phone` имеет тип `string`, если в строке `NULL`?",
+      "options": [
+        "phone станет \"\"",
+        "ошибка: converting NULL to string is unsupported",
+        "phone станет \"NULL\"",
+        "паника"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "`database/sql` не пытается угадать, чем заменить `NULL`. Используйте `sql.NullString`, `sql.Null[string]`, `*string` или `COALESCE` в самом запросе."
+    },
+    {
+      "id": "04-034",
+      "lesson": "Работа с SQL базами данных",
+      "type": "single",
+      "q": "Пул настроен через `db.SetMaxOpenConns(1)`. Внутри транзакции `tx` код по ошибке вызывает `db.QueryRowContext(ctx, ...)` вместо `tx.QueryRowContext`. Что произойдёт?",
+      "options": [
+        "Запрос выполнится внутри транзакции",
+        "Запрос выполнится вне транзакции, всё продолжит работать",
+        "Запрос будет ждать свободного соединения, которое держит сама транзакция, — дедлок (до отмены ctx)",
+        "database/sql автоматически перенаправит запрос в tx"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Транзакция занимает соединение до `Commit` или `Rollback`, и при лимите в одно соединение `db` ждёт его вечно (или до таймаута контекста). При большем лимите запрос молча уйдёт в другое соединение вне транзакции, и такая ошибка ещё коварнее."
+    },
+    {
+      "id": "04-035",
+      "lesson": "Работа с SQL базами данных",
+      "type": "single",
+      "q": "Что вернёт `tx.Rollback()` в шаблоне `defer tx.Rollback()`, если транзакция уже успешно закоммичена?",
+      "options": [
+        "nil",
+        "sql.ErrTxDone — и её безопасно игнорировать",
+        "панику",
+        "откатит закоммиченные изменения"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "После `Commit` транзакция завершена, поэтому `Rollback` ничего не делает и возвращает `sql.ErrTxDone`. Именно поэтому `defer tx.Rollback()` — стандартная страховка на случай любого раннего `return`."
+    },
+    {
+      "id": "04-036",
+      "lesson": "Работа с SQL базами данных",
+      "type": "single",
+      "q": "Пользователь выбирает колонку для сортировки параметром `?sort=name`. Как безопасно подставить её в SQL?",
+      "options": [
+        "ORDER BY ? с аргументом sort",
+        "ORDER BY $1 в PostgreSQL",
+        "fmt.Sprintf с экранированием кавычек",
+        "сопоставить с белым списком допустимых колонок и подставить значение из него"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "Плейсхолдеры передают только значения, а не идентификаторы, так что `ORDER BY $1` отсортирует по константе. Имена колонок и направление сортировки берут из белого списка."
+    }
+  ]
+}

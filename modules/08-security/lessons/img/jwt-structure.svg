@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 212" role="img" aria-label="Структура JWT: три части в base64url через точку; header и payload — это JSON, подпись вычисляется над ASCII-строкой base64url(header).base64url(payload)" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Из чего состоит JWT</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+  </defs>
+
+  <!-- signing input -->
+  <path d="M20,34 v-8 h416 v8" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.7"/>
+  <text x="228" y="18" text-anchor="middle" font-size="11" opacity="0.8">signing input — ASCII-строка до второй точки</text>
+  <path d="M436,26 H556 V40" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="566" y="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">HMAC-SHA256</text>
+
+  <!-- токен -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <rect x="20" y="42" width="200" height="28" rx="3" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+    <text x="30" y="60" fill="#d97706">eyJhbGciOiJIUzI1NiIs…</text>
+    <text x="228" y="61" text-anchor="middle" font-size="16" font-weight="600">.</text>
+    <rect x="236" y="42" width="200" height="28" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.2"/>
+    <text x="246" y="60" fill="#7c3aed">eyJzdWIiOiIxMjM0NTY3…</text>
+    <text x="444" y="61" text-anchor="middle" font-size="16" font-weight="600">.</text>
+    <rect x="452" y="42" width="208" height="28" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="462" y="60" fill="#0891b2">SflKxwRJSMeKKF2QT4fw…</text>
+  </g>
+
+  <!-- декодирование -->
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="120" y1="70" x2="120" y2="94" marker-end="url(#arr)"/>
+    <line x1="336" y1="70" x2="336" y2="94" marker-end="url(#arr)"/>
+    <line x1="556" y1="70" x2="556" y2="94" marker-end="url(#arr)"/>
+  </g>
+  <g font-size="10.5" opacity="0.6">
+    <text x="126" y="86">base64url</text><text x="342" y="86">base64url</text><text x="562" y="86">base64url</text>
+  </g>
+
+  <rect x="20" y="96" width="200" height="80" rx="4" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="30" y="113" font-size="11" font-weight="600" fill="#d97706">header</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="30" y="131">{"alg": "HS256",</text>
+    <text x="38" y="147">"typ": "JWT"}</text>
+  </g>
+  <rect x="236" y="96" width="200" height="80" rx="4" fill="none" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="246" y="113" font-size="11" font-weight="600" fill="#7c3aed">payload (claims)</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="246" y="131">{"sub": "1234567890",</text>
+    <text x="254" y="147">"name": "John Doe",</text>
+    <text x="254" y="163">"iat": 1516239022}</text>
+  </g>
+  <rect x="452" y="96" width="208" height="80" rx="4" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="462" y="113" font-size="11" font-weight="600" fill="#0891b2">signature</text>
+  <text x="462" y="131" font-size="11">32 байта HMAC</text>
+  <text x="462" y="147" font-size="11" opacity="0.7">ES256: 64 байта R‖S</text>
+  <text x="462" y="163" font-size="11" opacity="0.7">RS256: размер модуля RSA</text>
+
+  <text x="20" y="202" font-size="11" fill="#d97706">base64url — это кодирование, а не шифрование: header и payload прочитает любой</text>
+</svg>

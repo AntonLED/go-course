@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 284" role="img" aria-label="Внешние клиенты ходят только в API Gateway, который аутентифицирует, ограничивает частоту и маршрутизирует запросы в catalog и orders. orders спрашивает service discovery, где inventory, получает список адресов реплик и сам балансирует между ними" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>API Gateway и service discovery</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-vio" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <text x="70" y="20" text-anchor="middle" font-size="11" opacity="0.6">внешние клиенты</text>
+  <text x="524" y="20" text-anchor="middle" font-size="11" opacity="0.6">внутренняя сеть</text>
+
+  <!-- клиенты -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="48" width="100" height="36" rx="4"/>
+    <rect x="20" y="120" width="100" height="36" rx="4"/>
+  </g>
+  <text x="70" y="70" text-anchor="middle">браузер</text>
+  <text x="70" y="142" text-anchor="middle">мобильное</text>
+  <g stroke="currentColor" stroke-width="1.4">
+    <line x1="120" y1="66" x2="170" y2="66" marker-end="url(#arr)"/>
+    <line x1="120" y1="138" x2="170" y2="138" marker-end="url(#arr)"/>
+  </g>
+  <text x="146" y="58" text-anchor="middle" font-size="10" opacity="0.7">HTTPS</text>
+  <text x="146" y="130" text-anchor="middle" font-size="10" opacity="0.7">HTTPS</text>
+
+  <!-- gateway -->
+  <rect x="172" y="36" width="156" height="140" rx="6" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="250" y="58" text-anchor="middle" font-weight="600" fill="#0891b2">API Gateway</text>
+  <g font-size="11" opacity="0.85">
+    <text x="186" y="82">• маршрутизация</text>
+    <text x="186" y="100">• аутентификация</text>
+    <text x="186" y="118">• rate limiting</text>
+    <text x="186" y="136">• агрегация ответов</text>
+    <text x="186" y="154">• REST ↔ gRPC</text>
+  </g>
+
+  <!-- сервисы -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="392" y="36" width="96" height="36" rx="4"/>
+    <rect x="392" y="108" width="96" height="36" rx="4"/>
+    <rect x="560" y="80" width="100" height="40" rx="4"/>
+    <rect x="560" y="136" width="100" height="40" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="440" y="58">catalog</text>
+    <text x="440" y="130">orders</text>
+    <text x="610" y="97">inventory</text>
+    <text x="610" y="153">inventory</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" text-anchor="middle" opacity="0.6">
+    <text x="610" y="112">10.0.1.7</text>
+    <text x="610" y="168">10.0.2.3</text>
+  </g>
+  <text x="610" y="70" text-anchor="middle" font-size="11" opacity="0.6">2 реплики</text>
+
+  <g stroke="#0891b2" stroke-width="1.4">
+    <line x1="328" y1="56" x2="390" y2="54" marker-end="url(#arr-acc)"/>
+    <line x1="328" y1="126" x2="390" y2="126" marker-end="url(#arr-acc)"/>
+  </g>
+  <text x="360" y="118" text-anchor="middle" font-size="10" fill="#0891b2">gRPC</text>
+  <text x="360" y="46" text-anchor="middle" font-size="10" fill="#0891b2">gRPC</text>
+
+  <!-- orders → реплики -->
+  <g stroke="currentColor" stroke-width="1.4">
+    <line x1="488" y1="120" x2="558" y2="102" marker-end="url(#arr)"/>
+    <line x1="488" y1="132" x2="558" y2="154" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- discovery -->
+  <rect x="392" y="220" width="268" height="52" rx="6" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="526" y="240" text-anchor="middle" font-size="12" fill="#7c3aed" font-weight="600">service discovery</text>
+  <text x="526" y="260" text-anchor="middle" font-size="12">реестр: Consul / etcd</text>
+
+  <line x1="420" y1="144" x2="420" y2="218" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#arr-vio)"/>
+  <line x1="460" y1="220" x2="460" y2="146" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arr-vio)"/>
+  <text x="412" y="188" text-anchor="end" font-size="11" fill="#7c3aed">где inventory?</text>
+  <text x="468" y="188" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#7c3aed">[10.0.1.7, 10.0.2.3]</text>
+  <text x="468" y="204" font-size="10" opacity="0.6">балансирует сам (client-side)</text>
+</svg>

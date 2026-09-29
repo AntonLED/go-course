@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 460" role="img" aria-label="Ревалидация по ETag: первый ответ 200 с ETag; повторный запрос с If-None-Match получает 304 без тела; после изменения файла ETag не совпадает и приходит 200 с новым телом" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>ETag и 304 Not Modified</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-amb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+  <rect x="16" y="12" width="148" height="34" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="90" y="34" text-anchor="middle" font-weight="600">браузер + кэш</text>
+  <rect x="504" y="12" width="160" height="34" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="584" y="34" text-anchor="middle" font-weight="600">сервер</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.35" stroke-dasharray="4 4"><line x1="90" y1="46" x2="90" y2="452"/><line x1="584" y1="46" x2="584" y2="452"/></g>
+  <line x1="90" y1="80" x2="582" y2="80" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="124" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="currentColor">GET /app.js</text>
+  <line x1="584" y1="118" x2="92" y2="118" stroke="#0891b2" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-acc)"/>
+  <text x="124" y="110" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#0891b2">200 OK</text>
+  <text x="124" y="138" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#0891b2">ETag: "3f9a1c2b7d4e8a60"</text>
+  <text x="124" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">Cache-Control: no-cache</text>
+  <text x="124" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">…тело 120 КБ…</text>
+  <text x="340" y="200" text-anchor="middle" font-size="11" opacity="0.7">— позже: хранить можно, но перед использованием спросить сервер —</text>
+  <line x1="90" y1="236" x2="582" y2="236" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="124" y="228" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="currentColor">GET /app.js</text>
+  <text x="124" y="256" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#0891b2">If-None-Match: "3f9a1c2b7d4e8a60"</text>
+  <rect x="360" y="268" width="216" height="26" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1"/><text x="370" y="285" font-size="11.5"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ServeContent</tspan>: ETag совпал → 304</text>
+  <line x1="584" y1="322" x2="92" y2="322" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-ok)"/>
+  <text x="124" y="314" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#16a34a">304 Not Modified</text>
+  <text x="124" y="342" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">ETag: "3f9a1c2b7d4e8a60"   без тела</text>
+  <text x="340" y="376" text-anchor="middle" font-size="11" opacity="0.7">— после деплоя файл другой, ETag другой —</text>
+  <line x1="90" y1="408" x2="582" y2="408" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="124" y="400" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="currentColor">GET, If-None-Match: "3f9a…"</text>
+  <line x1="584" y1="448" x2="92" y2="448" stroke="#d97706" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-amb)"/>
+  <text x="124" y="440" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#d97706">200 OK, ETag: "b71e0d…", новое тело</text>
+</svg>

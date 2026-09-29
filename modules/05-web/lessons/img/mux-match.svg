@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 308" role="img" aria-label="Как ServeMux 1.22 выбирает обработчик: самый специфичный паттерн побеждает, при совпадении пути без метода — 405 с Allow, без совпадений — 404" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Выбор паттерна в ServeMux</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="16" y="35" font-size="12" opacity="0.7">в mux:</text>
+  <g><rect x="72" y="16" width="88" height="26" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="116.0" y="33" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="currentColor">GET /users</text></g>
+  <g><rect x="168" y="16" width="96" height="26" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="216.0" y="33" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="currentColor">POST /users</text></g>
+  <g><rect x="272" y="16" width="124" height="26" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="334.0" y="33" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="currentColor">GET /users/{id}</text></g>
+  <g><rect x="404" y="16" width="117" height="26" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="462.5" y="33" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="currentColor">GET /users/new</text></g>
+  <line x1="16" y1="58" x2="664" y2="58" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+  <rect x="16" y="72" width="136" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="84" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">GET /users/new</text>
+  <line x1="156" y1="85" x2="172" y2="85" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <g opacity="0.45"><rect x="180" y="72" width="124" height="26" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/><text x="242.0" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="currentColor">GET /users/{id}</text></g>
+  <g><rect x="312" y="72" width="117" height="26" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2"/><text x="370.5" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#0891b2">GET /users/new</text></g>
+  <line x1="433" y1="85" x2="456" y2="85" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="460" y="72" width="204" height="26" rx="4" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/><text x="468" y="89" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#16a34a">200: /users/new специфичнее</text>
+  <rect x="16" y="112" width="136" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="84" y="129" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">GET /users/42</text>
+  <line x1="156" y1="125" x2="172" y2="125" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <g><rect x="180" y="112" width="124" height="26" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2"/><text x="242.0" y="129" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#0891b2">GET /users/{id}</text></g>
+  <line x1="308" y1="125" x2="456" y2="125" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="460" y="112" width="204" height="26" rx="4" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1.2"/><text x="468" y="129" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#16a34a">200: PathValue("id") = "42"</text>
+  <rect x="16" y="152" width="136" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="84" y="169" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">DELETE /users/42</text>
+  <line x1="156" y1="165" x2="172" y2="165" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <g><rect x="180" y="152" width="124" height="26" rx="4" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-width="1.2"/><text x="242.0" y="169" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#d97706">GET /users/{id}</text></g>
+  <line x1="308" y1="165" x2="456" y2="165" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="460" y="152" width="204" height="26" rx="4" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/><text x="468" y="169" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#d97706">405, Allow: GET, HEAD</text>
+  <rect x="16" y="192" width="136" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="84" y="209" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">PUT /users</text>
+  <line x1="156" y1="205" x2="172" y2="205" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <g><rect x="180" y="192" width="88" height="26" rx="4" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-width="1.2"/><text x="224.0" y="209" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#d97706">GET /users</text></g>
+  <g><rect x="276" y="192" width="96" height="26" rx="4" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-width="1.2"/><text x="324.0" y="209" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#d97706">POST /users</text></g>
+  <line x1="376" y1="205" x2="456" y2="205" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="460" y="192" width="204" height="26" rx="4" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/><text x="468" y="209" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#d97706">405, Allow: GET, HEAD, POST</text>
+  <rect x="16" y="232" width="136" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="84" y="249" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">GET /orders</text>
+  <line x1="156" y1="245" x2="172" y2="245" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="180" y="249" font-size="12" opacity="0.7">ни один путь не совпал</text>
+  <line x1="340" y1="245" x2="456" y2="245" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <rect x="460" y="232" width="204" height="26" rx="4" fill="#dc2626" fill-opacity="0.14" stroke="#dc2626" stroke-width="1.2"/><text x="468" y="249" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#dc2626">404 Not Found</text>
+  <g font-size="11" opacity="0.75"><text x="16" y="282">бирюзовый — выбранный паттерн, бледный — совпал, но проиграл по специфичности;</text><text x="16" y="298">янтарный — путь совпал, а метод нет: mux отвечает 405 и перечисляет методы в <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Allow</tspan> (GET даёт и HEAD)</text></g>
+</svg>

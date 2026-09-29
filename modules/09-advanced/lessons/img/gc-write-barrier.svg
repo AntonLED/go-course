@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 232" role="img" aria-label="Во время маркировки мутатор записывает A.p = C в чёрный объект A и затирает B.q, единственную ссылку на C из серого B. Без барьера C остаётся белым и будет освобождён, хотя достижим. Write barrier красит C в серый, и GC его просканирует" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Зачем нужен write barrier</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <text x="340" y="18" text-anchor="middle" font-size="12">мутатор во время mark: <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600">A.p = C; B.q = nil</tspan></text>
+
+  <rect x="12" y="32" width="320" height="192" rx="8" fill="#dc2626" fill-opacity="0.05" stroke="#dc2626" stroke-opacity="0.5"/>
+  <rect x="348" y="32" width="320" height="192" rx="8" fill="#16a34a" fill-opacity="0.05" stroke="#16a34a" stroke-opacity="0.5"/>
+  <g font-size="12" font-weight="600">
+    <text x="28" y="54" fill="#dc2626">без барьера</text>
+    <text x="364" y="54" fill="#16a34a">с write barrier</text>
+  </g>
+
+  <!-- левая панель -->
+  <g>
+    <circle cx="92" cy="92" r="13" fill="#0891b2" fill-opacity="0.9" stroke="#0891b2"/>
+    <circle cx="252" cy="92" r="13" fill="#0891b2" fill-opacity="0.3" stroke="#0891b2"/>
+    <circle cx="172" cy="164" r="13" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626"/>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+      <text x="70" y="96" text-anchor="end">A</text><text x="274" y="96">B</text><text x="194" y="168" fill="#dc2626">C</text>
+    </g>
+    <g font-size="11" opacity="0.6" text-anchor="middle"><text x="92" y="122">чёрный</text><text x="252" y="122">серый</text></g>
+    <line x1="102" y1="101" x2="160" y2="154" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <text x="118" y="146" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">A.p</text>
+    <line x1="242" y1="101" x2="184" y2="154" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.4"/>
+    <text x="220" y="136" font-size="14" fill="#dc2626" text-anchor="middle">✕</text>
+    <text x="172" y="198" text-anchor="middle" font-size="11" fill="#dc2626">A уже не пересканируют — C белый,</text>
+    <text x="172" y="212" text-anchor="middle" font-size="11" fill="#dc2626">sweep освободит достижимый объект</text>
+  </g>
+
+  <!-- правая панель -->
+  <g>
+    <circle cx="428" cy="92" r="13" fill="#0891b2" fill-opacity="0.9" stroke="#0891b2"/>
+    <circle cx="588" cy="92" r="13" fill="#0891b2" fill-opacity="0.3" stroke="#0891b2"/>
+    <circle cx="508" cy="164" r="13" fill="#0891b2" fill-opacity="0.3" stroke="#0891b2" stroke-width="2"/>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+      <text x="406" y="96" text-anchor="end">A</text><text x="610" y="96">B</text><text x="530" y="168" fill="#16a34a">C</text>
+    </g>
+    <g font-size="11" opacity="0.6" text-anchor="middle"><text x="428" y="122">чёрный</text><text x="588" y="122">серый</text></g>
+    <line x1="438" y1="101" x2="496" y2="154" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <text x="454" y="146" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">A.p</text>
+    <line x1="578" y1="101" x2="520" y2="154" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.4"/>
+    <text x="556" y="136" font-size="14" fill="#dc2626" text-anchor="middle">✕</text>
+    <text x="508" y="198" text-anchor="middle" font-size="11" fill="#16a34a">барьер красит C (новый и затёртый</text>
+    <text x="508" y="212" text-anchor="middle" font-size="11" fill="#16a34a">указатель) в серый → C просканируют</text>
+  </g>
+</svg>

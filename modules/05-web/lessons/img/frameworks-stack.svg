@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 338" role="img" aria-label="ServeMux, chi и gorilla/mux — это http.Handler; gin и echo тоже реализуют http.Handler снаружи, но внутри у них свои хендлеры и контекст; fiber построен на fasthttp и с net/http не совместим" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Фреймворки и net/http</title>
+
+  <text x="16" y="20" font-weight="600">поверх net/http</text>
+  <text x="472" y="20" font-weight="600">поверх fasthttp</text>
+
+  <!-- полностью -->
+  <rect x="16" y="32" width="208" height="92" rx="6" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="120" y="52" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="600">совместимы полностью</text>
+  <text x="120" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">ServeMux · chi</text>
+  <text x="120" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">gorilla/mux</text>
+  <text x="120" y="113" text-anchor="middle" font-size="11" opacity="0.8">хендлеры и middleware — std</text>
+
+  <!-- частично -->
+  <rect x="236" y="32" width="208" height="92" rx="6" fill="#d97706" fill-opacity="0.1" stroke="#d97706" stroke-width="1.3"/>
+  <text x="340" y="52" text-anchor="middle" font-size="12" fill="#d97706" font-weight="600">частично</text>
+  <text x="340" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">gin · echo</text>
+  <text x="340" y="95" text-anchor="middle" font-size="11" opacity="0.8">внутри свой Context и хендлеры;</text>
+  <text x="340" y="112" text-anchor="middle" font-size="11" opacity="0.8">std-хендлеры — через адаптеры</text>
+
+  <!-- fiber -->
+  <rect x="472" y="32" width="192" height="92" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-width="1.3"/>
+  <text x="568" y="52" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="600">несовместим</text>
+  <text x="568" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">fiber</text>
+  <text x="568" y="93" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.8">*fiber.Ctx</text>
+  <text x="568" y="112" text-anchor="middle" font-size="11" opacity="0.8">буферы переиспользуются</text>
+
+  <!-- интерфейсы -->
+  <rect x="16" y="140" width="428" height="32" rx="4" fill="#0891b2" fill-opacity="0.16" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="230" y="161" text-anchor="middle" font-size="12" fill="#0891b2"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">http.Handler</tspan> — реализуют все, в т. ч. gin.Engine и echo.Echo</text>
+  <rect x="472" y="140" width="192" height="32" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="568" y="161" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">fasthttp.RequestHandler</text>
+
+  <!-- серверы -->
+  <rect x="16" y="188" width="428" height="32" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="230" y="209" text-anchor="middle"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">http.Server</tspan> — HTTP/1.1, HTTP/2, таймауты</text>
+  <rect x="472" y="188" width="192" height="32" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="568" y="209" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">fasthttp.Server</text>
+
+  <rect x="16" y="236" width="648" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6"/>
+  <text x="340" y="255" text-anchor="middle" opacity="0.8">TCP / TLS</text>
+
+  <line x1="458" y1="28" x2="458" y2="224" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+
+  <g font-size="11">
+    <text x="16" y="290" fill="#16a34a">слева работает весь стек: httptest, otelhttp,</text>
+    <text x="16" y="306" fill="#16a34a">любые <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">func(http.Handler) http.Handler</tspan></text>
+    <text x="472" y="290" fill="#dc2626">std-middleware, httptest, otelhttp</text>
+    <text x="472" y="306" fill="#dc2626">не работают; HTTP/2 нет;</text>
+    <text x="472" y="322" fill="#dc2626">адаптер есть, но с копированием</text>
+  </g>
+</svg>

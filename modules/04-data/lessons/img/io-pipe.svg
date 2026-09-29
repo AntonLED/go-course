@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" role="img" aria-label="io.Pipe: каждый pw.Write блокируется, пока pr.Read не заберёт байты; pw.Close даёт читателю io.EOF, CloseWithError — ошибку, pr.Close — ErrClosedPipe у писателя" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>io.Pipe: синхронная передача между горутинами</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ac" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+    <marker id="ag" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+
+  <!-- участники -->
+  <rect x="96" y="8" width="176" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="184" y="25" text-anchor="middle" font-weight="600">горутина-писатель</text>
+  <text x="184" y="41" text-anchor="middle" font-size="11" opacity="0.7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">json.Encoder → pw</text>
+  <rect x="428" y="8" width="176" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="516" y="25" text-anchor="middle" font-weight="600">читатель</text>
+  <text x="516" y="41" text-anchor="middle" font-size="11" opacity="0.7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">http.Post читает pr</text>
+
+  <g stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.5">
+    <line x1="184" y1="48" x2="184" y2="322"/>
+    <line x1="516" y1="48" x2="516" y2="322"/>
+  </g>
+
+  <!-- 1. Write ждёт -->
+  <rect x="178" y="64" width="12" height="54" fill="#d97706" fill-opacity="0.35" stroke="#d97706" stroke-width="1"/>
+  <text x="170" y="78" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">pw.Write(b)</text>
+  <text x="170" y="94" text-anchor="end" font-size="11" fill="#d97706">блокирован,</text>
+  <text x="170" y="108" text-anchor="end" font-size="11" fill="#d97706">буфера нет</text>
+
+  <!-- 2. Read забирает -->
+  <text x="530" y="104" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">pr.Read(p)</text>
+  <line x1="190" y1="108" x2="512" y2="108" stroke="#0891b2" stroke-width="1.4" marker-end="url(#ac)"/>
+  <text x="350" y="101" text-anchor="middle" font-size="12" fill="#0891b2">байты b копируются прямо в p</text>
+  <text x="196" y="132" font-size="11" opacity="0.7">Write вернул n, nil — пишем следующий item</text>
+
+  <text x="350" y="160" text-anchor="middle" font-size="12" opacity="0.6">… так для каждого item …</text>
+
+  <!-- 3. Close -->
+  <text x="170" y="196" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">pw.Close()</text>
+  <line x1="188" y1="192" x2="512" y2="192" stroke="#16a34a" stroke-width="1.4" marker-end="url(#ag)"/>
+  <text x="530" y="196" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#16a34a">Read: 0, io.EOF</text>
+
+  <!-- 4. CloseWithError -->
+  <text x="170" y="236" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">pw.CloseWithError(err)</text>
+  <line x1="188" y1="232" x2="512" y2="232" stroke="#dc2626" stroke-width="1.4" marker-end="url(#ar)"/>
+  <text x="530" y="236" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">Read: 0, err</text>
+  <text x="350" y="225" text-anchor="middle" font-size="11" opacity="0.7">или, при ошибке кодирования</text>
+
+  <!-- 5. читатель ушёл -->
+  <text x="530" y="276" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">pr.Close()</text>
+  <line x1="512" y1="272" x2="188" y2="272" stroke="#dc2626" stroke-width="1.4" marker-end="url(#ar)"/>
+  <text x="170" y="270" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">Write:</text>
+  <text x="170" y="285" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">io.ErrClosedPipe</text>
+  <text x="350" y="265" text-anchor="middle" font-size="11" opacity="0.7">читатель ушёл раньше</text>
+
+  <text x="350" y="316" text-anchor="middle" font-size="12" fill="#dc2626">писатель не вызвал Close → Read ждёт вечно</text>
+</svg>

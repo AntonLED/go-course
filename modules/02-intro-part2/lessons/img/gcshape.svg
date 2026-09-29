@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 290" role="img" aria-label="GC shape stenciling: Sum[int] и Sum[MyInt] имеют одну форму и делят код Sum[go.shape.int], каждая передаёт свой словарь; Sum[float64] получает свою копию; Show[*User] и Show[*Order] делят код для всех указателей и вызывают String через словарь" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>GC shape stenciling и словари</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <g font-size="11" opacity="0.6">
+    <text x="20" y="20">вызов</text>
+    <text x="216" y="20">скрытый аргумент — словарь</text>
+    <text x="456" y="20">машинный код (по копии на форму)</text>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <!-- calls -->
+    <text x="20" y="54">Sum[int]</text>
+    <text x="20" y="94">Sum[MyInt]</text>
+    <text x="20" y="150">Sum[float64]</text>
+    <text x="20" y="214">Show[*User]</text>
+    <text x="20" y="254">Show[*Order]</text>
+  </g>
+
+  <!-- dictionaries -->
+  <g fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2">
+    <rect x="216" y="36" width="168" height="28" rx="4"/>
+    <rect x="216" y="76" width="168" height="28" rx="4"/>
+    <rect x="216" y="132" width="168" height="28" rx="4"/>
+    <rect x="216" y="196" width="168" height="28" rx="4"/>
+    <rect x="216" y="236" width="168" height="28" rx="4"/>
+  </g>
+  <g font-size="12">
+    <text x="228" y="55">словарь: int</text>
+    <text x="228" y="95">словарь: MyInt</text>
+    <text x="228" y="151">словарь: float64</text>
+    <text x="228" y="215">словарь: *User.String</text>
+    <text x="228" y="255">словарь: *Order.String</text>
+  </g>
+
+  <!-- shapes -->
+  <g fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2">
+    <rect x="456" y="48" width="208" height="44" rx="4"/>
+    <rect x="456" y="124" width="208" height="44" rx="4"/>
+    <rect x="456" y="208" width="208" height="44" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="468" y="75">Sum[go.shape.int]</text>
+    <text x="468" y="151">Sum[go.shape.float64]</text>
+    <text x="468" y="235">Show[go.shape.*uint8]</text>
+  </g>
+  <text x="560" y="276" text-anchor="middle" font-size="11" opacity="0.7">все указатели — одна форма</text>
+
+  <!-- call → dict -->
+  <g stroke="currentColor" stroke-width="1" opacity="0.4">
+    <line x1="140" y1="50" x2="212" y2="50"/>
+    <line x1="140" y1="90" x2="212" y2="90"/>
+    <line x1="140" y1="146" x2="212" y2="146"/>
+    <line x1="140" y1="210" x2="212" y2="210"/>
+    <line x1="140" y1="250" x2="212" y2="250"/>
+  </g>
+  <!-- dict → shape -->
+  <g stroke="currentColor" stroke-width="1.4" fill="none">
+    <path d="M384,50 H416 V70 H454" marker-end="url(#arr)"/>
+    <path d="M384,90 H416 V70"/>
+    <path d="M384,146 H454" marker-end="url(#arr)"/>
+    <path d="M384,210 H416 V230 H454" marker-end="url(#arr)"/>
+    <path d="M384,250 H416 V230"/>
+  </g>
+</svg>

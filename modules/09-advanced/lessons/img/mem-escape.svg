@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260" role="img" aria-label="Стек горутины: кадр main с указателем p и кадр newUser, который исчезает при return. Поскольку &amp;u переживает функцию, компилятор размещает u в куче; p указывает на объект User в куче, его освободит GC" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Escape: указатель пережил функцию — объект в куче</title>
+  <defs>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <g font-weight="600" text-anchor="middle">
+    <text x="150" y="20">стек горутины</text>
+    <text x="520" y="20">куча</text>
+  </g>
+  <g font-size="11" opacity="0.6" text-anchor="middle">
+    <text x="150" y="36">свой у каждой горутины, от ~2 КБ</text>
+    <text x="520" y="36">общая, освобождает GC</text>
+  </g>
+
+  <!-- стек -->
+  <rect x="40" y="48" width="220" height="184" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <!-- кадр main -->
+  <rect x="52" y="60" width="196" height="68" rx="3" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.5"/>
+  <text x="62" y="78" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">main</text>
+  <text x="62" y="98" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.7">p := newUser()</text>
+  <rect x="172" y="102" width="64" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="204" y="116" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">p</text>
+
+  <!-- кадр newUser (снят) -->
+  <rect x="52" y="136" width="196" height="68" rx="3" fill="none" stroke="#dc2626" stroke-dasharray="5 3"/>
+  <text x="62" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" opacity="0.6">newUser</text>
+  <text x="62" y="174" font-size="11" fill="#dc2626">кадр снят при return:</text>
+  <text x="62" y="190" font-size="11" fill="#dc2626">u здесь жить не может</text>
+
+  <text x="150" y="224" text-anchor="middle" font-size="11" opacity="0.6">освобождение = сдвиг SP</text>
+
+  <!-- куча -->
+  <rect x="380" y="48" width="280" height="184" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.3">
+    <rect x="396" y="64" width="72" height="28" rx="3"/>
+    <rect x="484" y="64" width="56" height="28" rx="3"/>
+    <rect x="556" y="64" width="88" height="28" rx="3"/>
+    <rect x="396" y="184" width="104" height="28" rx="3"/>
+    <rect x="516" y="184" width="64" height="28" rx="3"/>
+  </g>
+  <rect x="452" y="118" width="136" height="44" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="520" y="137" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">User{}</text>
+  <text x="520" y="154" text-anchor="middle" font-size="11" opacity="0.7">moved to heap: u</text>
+
+  <!-- указатель -->
+  <path d="M236,112 C320,112 380,140 448,140" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="330" y="108" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">return &amp;u</text>
+  <path d="M248,170 C320,170 390,160 448,154" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr-bad)"/>
+  <text x="330" y="186" text-anchor="middle" font-size="11" fill="#dc2626">escape</text>
+
+  <text x="340" y="252" text-anchor="middle" font-size="11" opacity="0.7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">go build -gcflags=-m: ./a.go:3:2: moved to heap: u</text>
+</svg>

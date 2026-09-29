@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 352" role="img" aria-label="Временная шкала таймаутов http.Server: ReadHeaderTimeout и ReadTimeout отсчитываются от начала чтения запроса, WriteTimeout — от конца чтения заголовков, IdleTimeout — от конца ответа до первых байт следующего запроса" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Таймауты http.Server на шкале времени</title>
+
+  <!-- фазы соединения -->
+  <text x="16" y="37" font-weight="600">соединение</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="160" y="20" width="72" height="26" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.2"/>
+    <text x="196" y="37">заголовки</text>
+    <rect x="232" y="20" width="248" height="26" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="356" y="37" fill="#0891b2"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ServeHTTP</tspan>: читает тело, пишет ответ</text>
+    <rect x="480" y="20" width="116" height="26" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+    <text x="538" y="37" fill="#d97706">idle (keep-alive)</text>
+    <rect x="596" y="20" width="68" height="26" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1.2"/>
+    <text x="630" y="37">запрос 2</text>
+  </g>
+
+  <!-- направляющие -->
+  <g stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.4">
+    <line x1="160" y1="46" x2="160" y2="266"/>
+    <line x1="232" y1="46" x2="232" y2="282"/>
+    <line x1="480" y1="46" x2="480" y2="266"/>
+    <line x1="596" y1="46" x2="596" y2="282"/>
+  </g>
+
+  <!-- полосы таймаутов -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="16" y="85">ReadHeaderTimeout</text>
+    <text x="16" y="129">ReadTimeout</text>
+    <text x="16" y="173">WriteTimeout</text>
+    <text x="16" y="217">IdleTimeout</text>
+    <text x="16" y="253" opacity="0.6">ReadHeaderTimeout</text>
+  </g>
+
+  <!-- ReadHeaderTimeout -->
+  <rect x="160" y="74" width="112" height="14" rx="2" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2" stroke-width="1.2"/>
+  <line x1="272" y1="68" x2="272" y2="94" stroke="#0891b2" stroke-width="2"/>
+  <text x="280" y="85" font-size="11" opacity="0.8">заголовки — до черты</text>
+
+  <!-- ReadTimeout -->
+  <rect x="160" y="118" width="192" height="14" rx="2" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2" stroke-width="1.2"/>
+  <line x1="352" y1="112" x2="352" y2="138" stroke="#0891b2" stroke-width="2"/>
+  <text x="360" y="129" font-size="11" opacity="0.8">заголовки + тело</text>
+
+  <!-- WriteTimeout -->
+  <rect x="232" y="160" width="296" height="18" rx="2" fill="#7c3aed" fill-opacity="0.18" stroke="#7c3aed" stroke-width="1.2"/>
+  <line x1="528" y1="156" x2="528" y2="182" stroke="#7c3aed" stroke-width="2"/>
+  <text x="352" y="173" font-size="11" text-anchor="middle" fill="#7c3aed">весь ответ должен уйти до черты</text>
+
+  <!-- IdleTimeout -->
+  <rect x="480" y="206" width="116" height="14" rx="2" fill="#d97706" fill-opacity="0.18" stroke="#d97706" stroke-width="1.2"/>
+  <rect x="596" y="206" width="44" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="640" y1="200" x2="640" y2="226" stroke="#d97706" stroke-width="2"/>
+  <text x="472" y="217" font-size="11" text-anchor="end" opacity="0.8">0 → берётся ReadTimeout</text>
+
+  <!-- следующий запрос -->
+  <rect x="596" y="242" width="68" height="14" rx="2" fill="#0891b2" fill-opacity="0.1" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <text x="588" y="253" font-size="11" text-anchor="end" opacity="0.8">отсчёт заново</text>
+
+  <!-- события -->
+  <g font-size="11" text-anchor="middle">
+    <text x="160" y="280">t₀: начало запроса</text>
+    <text x="480" y="280">ответ отправлен</text>
+    <text x="232" y="298">заголовки прочитаны</text>
+    <text x="596" y="298">байты запроса 2</text>
+  </g>
+  <text x="16" y="328" font-size="11" opacity="0.6">t₀ — начало readRequest: у первого запроса сразу после Accept (и TLS-рукопожатия),</text>
+  <text x="16" y="344" font-size="11" opacity="0.6">у следующих — когда пришли первые байты. Черта — дедлайн на сокете; после неё Read/Write вернут ошибку.</text>
+</svg>

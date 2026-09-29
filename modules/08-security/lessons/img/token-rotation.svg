@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 24 680 196" role="img" aria-label="Access и refresh токены во времени: короткие access-токены обновляются обменом refresh-токена, каждый обмен выдаёт новый refresh и гасит старый; повторное предъявление старого refresh-токена отзывает всю цепочку" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Access и refresh токены с ротацией</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-r" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+  <g font-size="12"><text x="20" y="53">access</text><text x="20" y="113">refresh</text><text x="20" y="173" fill="#dc2626">атакующий</text></g>
+  <rect x="111" y="40" width="133" height="20" rx="3" fill="#0891b2" fill-opacity="0.22" stroke="#0891b2"/>
+  <text x="177.5" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">A1 · 15 мин</text>
+  <rect x="246" y="40" width="133" height="20" rx="3" fill="#0891b2" fill-opacity="0.22" stroke="#0891b2"/>
+  <text x="312.5" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">A2 · 15 мин</text>
+  <rect x="381" y="40" width="133" height="20" rx="3" fill="#0891b2" fill-opacity="0.22" stroke="#0891b2"/>
+  <text x="447.5" y="54" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">A3 · 15 мин</text>
+  <rect x="111" y="100" width="133" height="20" rx="3" fill="#7c3aed" fill-opacity="0.22" stroke="#7c3aed"/>
+  <text x="177.5" y="114" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">R1</text>
+  <rect x="246" y="100" width="133" height="20" rx="3" fill="#7c3aed" fill-opacity="0.22" stroke="#7c3aed"/>
+  <text x="312.5" y="114" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">R2</text>
+  <rect x="381" y="100" width="89" height="20" rx="3" fill="#7c3aed" fill-opacity="0.22" stroke="#7c3aed"/>
+  <text x="425.0" y="114" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">R3</text>
+  <rect x="470" y="100" width="180" height="20" rx="3" fill="none" stroke="#dc2626" stroke-dasharray="4 3"/>
+  <text x="560.0" y="114" text-anchor="middle" font-size="11" fill="#dc2626">цепочка отозвана</text>
+  <line x1="245" y1="98" x2="245" y2="64" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="251" y="84" font-size="10.5" opacity="0.8">R1 → A2 + R2</text>
+  <line x1="380" y1="98" x2="380" y2="64" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="386" y="84" font-size="10.5" opacity="0.8">R2 → A3 + R3</text>
+  <text x="116" y="136" font-size="10.5" opacity="0.6">использованный R больше не принимается</text>
+  <circle cx="470" cy="168" r="5" fill="#dc2626"/>
+  <line x1="470" y1="162" x2="470" y2="123" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-r)"/>
+  <text x="460" y="172" text-anchor="end" font-size="11" fill="#dc2626">повтор украденного R1 → reuse detection</text>
+  <line x1="110" y1="194" x2="650" y2="194" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="110" y1="194" x2="110" y2="199" stroke="currentColor" opacity="0.5"/>
+  <text x="110" y="212" text-anchor="middle" font-size="11" opacity="0.6">0 мин</text>
+  <line x1="245" y1="194" x2="245" y2="199" stroke="currentColor" opacity="0.5"/>
+  <text x="245" y="212" text-anchor="middle" font-size="11" opacity="0.6">15 мин</text>
+  <line x1="380" y1="194" x2="380" y2="199" stroke="currentColor" opacity="0.5"/>
+  <text x="380" y="212" text-anchor="middle" font-size="11" opacity="0.6">30 мин</text>
+  <line x1="515" y1="194" x2="515" y2="199" stroke="currentColor" opacity="0.5"/>
+  <text x="515" y="212" text-anchor="middle" font-size="11" opacity="0.6">45 мин</text>
+  <line x1="650" y1="194" x2="650" y2="199" stroke="currentColor" opacity="0.5"/>
+  <text x="650" y="212" text-anchor="middle" font-size="11" opacity="0.6">60 мин</text>
+</svg>

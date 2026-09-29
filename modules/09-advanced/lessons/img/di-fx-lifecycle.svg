@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 284" role="img" aria-label="Хуки OnStart вызываются в порядке регистрации: DB, Worker, HTTP; после сигнала OnStop вызываются в обратном порядке: HTTP, Worker, DB. Если OnStart HTTP упал, останавливаются только уже запущенные Worker и DB, тоже в обратном порядке" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Жизненный цикл fx: OnStart по порядку, OnStop в обратном</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- дорожки -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="12" y="45">1 NewDB</text>
+    <text x="12" y="81">2 NewWorker</text>
+    <text x="12" y="117">3 NewHTTPServer</text>
+  </g>
+  <g stroke="currentColor" stroke-opacity="0.15">
+    <line x1="140" y1="40" x2="660" y2="40"/><line x1="140" y1="76" x2="660" y2="76"/><line x1="140" y1="112" x2="660" y2="112"/>
+  </g>
+
+  <!-- работает -->
+  <g stroke="#16a34a" stroke-width="3" stroke-opacity="0.5">
+    <line x1="200" y1="40" x2="580" y2="40"/>
+    <line x1="260" y1="76" x2="520" y2="76"/>
+    <line x1="320" y1="112" x2="460" y2="112"/>
+  </g>
+
+  <!-- OnStart -->
+  <g fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2">
+    <rect x="140" y="28" width="60" height="24" rx="3"/>
+    <rect x="200" y="64" width="60" height="24" rx="3"/>
+    <rect x="260" y="100" width="60" height="24" rx="3"/>
+  </g>
+  <!-- OnStop -->
+  <g fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-width="1.2">
+    <rect x="580" y="28" width="60" height="24" rx="3"/>
+    <rect x="520" y="64" width="60" height="24" rx="3"/>
+    <rect x="460" y="100" width="60" height="24" rx="3"/>
+  </g>
+  <g font-size="11" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="170" y="44" fill="#0891b2">Ping</text>
+    <text x="230" y="80" fill="#0891b2">go run</text>
+    <text x="290" y="116" fill="#0891b2">Listen</text>
+    <text x="610" y="44" fill="#d97706">Close</text>
+    <text x="550" y="80" fill="#d97706">stop</text>
+    <text x="490" y="116" fill="#d97706" font-size="10">Shutdown</text>
+  </g>
+
+  <!-- сигнал -->
+  <line x1="460" y1="18" x2="460" y2="136" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity="0.7"/>
+  <text x="460" y="14" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">SIGTERM</text>
+  <text x="390" y="62" text-anchor="middle" font-size="11" opacity="0.6">Run: ждём сигнал</text>
+
+  <!-- фазы -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
+    <path d="M140,140 v6 h180 v-6"/>
+    <path d="M460,140 v6 h180 v-6"/>
+  </g>
+  <g font-size="11" text-anchor="middle">
+    <text x="230" y="162"><tspan fill="#0891b2" font-weight="600">OnStart</tspan> в порядке регистрации</text>
+    <text x="230" y="176" opacity="0.6">всё вместе ≤ fx.StartTimeout (15 с)</text>
+    <text x="550" y="162"><tspan fill="#d97706" font-weight="600">OnStop</tspan> в обратном порядке</text>
+    <text x="550" y="176" opacity="0.6">всё вместе ≤ fx.StopTimeout (15 с)</text>
+  </g>
+
+  <!-- откат -->
+  <line x1="12" y1="196" x2="668" y2="196" stroke="currentColor" stroke-opacity="0.2"/>
+  <text x="12" y="220" font-weight="600">Откат, если OnStart упал:</text>
+  <g font-size="10.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="middle">
+    <rect x="12" y="236" width="120" height="28" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+    <text x="72" y="254">DB.OnStart ✓</text>
+    <rect x="144" y="236" width="120" height="28" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+    <text x="204" y="254">Worker.OnStart ✓</text>
+    <rect x="276" y="236" width="120" height="28" rx="3" fill="#dc2626" fill-opacity="0.15" stroke="#dc2626"/>
+    <text x="336" y="254" fill="#dc2626">HTTP.OnStart ✗</text>
+    <rect x="408" y="236" width="120" height="28" rx="3" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+    <text x="468" y="254">Worker.OnStop</text>
+    <rect x="540" y="236" width="120" height="28" rx="3" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+    <text x="600" y="254">DB.OnStop</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.3">
+    <line x1="132" y1="250" x2="140" y2="250" marker-end="url(#arr)"/>
+    <line x1="264" y1="250" x2="272" y2="250" marker-end="url(#arr)"/>
+    <line x1="396" y1="250" x2="404" y2="250" marker-end="url(#arr)"/>
+    <line x1="528" y1="250" x2="536" y2="250" marker-end="url(#arr)"/>
+  </g>
+  <text x="532" y="280" text-anchor="middle" font-size="11" opacity="0.6">останавливаются только запущенные</text>
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 296" role="img" aria-label="Три клиента ретраят с экспоненциальной паузой 100, 200, 400 мс. Без джиттера все повторы совпадают по времени и бьют в сервер пачками; с full jitter паузы случайны в пределах [0, backoff] и запросы размазываются" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Экспоненциальный backoff и джиттер</title>
+  <text x="20" y="18" font-weight="600">Без джиттера: пауза = 100 мс · 2<tspan dy="-5" font-size="9">n−1</tspan></text>
+  <rect x="175.0" y="36" width="18" height="70" rx="3" fill="#dc2626" fill-opacity="0.14"/>
+  <rect x="303.0" y="36" width="18" height="70" rx="3" fill="#dc2626" fill-opacity="0.14"/>
+  <rect x="559.0" y="36" width="18" height="70" rx="3" fill="#dc2626" fill-opacity="0.14"/>
+  <text x="20" y="52" font-size="12" opacity="0.8">клиент 1</text>
+  <line x1="120" y1="48" x2="632" y2="48" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+  <circle cx="120.0" cy="48" r="5" fill="#dc2626"/>
+  <circle cx="184.0" cy="48" r="5" fill="#dc2626"/>
+  <circle cx="312.0" cy="48" r="5" fill="#dc2626"/>
+  <circle cx="568.0" cy="48" r="5" fill="#16a34a"/>
+  <text x="20" y="76" font-size="12" opacity="0.8">клиент 2</text>
+  <line x1="120" y1="72" x2="632" y2="72" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+  <circle cx="120.0" cy="72" r="5" fill="#dc2626"/>
+  <circle cx="184.0" cy="72" r="5" fill="#dc2626"/>
+  <circle cx="312.0" cy="72" r="5" fill="#dc2626"/>
+  <circle cx="568.0" cy="72" r="5" fill="#16a34a"/>
+  <text x="20" y="100" font-size="12" opacity="0.8">клиент 3</text>
+  <line x1="120" y1="96" x2="632" y2="96" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+  <circle cx="120.0" cy="96" r="5" fill="#dc2626"/>
+  <circle cx="184.0" cy="96" r="5" fill="#dc2626"/>
+  <circle cx="312.0" cy="96" r="5" fill="#dc2626"/>
+  <circle cx="568.0" cy="96" r="5" fill="#16a34a"/>
+  <text x="152.0" y="41" text-anchor="middle" font-size="10" opacity="0.7">100</text>
+  <text x="248.0" y="41" text-anchor="middle" font-size="10" opacity="0.7">200</text>
+  <text x="440.0" y="41" text-anchor="middle" font-size="10" opacity="0.7">400 мс</text>
+  <text x="120" y="124" font-size="11" fill="#dc2626">повторы совпадают: сервер получает запросы пачками (retry storm)</text>
+  <line x1="20" y1="140" x2="660" y2="140" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-dasharray="4 4"/>
+  <text x="20" y="164" font-weight="600">Full jitter: пауза = случайное из [0, 100 мс · 2<tspan dy="-5" font-size="9">n−1</tspan><tspan dy="5">]</tspan></text>
+  <text x="20" y="190" font-size="12" opacity="0.8">клиент 1</text>
+  <line x1="120" y1="186" x2="632" y2="186" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+  <circle cx="120.0" cy="186" r="5" fill="#dc2626"/>
+  <circle cx="164.8" cy="186" r="5" fill="#dc2626"/>
+  <circle cx="260.8" cy="186" r="5" fill="#dc2626"/>
+  <circle cx="472.0" cy="186" r="5" fill="#16a34a"/>
+  <text x="20" y="214" font-size="12" opacity="0.8">клиент 2</text>
+  <line x1="120" y1="210" x2="632" y2="210" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+  <circle cx="120.0" cy="210" r="5" fill="#dc2626"/>
+  <circle cx="139.2" cy="210" r="5" fill="#dc2626"/>
+  <circle cx="254.4" cy="210" r="5" fill="#dc2626"/>
+  <circle cx="420.8" cy="210" r="5" fill="#16a34a"/>
+  <text x="20" y="238" font-size="12" opacity="0.8">клиент 3</text>
+  <line x1="120" y1="234" x2="632" y2="234" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+  <circle cx="120.0" cy="234" r="5" fill="#dc2626"/>
+  <circle cx="177.6" cy="234" r="5" fill="#dc2626"/>
+  <circle cx="216.0" cy="234" r="5" fill="#dc2626"/>
+  <circle cx="465.6" cy="234" r="5" fill="#16a34a"/>
+  <text x="120" y="262" font-size="11" fill="#16a34a">повторы размазаны во времени — нагрузка ровнее</text>
+  <line x1="120" y1="274" x2="632" y2="274" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="120.0" y1="274" x2="120.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="120.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">0</text>
+  <line x1="184.0" y1="274" x2="184.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="184.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">100</text>
+  <line x1="248.0" y1="274" x2="248.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="248.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">200</text>
+  <line x1="312.0" y1="274" x2="312.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="312.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">300</text>
+  <line x1="376.0" y1="274" x2="376.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="376.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">400</text>
+  <line x1="440.0" y1="274" x2="440.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="440.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">500</text>
+  <line x1="504.0" y1="274" x2="504.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="504.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">600</text>
+  <line x1="568.0" y1="274" x2="568.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="568.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">700</text>
+  <line x1="632.0" y1="274" x2="632.0" y2="278" stroke="currentColor" stroke-width="1.2"/>
+  <text x="632.0" y="290" text-anchor="middle" font-size="10" opacity="0.7">800</text>
+  <text x="20" y="290" font-size="10" opacity="0.7">время, мс</text>
+  <g font-size="10"><circle cx="548" cy="120" r="4" fill="#dc2626"/><text x="556" y="124">неудача</text><circle cx="610" cy="120" r="4" fill="#16a34a"/><text x="618" y="124">успех</text></g>
+</svg>

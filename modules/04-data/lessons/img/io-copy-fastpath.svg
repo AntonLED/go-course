@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 262" role="img" aria-label="io.Copy сначала проверяет, реализует ли src интерфейс io.WriterTo, затем — реализует ли dst io.ReaderFrom, и только иначе копирует циклом через буфер 32 КиБ" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как io.Copy выбирает способ копирования</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ac" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+  </defs>
+
+  <!-- старт -->
+  <rect x="16" y="8" width="232" height="32" rx="16" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="132" y="29" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">io.Copy(dst, src)</text>
+  <line x1="132" y1="40" x2="132" y2="62" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- вопрос 1 -->
+  <rect x="16" y="64" width="232" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="132" y="87" text-anchor="middle">src реализует <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">io.WriterTo</tspan>?</text>
+  <line x1="248" y1="82" x2="302" y2="82" stroke="#0891b2" stroke-width="1.4" marker-end="url(#ac)"/>
+  <text x="274" y="75" text-anchor="middle" font-size="12" fill="#0891b2">да</text>
+  <rect x="304" y="64" width="176" height="36" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="392" y="87" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">src.WriteTo(dst)</text>
+  <g font-size="11" opacity="0.65" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="496" y="78">bytes.Buffer,</text>
+    <text x="496" y="93">strings.Reader, bytes.Reader</text>
+  </g>
+
+  <line x1="132" y1="100" x2="132" y2="134" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="140" y="121" font-size="12" opacity="0.7">нет</text>
+
+  <!-- вопрос 2 -->
+  <rect x="16" y="136" width="232" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="132" y="159" text-anchor="middle">dst реализует <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">io.ReaderFrom</tspan>?</text>
+  <line x1="248" y1="154" x2="302" y2="154" stroke="#0891b2" stroke-width="1.4" marker-end="url(#ac)"/>
+  <text x="274" y="147" text-anchor="middle" font-size="12" fill="#0891b2">да</text>
+  <rect x="304" y="136" width="176" height="36" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="392" y="159" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">dst.ReadFrom(src)</text>
+  <g font-size="11" opacity="0.65">
+    <text x="496" y="150"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">bytes.Buffer</tspan> — сам растит буфер</text>
+    <text x="496" y="165"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*net.TCPConn</tspan> ← файл: sendfile(2)</text>
+  </g>
+
+  <line x1="132" y1="172" x2="132" y2="206" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="140" y="193" font-size="12" opacity="0.7">нет</text>
+
+  <!-- общий цикл -->
+  <rect x="16" y="208" width="464" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="32" y="226" font-size="12" opacity="0.7">цикл через буфер 32 КиБ до io.EOF:</text>
+  <text x="32" y="243" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">n, err := src.Read(buf); dst.Write(buf[:n])</text>
+  <text x="496" y="234" font-size="11" opacity="0.65">лишнее копирование</text>
+  <text x="496" y="249" font-size="11" opacity="0.65">через user space</text>
+</svg>

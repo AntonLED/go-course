@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 316" role="img" aria-label="b := a[1:3:3] имеет len 2 и cap 2; append(b, 99) не помещается и выделяет новый массив, куда копируются 2 и 3; исходный массив a не меняется" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Full slice expression и append</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- этап 1 -->
+  <text x="20" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.7">a := []int{1, 2, 3, 4, 5}; b := a[1:3:3]</text>
+
+  <text x="32" y="51" text-anchor="end" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">a</text>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="40" y="32" width="156" height="30" rx="4"/>
+    <line x1="92" y1="32" x2="92" y2="62"/><line x1="144" y1="32" x2="144" y2="62"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="66" y="52">ptr</text><text x="118" y="52">len 5</text><text x="170" y="52">cap 5</text>
+  </g>
+
+  <text x="636" y="51" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">b</text>
+  <rect x="472" y="32" width="156" height="30" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <g stroke="#0891b2" stroke-width="1.2"><line x1="524" y1="32" x2="524" y2="62"/><line x1="576" y1="32" x2="576" y2="62"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="498" y="52">ptr</text><text x="550" y="52">len 2</text><text x="602" y="52">cap 2</text>
+  </g>
+
+  <line x1="66" y1="62" x2="224" y2="102" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="498" y1="62" x2="288" y2="102" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <!-- исходный массив -->
+  <rect x="256" y="106" width="112" height="34" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="200" y="106" width="280" height="34" rx="3"/>
+    <line x1="256" y1="106" x2="256" y2="140"/><line x1="312" y1="106" x2="312" y2="140"/>
+    <line x1="368" y1="106" x2="368" y2="140"/><line x1="424" y1="106" x2="424" y2="140"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="middle">
+    <text x="228" y="128">1</text><text x="284" y="128">2</text><text x="340" y="128">3</text>
+    <text x="396" y="128" fill="#16a34a" font-weight="600">4</text><text x="452" y="128">5</text>
+  </g>
+  <path d="M256,148 v6 h112 v-6" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="312" y="170" text-anchor="middle" fill="#0891b2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">len = cap = 3−1 = 2</text>
+  <text x="396" y="98" text-anchor="middle" font-size="11" fill="#16a34a">не тронут</text>
+
+  <!-- этап 2 -->
+  <line x1="20" y1="188" x2="660" y2="188" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity="0.4"/>
+  <text x="20" y="212" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.7">b = append(b, 99)  // cap исчерпан</text>
+
+  <text x="636" y="243" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">b</text>
+  <rect x="472" y="224" width="156" height="30" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <g stroke="#0891b2" stroke-width="1.2"><line x1="524" y1="224" x2="524" y2="254"/><line x1="576" y1="224" x2="576" y2="254"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="498" y="244">ptr</text><text x="550" y="244">len 3</text><text x="602" y="244">cap 4</text>
+  </g>
+  <path d="M498,254 V264 H228 V270" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <!-- новый массив -->
+  <rect x="200" y="274" width="168" height="34" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="#0891b2" stroke-width="1.2">
+    <rect x="200" y="274" width="224" height="34" rx="3"/>
+    <line x1="256" y1="274" x2="256" y2="308"/><line x1="312" y1="274" x2="312" y2="308"/><line x1="368" y1="274" x2="368" y2="308"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="middle">
+    <text x="228" y="296">2</text><text x="284" y="296">3</text><text x="340" y="296" fill="#0891b2" font-weight="600">99</text>
+    <text x="396" y="296" opacity="0.4">0</text>
+  </g>
+  <text x="188" y="296" text-anchor="end" font-size="11" opacity="0.7">новый массив</text>
+</svg>

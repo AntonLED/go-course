@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 188" role="img" aria-label="Раскладка Header на amd64: Magic uint32 в байтах 0–3, Flags в байте 4, 3 байта padding, Length uint64 в байтах 8–15. unsafe.Add(p, Offsetof(h.Length)) даёт указатель на байт 8" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Offsetof и доступ к полю через unsafe.Add</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+  <g font-size="10" opacity="0.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"><text x="82.0" y="50">0</text><text x="118.0" y="50">1</text><text x="154.0" y="50">2</text><text x="190.0" y="50">3</text><text x="226.0" y="50">4</text><text x="262.0" y="50">5</text><text x="298.0" y="50">6</text><text x="334.0" y="50">7</text><text x="370.0" y="50">8</text><text x="406.0" y="50">9</text><text x="442.0" y="50">10</text><text x="478.0" y="50">11</text><text x="514.0" y="50">12</text><text x="550.0" y="50">13</text><text x="586.0" y="50">14</text><text x="622.0" y="50">15</text></g>
+  <rect x="64" y="56" width="144" height="32" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="136.0" y="77" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Magic uint32</text>
+  <rect x="208" y="56" width="36" height="32" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="226.0" y="77" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">Flags</text>
+  <rect x="244" y="56" width="108" height="32" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-opacity="0.6" stroke-dasharray="3 2"/>
+  <text x="298.0" y="77" text-anchor="middle" font-size="11" fill="#dc2626">padding 3</text>
+  <rect x="352" y="56" width="288" height="32" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="496.0" y="77" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Length uint64</text>
+  <g stroke="currentColor" stroke-opacity="0.2"><line x1="100" y1="56" x2="100" y2="61"/><line x1="100" y1="83" x2="100" y2="88"/><line x1="136" y1="56" x2="136" y2="61"/><line x1="136" y1="83" x2="136" y2="88"/><line x1="172" y1="56" x2="172" y2="61"/><line x1="172" y1="83" x2="172" y2="88"/><line x1="280" y1="56" x2="280" y2="61"/><line x1="280" y1="83" x2="280" y2="88"/><line x1="316" y1="56" x2="316" y2="61"/><line x1="316" y1="83" x2="316" y2="88"/><line x1="388" y1="56" x2="388" y2="61"/><line x1="388" y1="83" x2="388" y2="88"/><line x1="424" y1="56" x2="424" y2="61"/><line x1="424" y1="83" x2="424" y2="88"/><line x1="460" y1="56" x2="460" y2="61"/><line x1="460" y1="83" x2="460" y2="88"/><line x1="496" y1="56" x2="496" y2="61"/><line x1="496" y1="83" x2="496" y2="88"/><line x1="532" y1="56" x2="532" y2="61"/><line x1="532" y1="83" x2="532" y2="88"/><line x1="568" y1="56" x2="568" y2="61"/><line x1="568" y1="83" x2="568" y2="88"/><line x1="604" y1="56" x2="604" y2="61"/><line x1="604" y1="83" x2="604" y2="88"/></g>
+  <text x="56" y="77" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">h</text>
+  <text x="64" y="20" font-size="12"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600">var h Header</tspan><tspan opacity="0.6"> — Sizeof 16, Alignof(Length) 8 (amd64)</tspan></text>
+  <line x1="64" y1="116" x2="64" y2="92" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="64" y="132" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">p := unsafe.Pointer(&amp;h)</text>
+  <text x="64" y="148" font-size="11" opacity="0.6">смещение 0</text>
+  <line x1="352" y1="116" x2="352" y2="92" stroke="#16a34a" stroke-width="1.3" marker-end="url(#arr-ok)"/>
+  <text x="352" y="132" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#16a34a">unsafe.Add(p, unsafe.Offsetof(h.Length))</text>
+  <text x="352" y="148" font-size="11" opacity="0.6">p + 8 → (*uint64)(…) → *length = 42</text>
+  <path d="M64,160 v6 h288 v-6" fill="none" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.2"/>
+  <text x="208" y="182" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">Offsetof(h.Length) = 8</text>
+</svg>

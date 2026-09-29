@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 262" role="img" aria-label="errgroup.WithContext во времени: g2 возвращает ошибку, группа запоминает её и отменяет ctx; g1 и g3 видят ctx.Done и выходят с context.Canceled; Wait дожидается всех горутин и возвращает первую ошибку — ошибку g2" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>errgroup: первая ошибка отменяет остальных</title>
+  <defs>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-warn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="end" opacity="0.85">
+    <text x="104" y="30">g1 fetch(a)</text>
+    <text x="104" y="66">g2 fetch(b)</text>
+    <text x="104" y="102">g3 fetch(c)</text>
+    <text x="104" y="138">g4 fetch(d)</text>
+    <text x="104" y="178">ctx</text>
+    <text x="104" y="222">g.Wait()</text>
+  </g>
+
+  <!-- горутины -->
+  <rect x="120" y="18" width="232" height="16" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/>
+  <text x="360" y="31" font-size="11" fill="#d97706" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ctx.Err() → выход</text>
+
+  <rect x="120" y="54" width="180" height="16" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/>
+  <g stroke="#dc2626" stroke-width="2.2"><line x1="296" y1="56" x2="308" y2="68"/><line x1="308" y1="56" x2="296" y2="68"/></g>
+  <text x="316" y="67" font-size="11" fill="#dc2626" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">return err ← первая</text>
+
+  <rect x="120" y="90" width="276" height="16" rx="3" fill="#0891b2" fill-opacity="0.18" stroke="#0891b2"/>
+  <text x="404" y="103" font-size="11" fill="#d97706" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ctx.Err() → выход</text>
+
+  <rect x="120" y="126" width="120" height="16" rx="3" fill="#16a34a" fill-opacity="0.18" stroke="#16a34a"/>
+  <text x="248" y="139" font-size="11" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">return nil</text>
+
+  <!-- ctx -->
+  <rect x="120" y="166" width="182" height="16" rx="3" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-opacity="0.6"/>
+  <text x="210" y="178" text-anchor="middle" font-size="11" opacity="0.8">активен</text>
+  <rect x="302" y="166" width="358" height="16" rx="3" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626"/>
+  <text x="310" y="178" font-size="11" fill="#dc2626">отменён: Done() закрыт, Cause(ctx) = ошибка g2</text>
+  <path d="M302,72 V162" fill="none" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-bad)"/>
+  <text x="296" y="121" text-anchor="end" font-size="11" fill="#dc2626" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">cancel(err)</text>
+  <!-- ctx → g1, g3 -->
+  <g stroke="#d97706" stroke-width="1.2" stroke-dasharray="3 3" fill="none">
+    <path d="M352,164 V38" marker-end="url(#arr-warn)"/><path d="M396,164 V110" marker-end="url(#arr-warn)"/>
+  </g>
+
+  <!-- Wait -->
+  <rect x="120" y="210" width="276" height="16" rx="3" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-dasharray="4 3"/>
+  <text x="258" y="222" text-anchor="middle" font-size="11" fill="#d97706">ждёт все горутины</text>
+  <rect x="396" y="210" width="264" height="16" rx="3" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626"/>
+  <text x="404" y="222" font-size="11" fill="#dc2626" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">вернул "fetch b: …"</text>
+  <text x="16" y="252" font-size="12" opacity="0.7">Ошибки g1 и g3 (context canceled) отброшены: Wait возвращает только первую.</text>
+</svg>

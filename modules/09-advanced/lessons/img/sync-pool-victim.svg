@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="sync.Pool: до GC буферы b1, b2, b3 лежат в per-P local. После первого GC они переезжают в victim, Get может взять b1 оттуда, новый Put(b4) идёт в local. После второго GC b4 уходит в victim, а оставшиеся в victim b2 и b3 собираются" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>sync.Pool и victim-кэш</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+    <text x="110.0" y="18" text-anchor="middle" font-weight="600" font-size="12">до GC</text>
+  <rect x="12" y="28" width="196" height="68" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+  <text x="20" y="44" font-size="11" opacity="0.6">local (per-P)</text>
+  <text x="20" y="66" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">P0</text><text x="20" y="88" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">P1</text>
+  <rect x="12" y="108" width="196" height="44" rx="4" fill="none" stroke="#d97706" stroke-opacity="0.8"/>
+  <text x="20" y="124" font-size="11" fill="#d97706">victim</text>
+  <text x="340.0" y="18" text-anchor="middle" font-weight="600" font-size="12">после GC №1</text>
+  <rect x="242" y="28" width="196" height="68" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+  <text x="250" y="44" font-size="11" opacity="0.6">local (per-P)</text>
+  <text x="250" y="66" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">P0</text><text x="250" y="88" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">P1</text>
+  <rect x="242" y="108" width="196" height="44" rx="4" fill="none" stroke="#d97706" stroke-opacity="0.8"/>
+  <text x="250" y="124" font-size="11" fill="#d97706">victim</text>
+  <text x="570.0" y="18" text-anchor="middle" font-weight="600" font-size="12">после GC №2</text>
+  <rect x="472" y="28" width="196" height="68" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+  <text x="480" y="44" font-size="11" opacity="0.6">local (per-P)</text>
+  <text x="480" y="66" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">P0</text><text x="480" y="88" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">P1</text>
+  <rect x="472" y="108" width="196" height="44" rx="4" fill="none" stroke="#d97706" stroke-opacity="0.8"/>
+  <text x="480" y="124" font-size="11" fill="#d97706">victim</text>
+  <rect x="52" y="52" width="36" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="70" y="66" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b1</text>
+  <rect x="94" y="52" width="36" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="112" y="66" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b2</text>
+  <rect x="52" y="74" width="36" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="70" y="88" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b3</text>
+  <text x="52" y="144" font-size="11" opacity="0.4">пусто</text>
+  <rect x="282" y="52" width="36" height="20" rx="3" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/><text x="300" y="66" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b4</text>
+  <rect x="282" y="128" width="36" height="20" rx="3" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-dasharray="3 2"/><text x="300" y="142" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.4">b1</text>
+  <rect x="324" y="128" width="36" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="342" y="142" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b2</text>
+  <rect x="366" y="128" width="36" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/><text x="384" y="142" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b3</text>
+  <text x="358" y="66" font-size="10" fill="#16a34a">Put после GC</text>
+  <text x="512" y="66" font-size="11" opacity="0.4">пусто</text>
+  <rect x="512" y="128" width="36" height="20" rx="3" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a"/><text x="530" y="142" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b4</text>
+  <rect x="512" y="164" width="36" height="20" rx="3" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626"/><text x="530" y="178" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">b2</text>
+  <rect x="554" y="164" width="36" height="20" rx="3" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626"/><text x="572" y="178" text-anchor="middle" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#dc2626">b3</text>
+  <text x="596" y="178" font-size="11" fill="#dc2626">собраны GC</text>
+    <line x1="208" y1="90" x2="238" y2="90" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="223.0" y="84" text-anchor="middle" font-size="10" opacity="0.7">GC</text>
+  <line x1="438" y1="90" x2="468" y2="90" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="453.0" y="84" text-anchor="middle" font-size="10" opacity="0.7">GC</text>
+    <text x="12" y="210" font-size="11" opacity="0.7">GC: victim выбрасывается, local переезжает в victim. Объект переживает один GC, но не два.</text>
+  <text x="12" y="228" font-size="11" opacity="0.7"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Get()</tspan>: свой P → чужие P → victim → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">New()</tspan></text>
+  <text x="282" y="172" font-size="11" fill="#16a34a">↑ b1 забрал Get()</text>
+</svg>

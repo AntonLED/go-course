@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 196" role="img" aria-label="Таймер одного вызова бенчмарка: включён с начала, ResetTimer обнуляет время подготовки, StopTimer и StartTimer исключают куски внутри цикла; в замер идут только участки с включённым таймером после ResetTimer" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>ResetTimer и StopTimer на шкале</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- метки вызовов -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="176" y="24">ResetTimer()</text>
+    <text x="320" y="24">StopTimer()</text>
+    <text x="408" y="44">StartTimer()</text>
+    <text x="620" y="24">return</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1" opacity="0.6">
+    <line x1="176" y1="30" x2="176" y2="96"/>
+    <line x1="320" y1="30" x2="320" y2="96"/>
+    <line x1="408" y1="50" x2="408" y2="96"/>
+    <line x1="620" y1="30" x2="620" y2="96"/>
+  </g>
+
+  <!-- дорожка таймера -->
+  <text x="16" y="84" font-size="11" opacity="0.7">таймер</text>
+  <rect x="64" y="64" width="112" height="28" rx="3" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-dasharray="4 3"/>
+  <text x="120" y="82" text-anchor="middle" font-size="11" fill="#d97706">подготовка</text>
+  <g fill="#0891b2" fill-opacity="0.2" stroke="#0891b2">
+    <rect x="176" y="64" width="144" height="28" rx="3"/>
+    <rect x="408" y="64" width="212" height="28" rx="3"/>
+  </g>
+  <rect x="320" y="64" width="88" height="28" rx="3" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.5"/>
+  <g font-size="11" text-anchor="middle">
+    <text x="248" y="82" fill="#0891b2">итерации</text>
+    <text x="364" y="82" opacity="0.8">не в замере</text>
+    <text x="514" y="82" fill="#0891b2">итерации</text>
+  </g>
+
+  <!-- пояснения -->
+  <g font-size="11">
+    <text x="64" y="112" fill="#d97706">таймер уже шёл —</text>
+    <text x="64" y="126" fill="#d97706">ResetTimer его обнулил</text>
+    <text x="620" y="112" text-anchor="end" opacity="0.8">фреймворк сам остановит таймер</text>
+  </g>
+
+  <!-- итог -->
+  <path d="M176,140 v6 h144 v-6" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <path d="M408,140 v6 h212 v-6" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="340" y="168" text-anchor="middle" font-size="12">замер = сумма бирюзовых участков (время и аллокации) → ÷ b.N</text>
+  <text x="340" y="188" text-anchor="middle" font-size="11" opacity="0.7">каждый Start/StopTimer читает runtime.ReadMemStats (stop-the-world) — это дорого</text>
+</svg>

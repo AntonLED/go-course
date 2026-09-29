@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" role="img" aria-label="main вызывает SafeCall, та вызывает f; f паникует, стек раскручивается: выполняются defer f, затем отложенная функция SafeCall, где recover останавливает панику и записывает err; SafeCall нормально возвращает err в main" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>panic, раскрутка стека и recover</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <text x="20" y="20" font-size="11" opacity="0.6">стек горутины</text>
+
+  <!-- main -->
+  <rect x="20" y="32" width="280" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="32" y="57" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">main</tspan><tspan dx="10" opacity="0.7">err := SafeCall(f)</tspan></text>
+
+  <!-- SafeCall -->
+  <rect x="20" y="104" width="280" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="32" y="126" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">SafeCall</tspan><tspan dx="10" opacity="0.7">(err error)</tspan></text>
+  <rect x="32" y="138" width="256" height="34" rx="3" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="44" y="160" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">defer func(){ recover() }</text>
+
+  <!-- f -->
+  <rect x="20" y="216" width="280" height="72" rx="4" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="32" y="238" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">f</text>
+  <text x="44" y="258" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">defer d()</text>
+  <text x="44" y="278" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626" font-weight="600">panic("boom")</text>
+
+  <!-- calls -->
+  <g stroke="currentColor" stroke-width="1.4" opacity="0.6">
+    <line x1="60" y1="72" x2="60" y2="102" marker-end="url(#arr)"/>
+    <line x1="60" y1="184" x2="60" y2="214" marker-end="url(#arr)"/>
+  </g>
+  <g font-size="11" opacity="0.6"><text x="70" y="92">вызов</text><text x="70" y="204">вызов</text></g>
+
+  <!-- unwinding -->
+  <path d="M300,274 H330 V155 H292" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-red)"/>
+  <text x="342" y="206" font-size="12" fill="#dc2626">раскрутка вверх по стеку</text>
+
+  <!-- return -->
+  <path d="M300,120 H330 V52 H302" fill="none" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-ok)"/>
+
+  <!-- steps -->
+  <g font-size="12">
+    <text x="360" y="258"><tspan font-weight="600">1.</tspan> выполняется <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">d()</tspan> — defer'ы f (LIFO)</text>
+    <text x="360" y="150"><tspan font-weight="600">2.</tspan> <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">recover()</tspan> вернула "boom":</text>
+    <text x="376" y="168">паника остановлена, err = "panic: boom"</text>
+    <text x="360" y="50" fill="#16a34a"><tspan font-weight="600">3.</tspan> SafeCall возвращается обычно,</text>
+    <text x="376" y="68" fill="#16a34a">main получает err ≠ nil</text>
+  </g>
+</svg>

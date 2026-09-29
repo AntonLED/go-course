@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" role="img" aria-label="Непустой интерфейс s хранит tab — указатель на itab с полями inter, _type, hash, fun — и data — указатель на копию Rect. Пустой интерфейс x хранит _type и data" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>iface и eface в памяти</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-vio" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- iface -->
+  <text x="40" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">var s Shape</tspan><tspan opacity="0.6"> = Rect{2, 3}</tspan></text>
+  <rect x="40" y="40" width="180" height="32" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <line x1="130" y1="40" x2="130" y2="72" stroke="#0891b2" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="85" y="61">tab</text><text x="175" y="61">data</text>
+  </g>
+  <text x="130" y="90" text-anchor="middle" font-size="11" opacity="0.6">iface: 2 слова</text>
+
+  <!-- eface -->
+  <text x="460" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">var x any</tspan><tspan opacity="0.6"> = Rect{2, 3}</tspan></text>
+  <rect x="460" y="40" width="180" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="550" y1="40" x2="550" y2="72" stroke="currentColor" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="505" y="61">_type</text><text x="595" y="61">data</text>
+  </g>
+  <text x="552" y="90" text-anchor="middle" font-size="11" opacity="0.6">eface: без itab</text>
+
+  <!-- heap copies -->
+  <rect x="264" y="40" width="120" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="324" y="61" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">W:2  H:3</text>
+  <text x="324" y="90" text-anchor="middle" font-size="11" opacity="0.6">копия в куче</text>
+  <circle cx="206" cy="56" r="2.5" fill="#0891b2"/><line x1="206" y1="56" x2="262" y2="56" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <rect x="560" y="236" width="80" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="600" y="257" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">W:2 H:3</text>
+  <text x="600" y="286" text-anchor="middle" font-size="11" opacity="0.6">своя копия</text>
+  <line x1="600" y1="72" x2="600" y2="234" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- itab -->
+  <text x="40" y="132" font-weight="600" fill="#0891b2">itab</text>
+  <g fill="none" stroke="#0891b2" stroke-width="1.2">
+    <rect x="40" y="140" width="220" height="128" rx="4"/>
+    <line x1="40" y1="172" x2="260" y2="172"/><line x1="40" y1="204" x2="260" y2="204"/><line x1="40" y1="236" x2="260" y2="236"/>
+    <line x1="104" y1="140" x2="104" y2="268"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="52" y="161">inter</text><text x="52" y="193">_type</text><text x="52" y="225">hash</text><text x="52" y="257">fun[0]</text>
+    <text x="116" y="161">Shape</text>
+    <text x="116" y="225" opacity="0.7">= _type.hash</text>
+  </g>
+  <line x1="85" y1="72" x2="85" y2="138" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+
+  <!-- Rect type descriptor -->
+  <rect x="340" y="140" width="180" height="64" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="430" y="164" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">Rect</text>
+  <text x="430" y="186" text-anchor="middle" font-size="11" opacity="0.7">описание типа (_type)</text>
+  <line x1="120" y1="188" x2="338" y2="188" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <path d="M505,72 V120 H430 V138" fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- method code -->
+  <rect x="340" y="236" width="180" height="32" rx="4" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="430" y="257" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">код Rect.Area</text>
+  <line x1="130" y1="252" x2="338" y2="252" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#arr-vio)"/>
+</svg>

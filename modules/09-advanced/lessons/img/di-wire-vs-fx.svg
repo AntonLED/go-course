@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 348" role="img" aria-label="wire строит граф и генерирует wire_gen.go до компиляции, ошибки графа видны на этапе сборки, в рантайме — обычные вызовы. fx компилируется без проверки графа; dig строит граф через reflect при запуске, там же находятся ошибки, затем вызывает конструкторы через Value.Call" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>wire и fx: когда строится граф</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <g font-weight="600" text-anchor="middle">
+    <text x="170" y="18">google/wire — кодогенерация</text>
+    <text x="510" y="18">uber-go/fx + dig — рефлексия</text>
+  </g>
+
+  <!-- граница сборка/рантайм -->
+  <line x1="12" y1="220" x2="668" y2="220" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="6 4"/>
+  <g font-size="11" opacity="0.6">
+    <text x="12" y="212">▲ этап сборки</text>
+    <text x="12" y="236">▼ запуск программы</text>
+  </g>
+
+  <!-- ЛЕВО: wire -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="32" width="300" height="40" rx="4"/>
+    <rect x="20" y="152" width="300" height="40" rx="4"/>
+  </g>
+  <rect x="20" y="92" width="300" height="40" rx="4" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.2"/>
+  <rect x="20" y="244" width="300" height="40" rx="4" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">
+    <text x="32" y="49">wire.go</text>
+    <text x="32" y="109">$ wire</text>
+    <text x="32" y="169">wire_gen.go → go build</text>
+    <text x="32" y="261">InitApp(cfg)</text>
+  </g>
+  <g font-size="11">
+    <text x="32" y="65" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">wire.Build(NewDB, postgres.NewRepo, …)</text>
+    <text x="32" y="125" fill="#dc2626">строит граф · ошибки графа — здесь</text>
+    <text x="32" y="185" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">db, err := NewDB(cfg); repo := …</text>
+    <text x="32" y="277" fill="#16a34a">обычные вызовы конструкторов, без reflect</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.3">
+    <line x1="170" y1="72" x2="170" y2="88" marker-end="url(#arr)"/>
+    <line x1="170" y1="132" x2="170" y2="148" marker-end="url(#arr)"/>
+    <line x1="170" y1="192" x2="170" y2="240" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- ПРАВО: fx -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="360" y="32" width="300" height="40" rx="4"/>
+    <rect x="360" y="152" width="300" height="40" rx="4"/>
+    <rect x="360" y="300" width="300" height="40" rx="4"/>
+  </g>
+  <rect x="360" y="244" width="300" height="40" rx="4" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">
+    <text x="372" y="49">fx.New(fx.Provide(…), fx.Invoke(…))</text>
+    <text x="372" y="169">go build</text>
+    <text x="372" y="261">dig: Type.In(i) / Type.Out(0)</text>
+    <text x="372" y="317">Value.Call(args)</text>
+  </g>
+  <g font-size="11">
+    <text x="372" y="65" opacity="0.7">конструкторы передаются как значения</text>
+    <text x="372" y="185" fill="#d97706">компилируется, граф ещё не проверен</text>
+    <text x="372" y="277" fill="#dc2626">строит граф · ошибки графа — здесь</text>
+    <text x="372" y="333" opacity="0.7">каждый тип — синглтон · Start → Stop</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.3">
+    <line x1="510" y1="72" x2="510" y2="148" marker-end="url(#arr)"/>
+    <line x1="510" y1="192" x2="510" y2="240" marker-end="url(#arr)"/>
+    <line x1="510" y1="284" x2="510" y2="296" marker-end="url(#arr)"/>
+  </g>
+  <text x="518" y="116" font-size="11" opacity="0.6">ничего не генерируется</text>
+</svg>

@@ -1,0 +1,640 @@
+{
+  "module": "02",
+  "title": "Введение в Go. Часть 2",
+  "questions": [
+    {
+      "id": "02-001",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport \"fmt\"\n\ntype MyErr struct{}\n\nfunc (*MyErr) Error() string { return \"boom\" }\n\nfunc do() error {\n\tvar p *MyErr\n\treturn p\n}\n\nfunc main() {\n\terr := do()\n\tfmt.Println(err == nil, err != nil)\n}",
+      "options": [
+        "true false",
+        "false true",
+        "true true",
+        "ошибка компиляции"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Функция вернула интерфейс error, у которого динамический тип *MyErr, а значение nil. Интерфейс равен nil, только если пусты и тип, и значение, поэтому err != nil."
+    },
+    {
+      "id": "02-002",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar x any = 3\n\tswitch v := x.(type) {\n\tcase int, string:\n\t\tfmt.Println(v + 1)\n\t}\n}",
+      "options": [
+        "выведет 4",
+        "выведет 31",
+        "ошибка компиляции",
+        "panic в рантайме"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "В case с несколькими типами переменная v сохраняет тип выражения в switch, то есть any, а для any оператор + не определён. Отсюда ошибка компиляции."
+    },
+    {
+      "id": "02-003",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\ntype Speaker interface{ Speak() string }\n\ntype Dog struct{}\n\nfunc (d *Dog) Speak() string { return \"woof\" }\n\nfunc main() {\n\tvar s Speaker = Dog{}\n\tfmt.Println(s.Speak())\n}",
+      "options": [
+        "выведет woof",
+        "ошибка компиляции",
+        "panic: nil pointer dereference",
+        "выведет пустую строку"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Метод Speak объявлен с получателем *Dog, поэтому в method set значения Dog его нет: Dog не реализует Speaker. Нужно var s Speaker = &Dog{}."
+    },
+    {
+      "id": "02-004",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar a, b any = []int{1}, []int{1}\n\tfmt.Println(a == b)\n}",
+      "options": [
+        "true",
+        "false",
+        "ошибка компиляции",
+        "panic: comparing uncomparable type []int"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "Сравнение интерфейсов компилируется всегда, но если динамические типы совпадают и при этом несравнимы (срез, map, func), рантайм паникует."
+    },
+    {
+      "id": "02-005",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport \"fmt\"\n\ntype T struct{ n int }\n\nfunc (t *T) String() string { return fmt.Sprint(\"T\", t.n) }\n\nfunc main() {\n\tt := T{5}\n\tfmt.Println(t, &t)\n}",
+      "options": [
+        "{5} T5",
+        "T5 T5",
+        "{5} &{5}",
+        "ошибка компиляции"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Метод String объявлен на *T, поэтому значение t типа T не реализует fmt.Stringer и печатается как структура {5}. Указатель &t интерфейс реализует и печатается как T5."
+    },
+    {
+      "id": "02-006",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport \"fmt\"\n\ntype Animal interface{ Name() string }\n\ntype Cat struct{}\n\nfunc (c *Cat) Name() string {\n\tif c == nil {\n\t\treturn \"nil cat\"\n\t}\n\treturn \"cat\"\n}\n\nfunc main() {\n\tvar c *Cat\n\tvar a Animal = c\n\tfmt.Println(a == nil, a.Name())\n}",
+      "options": [
+        "true nil cat",
+        "false nil cat",
+        "panic: nil pointer dereference",
+        "true cat"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "В a лежит пара (тип *Cat, значение nil), а это не nil-интерфейс. Метод на nil-указателе вызвать можно, и здесь он сам проверяет c == nil."
+    },
+    {
+      "id": "02-007",
+      "lesson": "Интерфейсы",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\ntype Logger interface {\n\tLog(string)\n\tLevel() int\n}\n\ntype quiet struct{ Logger }\n\nfunc (quiet) Log(string) {}\n\nfunc main() {\n\tvar l Logger = quiet{}\n\tl.Log(\"x\")\n\tfmt.Println(\"ok\")\n\tfmt.Println(l.Level())\n}",
+      "options": [
+        "выведет ok и 0",
+        "выведет ok, затем panic (nil pointer dereference)",
+        "ошибка компиляции: quiet не реализует Logger",
+        "panic до вывода ok"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Встроенное поле-интерфейс Logger «поставляет» метод Level, поэтому quiet реализует Logger. Но само поле равно nil, и вызов Level приводит к панике уже после печати ok."
+    },
+    {
+      "id": "02-008",
+      "lesson": "Интерфейсы",
+      "type": "multi",
+      "q": "Какие утверждения верны?",
+      "options": [
+        "Непустой интерфейс хранится как пара (указатель на itab, указатель на данные)",
+        "Значение типа any (eface) хранит указатель на описание типа и указатель на данные, без itab",
+        "Преобразование любого значения в интерфейс никогда не аллоцирует память",
+        "Форма v := x.(T) без ok паникует, если динамический тип не T",
+        "Чтобы тип реализовал интерфейс, нужно явно указать implements"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explain": "Непустой интерфейс хранится как пара (tab *itab, data), а any — как (_type, data), без itab. Значение, не помещающееся в указатель, при конвертации обычно копируется в кучу, а реализация интерфейса всегда неявная."
+    },
+    {
+      "id": "02-009",
+      "lesson": "Обработка ошибок в Go",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nvar ErrNF = errors.New(\"not found\")\n\nfunc main() {\n\te1 := fmt.Errorf(\"a: %w\", ErrNF)\n\te2 := fmt.Errorf(\"b: %v\", e1)\n\te3 := fmt.Errorf(\"c: %w\", e1)\n\tfmt.Println(errors.Is(e1, ErrNF), errors.Is(e2, ErrNF), errors.Is(e3, ErrNF))\n}",
+      "options": [
+        "true true true",
+        "true false true",
+        "true false false",
+        "false false true"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Глагол %w сохраняет цепочку через Unwrap, а %v превращает ошибку в текст и рвёт её. Поэтому e2 связь с ErrNF теряет, а e3 оборачивает e1, который оборачивает ErrNF."
+    },
+    {
+      "id": "02-010",
+      "lesson": "Обработка ошибок в Go",
+      "type": "single",
+      "q": "Что выведет программа? (строки вывода разделены « / »)",
+      "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tfmt.Println(errors.Join(nil, nil) == nil)\n\terr := errors.Join(errors.New(\"a\"), nil, errors.New(\"b\"))\n\tfmt.Printf(\"%q\\n\", err.Error())\n}",
+      "options": [
+        "true / \"a\\nb\"",
+        "false / \"a\\n<nil>\\nb\"",
+        "true / \"a; b\"",
+        "false / \"a\\nb\""
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "errors.Join отбрасывает nil-аргументы и возвращает nil, если ничего не осталось. Сообщения объединяются через перевод строки."
+    },
+    {
+      "id": "02-011",
+      "lesson": "Обработка ошибок в Go",
+      "type": "single",
+      "q": "Что произойдёт при запуске (go vet не запускали)?",
+      "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\ntype E struct{ Code int }\n\nfunc (e *E) Error() string { return \"e\" }\n\nfunc main() {\n\terr := fmt.Errorf(\"wrap: %w\", &E{42})\n\tvar target E\n\tif errors.As(err, &target) {\n\t\tfmt.Println(target.Code)\n\t} else {\n\t\tfmt.Println(\"no\")\n\t}\n}",
+      "options": [
+        "выведет 42",
+        "выведет no",
+        "panic внутри errors.As",
+        "ошибка компиляции"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Error определён на *E, значит тип E не реализует error. errors.As требует, чтобы *target был интерфейсом или реализовывал error, иначе паникует. go vet (проверка errorsas) поймал бы это заранее."
+    },
+    {
+      "id": "02-012",
+      "lesson": "Обработка ошибок в Go",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc handle() {\n\tif r := recover(); r != nil {\n\t\tfmt.Println(\"recovered\", r)\n\t}\n}\n\nfunc main() {\n\tdefer func() { handle() }()\n\tpanic(\"boom\")\n}",
+      "options": [
+        "выведет recovered boom",
+        "программа упадёт с panic: boom",
+        "выведет recovered <nil>",
+        "ошибка компиляции"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "recover останавливает панику, только если его вызывает непосредственно отложенная функция. Здесь его вызывает handle, которую отложенная функция лишь вызывает, поэтому recover вернёт nil и программа упадёт."
+    },
+    {
+      "id": "02-013",
+      "lesson": "Обработка ошибок в Go",
+      "type": "input",
+      "q": "Что выведет программа? (два числа через пробел)",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc f() (n int) {\n\tdefer func() {\n\t\tif recover() != nil {\n\t\t\tn = -1\n\t\t}\n\t}()\n\tpanic(\"x\")\n}\n\nfunc g() int {\n\tn := 0\n\tdefer func() {\n\t\tif recover() != nil {\n\t\t\tn = -1\n\t\t}\n\t}()\n\tpanic(\"x\")\n\treturn n\n}\n\nfunc main() {\n\tfmt.Println(f(), g())\n}",
+      "answer": "-1 0",
+      "accept": [
+        "-1, 0",
+        "-1,0"
+      ],
+      "explain": "В f результат именованный, и отложенная функция меняет его после recover. В g меняется локальная переменная, а возвращается нулевое значение int."
+    },
+    {
+      "id": "02-014",
+      "lesson": "Обработка ошибок в Go",
+      "type": "input",
+      "q": "Что выведет программа? (числа через пробел, в порядке вывода)",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tdefer fmt.Println(1)\n\tdefer func() {\n\t\trecover()\n\t\tfmt.Println(2)\n\t}()\n\tdefer fmt.Println(3)\n\tpanic(\"p\")\n}",
+      "answer": "3 2 1",
+      "accept": [
+        "3, 2, 1"
+      ],
+      "explain": "При панике отложенные вызовы выполняются в порядке LIFO: сначала печать 3, затем функция с recover, которая останавливает панику и печатает 2, затем печать 1. Программа завершается нормально."
+    },
+    {
+      "id": "02-015",
+      "lesson": "Обработка ошибок в Go",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nvar ErrConflict = errors.New(\"conflict\")\n\ntype CE struct{ Key string }\n\nfunc (e CE) Error() string        { return \"ce \" + e.Key }\nfunc (e CE) Is(target error) bool { return target == ErrConflict }\n\nfunc main() {\n\terr := fmt.Errorf(\"op: %w\", CE{\"x\"})\n\tfmt.Println(errors.Is(err, ErrConflict), errors.Is(err, CE{\"x\"}), errors.Is(err, CE{\"y\"}))\n}",
+      "options": [
+        "true true false",
+        "true false false",
+        "false true false",
+        "true true true"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "errors.Is обходит цепочку: для CE{\"x\"} срабатывает обычное ==, а для ErrConflict — метод Is. CE{\"y\"} не равен CE{\"x\"}, и Is(CE{\"y\"}) тоже возвращает false."
+    },
+    {
+      "id": "02-016",
+      "lesson": "Обработка ошибок в Go",
+      "type": "multi",
+      "q": "Какие практики обработки ошибок считаются идиоматичными в Go?",
+      "options": [
+        "Добавлять контекст при возврате: fmt.Errorf(\"load config: %w\", err)",
+        "Логировать ошибку и тут же возвращать её наверх на каждом уровне",
+        "Проверять sentinel-ошибки через errors.Is, а не через ==, если ошибку могли обернуть",
+        "Использовать panic для ожидаемых ситуаций вроде «пользователь не найден»",
+        "Писать сообщения ошибок строчными буквами без точки в конце"
+      ],
+      "answer": [
+        0,
+        2,
+        4
+      ],
+      "explain": "Логировать ошибку должен тот, кто окончательно её обрабатывает, иначе в логах появятся дубли. Паника предназначена для программных ошибок и невозможных состояний, а не для штатных ситуаций."
+    },
+    {
+      "id": "02-017",
+      "lesson": "Управление пакетами и модулями",
+      "type": "single",
+      "q": "В каком порядке появятся строки?",
+      "code": "package main\n\nimport \"fmt\"\n\nvar x = initX()\n\nfunc initX() int { fmt.Println(\"var x\"); return 1 }\n\nfunc init() { fmt.Println(\"init 1\") }\nfunc init() { fmt.Println(\"init 2\") }\n\nfunc main() { fmt.Println(\"main\") }",
+      "options": [
+        "var x, init 1, init 2, main",
+        "init 1, init 2, var x, main",
+        "main, var x, init 1, init 2",
+        "init 2, init 1, var x, main"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Сначала инициализируются переменные уровня пакета, затем выполняются все init() в порядке появления в файле, и только потом main."
+    },
+    {
+      "id": "02-018",
+      "lesson": "Управление пакетами и модулями",
+      "type": "single",
+      "q": "Главный модуль A требует B v1.2.0 и C v1.0.0. B v1.2.0 требует D v1.1.0, C v1.0.0 требует D v1.3.0. Последний релиз D — v1.5.0. Какую версию D выберет Go (MVS)?",
+      "options": [
+        "v1.1.0",
+        "v1.3.0",
+        "v1.5.0",
+        "сборка упадёт с конфликтом версий"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Minimal Version Selection берёт максимальную из требуемых версий, а не последнюю опубликованную: $\\max(\\text{v1.1.0}, \\text{v1.3.0}) = \\text{v1.3.0}$. Новые релизы ничего не меняют, пока их явно не потребуют."
+    },
+    {
+      "id": "02-019",
+      "lesson": "Управление пакетами и модулями",
+      "type": "single",
+      "q": "Автор выпустил v2.1.0 модуля github.com/x/lib с несовместимыми изменениями. Как его импортировать?",
+      "options": [
+        "import \"github.com/x/lib\" и require github.com/x/lib v2.1.0",
+        "import \"github.com/x/lib/v2\"",
+        "import \"github.com/x/lib@v2\"",
+        "import \"github.com/x/lib/v2.1.0\""
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "По правилу импортной совместимости v2 и выше меняет путь модуля на github.com/x/lib/v2. Благодаря этому v1 и v2 можно использовать одновременно."
+    },
+    {
+      "id": "02-020",
+      "lesson": "Управление пакетами и модулями",
+      "type": "multi",
+      "q": "Какие пакеты могут импортировать github.com/a/b/internal/c?",
+      "options": [
+        "github.com/a/b",
+        "github.com/a/b/cmd/app",
+        "github.com/a/b/internal/d",
+        "github.com/a/other",
+        "github.com/a"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explain": "Пакет в .../b/internal/... доступен только коду с корнем в github.com/a/b. Проверяет это команда go при сборке, выдавая ошибку use of internal package ... not allowed."
+    },
+    {
+      "id": "02-021",
+      "lesson": "Управление пакетами и модулями",
+      "type": "multi",
+      "q": "Какие идентификаторы экспортируются из пакета?",
+      "options": [
+        "Имя",
+        "_Name",
+        "name",
+        "ΔX",
+        "x1"
+      ],
+      "answer": [
+        0,
+        3
+      ],
+      "explain": "Экспортируется идентификатор, первый символ которого — заглавная буква Unicode (класс Lu). Кириллическая «И» и греческая «Δ» подходят, а «_» и строчные буквы — нет."
+    },
+    {
+      "id": "02-022",
+      "lesson": "Управление пакетами и модулями",
+      "type": "single",
+      "q": "Зачем нужна переменная окружения GOPRIVATE=*.corp.example.com?",
+      "options": [
+        "Чтобы модули с этими путями не скачивались через публичный GOPROXY и не сверялись с sumdb",
+        "Чтобы сделать все пакеты этих модулей internal",
+        "Чтобы go mod tidy не удалял их из go.mod",
+        "Чтобы запретить импорт этих модулей из публичных"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "GOPRIVATE задаёт значения по умолчанию для GONOPROXY и GONOSUMDB, поэтому пути приватного кода не утекают в proxy.golang.org и sum.golang.org."
+    },
+    {
+      "id": "02-023",
+      "lesson": "Управление пакетами и модулями",
+      "type": "single",
+      "q": "В go.mod вашей зависимости L есть строка replace example.com/x => ../x. Что произойдёт при сборке вашего модуля?",
+      "options": [
+        "replace применится, и нужен ../x рядом с вашим модулем",
+        "replace из go.mod зависимости игнорируется — действуют только replace главного модуля",
+        "сборка упадёт с ошибкой",
+        "replace применится, только если запустить go mod vendor"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Директивы replace и exclude действуют только в главном модуле (или в go.work). Иначе зависимости могли бы перенаправлять друг друга."
+    },
+    {
+      "id": "02-024",
+      "lesson": "Управление пакетами и модулями",
+      "type": "single",
+      "q": "Как упорядочатся версии по возрастанию согласно SemVer?",
+      "options": [
+        "v1.0.0-beta.11 < v1.0.0-beta.2 < v1.0.0-rc.1 < v1.0.0",
+        "v1.0.0-beta.2 < v1.0.0-beta.11 < v1.0.0-rc.1 < v1.0.0",
+        "v1.0.0 < v1.0.0-beta.2 < v1.0.0-beta.11 < v1.0.0-rc.1",
+        "v1.0.0-rc.1 < v1.0.0-beta.2 < v1.0.0-beta.11 < v1.0.0"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Pre-release младше релиза. Числовые идентификаторы сравниваются как числа ($2 < 11$), а строковые — лексикографически (beta раньше rc)."
+    },
+    {
+      "id": "02-025",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc Max[T any](a, b T) T {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc main() {\n\tfmt.Println(Max(2, 3))\n}",
+      "options": [
+        "выведет 3",
+        "ошибка компиляции",
+        "panic в рантайме",
+        "выведет 2"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Для ограничения any оператор > не определён, ведь операция должна быть допустима для всех типов из набора. Здесь нужно ограничение cmp.Ordered."
+    },
+    {
+      "id": "02-026",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\ntype Number interface{ int | float64 }\n\ntype MyInt int\n\nfunc Sum[T Number](xs ...T) T {\n\tvar s T\n\tfor _, x := range xs {\n\t\ts += x\n\t}\n\treturn s\n}\n\nfunc main() {\n\tfmt.Println(Sum(MyInt(1), MyInt(2)))\n}",
+      "options": [
+        "выведет 3",
+        "ошибка компиляции: MyInt не удовлетворяет Number",
+        "panic в рантайме",
+        "выведет 3, но только в Go 1.21+"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "В наборе типов Number ровно два типа, int и float64, а MyInt — другой тип. Чтобы подошёл любой тип с базовым int, нужна тильда: ~int."
+    },
+    {
+      "id": "02-027",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Какое объявление НЕ скомпилируется?",
+      "options": [
+        "func Map[T, U any](s []T, f func(T) U) []U",
+        "type Pair[K comparable, V any] struct{ Key K; Val V }",
+        "func (s *Set[T]) Map[U comparable](f func(T) U) *Set[U]",
+        "func Keys[M ~map[K]V, K comparable, V any](m M) []K"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "У методов не может быть собственных параметров типа, им доступны только параметры типа получателя. Такие операции оформляют обычными функциями."
+    },
+    {
+      "id": "02-028",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc Zero[T any]() T {\n\tvar z T\n\treturn z\n}\n\nfunc main() {\n\tfmt.Printf(\"%q %v\\n\", Zero[string](), Zero[*int]())\n}",
+      "options": [
+        "\"\" <nil>",
+        "ошибка компиляции: cannot infer T",
+        "\"\" 0",
+        "<nil> <nil>"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Типы указаны явно, так что выводить нечего, а var z T даёт нулевое значение: пустую строку и nil-указатель. Без [string] компилятор выдал бы ошибку cannot infer T."
+    },
+    {
+      "id": "02-029",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport \"fmt\"\n\nfunc Eq[T comparable](a, b T) bool { return a == b }\n\nfunc main() {\n\tfmt.Println(Eq[any](1, 1))\n\tfmt.Println(Eq[any]([]int{1}, []int{1}))\n}",
+      "options": [
+        "true, затем false",
+        "ошибка компиляции: any не удовлетворяет comparable",
+        "true, затем panic: comparing uncomparable type []int",
+        "true true"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "С Go 1.20 интерфейсы, в том числе any, удовлетворяют comparable, но сравнение по-прежнему может запаниковать в рантайме, если внутри лежит несравнимый тип."
+    },
+    {
+      "id": "02-030",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"cmp\"\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tfmt.Println(min(3.0, math.NaN(), 1.0), cmp.Compare(math.NaN(), 1.0))\n}",
+      "options": [
+        "1 -1",
+        "NaN -1",
+        "1 1",
+        "NaN 1"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Встроенная min возвращает NaN, если среди аргументов есть NaN. А cmp.Compare задаёт полный порядок, в котором NaN меньше любого числа."
+    },
+    {
+      "id": "02-031",
+      "lesson": "Дженерики",
+      "type": "single",
+      "q": "Как Go (1.18+) компилирует дженерики?",
+      "options": [
+        "Отдельная копия кода на каждый тип-аргумент, как шаблоны C++",
+        "Стирание типов: всё превращается в interface{}, как в Java",
+        "Одна копия кода на каждую «GC-форму» типа плюс скрытый словарь с информацией о конкретном типе",
+        "Код генерируется во время выполнения JIT-компилятором"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Go использует GC shape stenciling со словарями: все указательные типы делят одну реализацию, а методы вызываются через словарь. Поэтому дженерики не всегда быстрее интерфейсов."
+    },
+    {
+      "id": "02-032",
+      "lesson": "Итераторы",
+      "type": "single",
+      "q": "Что произойдёт?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"iter\"\n)\n\nfunc Count(n int) iter.Seq[int] {\n\treturn func(yield func(int) bool) {\n\t\tfor i := 0; i < n; i++ {\n\t\t\tyield(i)\n\t\t}\n\t}\n}\n\nfunc main() {\n\tfor v := range Count(5) {\n\t\tfmt.Println(v)\n\t\tif v == 1 {\n\t\t\tbreak\n\t\t}\n\t}\n}",
+      "options": [
+        "выведет 0 1",
+        "выведет 0 1 2 3 4",
+        "выведет 0 1, затем panic",
+        "зависнет"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Итератор игнорирует false от yield и продолжает вызывать его после break. Рантайм это замечает и паникует с сообщением range function continued iteration after function for loop body returned false."
+    },
+    {
+      "id": "02-033",
+      "lesson": "Итераторы",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"iter\"\n)\n\nfunc Gen() iter.Seq[int] {\n\treturn func(yield func(int) bool) {\n\t\tdefer fmt.Println(\"cleanup\")\n\t\tfor i := 0; ; i++ {\n\t\t\tif !yield(i) {\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n\t}\n}\n\nfunc main() {\n\tfor v := range Gen() {\n\t\tif v == 2 {\n\t\t\tbreak\n\t\t}\n\t\tfmt.Println(v)\n\t}\n\tfmt.Println(\"done\")\n}",
+      "options": [
+        "0 1 done",
+        "0 1 cleanup done",
+        "0 1 done cleanup",
+        "0 1 2 cleanup done"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "После break yield возвращает false, итератор делает return, и срабатывает его defer. Всё это происходит до того, как цикл завершится и выполнится следующий оператор."
+    },
+    {
+      "id": "02-034",
+      "lesson": "Итераторы",
+      "type": "input",
+      "q": "Что выведет программа? (через пробел)",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"slices\"\n)\n\nfunc f() {\n\tfor v := range slices.Values([]int{1, 2, 3}) {\n\t\tdefer fmt.Print(v, \" \")\n\t}\n\tfmt.Print(\"end \")\n}\n\nfunc main() {\n\tf()\n\tfmt.Println()\n}",
+      "answer": "end 3 2 1",
+      "accept": [
+        "end 3 2 1 "
+      ],
+      "explain": "defer в теле range-over-func относится к внешней функции f, как и в обычном цикле, поэтому все три вызова выполнятся при выходе из f в порядке LIFO."
+    },
+    {
+      "id": "02-035",
+      "lesson": "Итераторы",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"slices\"\n)\n\nfunc main() {\n\ts := []int{1, 2, 3, 4}\n\tfor c := range slices.Chunk(s, 2) {\n\t\tc[0] = 0\n\t}\n\tfmt.Println(s)\n}",
+      "options": [
+        "[1 2 3 4]",
+        "[0 2 0 4]",
+        "[0 0 3 4]",
+        "ошибка компиляции"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "slices.Chunk отдаёт подсрезы исходного среза, а не копии, поэтому запись в c[0] меняет s."
+    },
+    {
+      "id": "02-036",
+      "lesson": "Итераторы",
+      "type": "single",
+      "q": "Что можно сказать о выводе этой программы?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"maps\"\n\t\"slices\"\n)\n\nfunc main() {\n\tm := map[string]int{\"a\": 1, \"b\": 2, \"c\": 3}\n\tfmt.Println(slices.Collect(maps.Keys(m)))\n}",
+      "options": [
+        "всегда [a b c]",
+        "всегда [c b a]",
+        "порядок не определён; для детерминированного нужен slices.Sorted(maps.Keys(m))",
+        "ошибка компиляции: maps.Keys возвращает срез"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "В Go 1.23 maps.Keys возвращает iter.Seq, а порядок обхода map случаен. slices.Sorted собирает последовательность и сортирует её."
+    },
+    {
+      "id": "02-037",
+      "lesson": "Итераторы",
+      "type": "multi",
+      "q": "Что верно про next, stop := iter.Pull(seq)?",
+      "options": [
+        "Если не дочитали последовательность до конца, нужно вызвать stop(), иначе итератор не завершится и его defer не выполнятся",
+        "После окончания последовательности next() возвращает нулевое значение и false",
+        "stop() можно вызывать повторно и после исчерпания — это безопасно",
+        "next и stop можно вызывать конкурентно из разных горутин",
+        "iter.Pull создаёт новый поток ОС на каждый вызов"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explain": "iter.Pull запускает seq как корутину и потоков ОС не создаёт. Вызывать next и stop конкурентно из разных горутин нельзя."
+    },
+    {
+      "id": "02-038",
+      "lesson": "Итераторы",
+      "type": "single",
+      "q": "Что выведет программа?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"iter\"\n)\n\nfunc Nums() iter.Seq[int] {\n\tfmt.Print(\"start \")\n\treturn func(yield func(int) bool) {\n\t\tfmt.Print(\"iter \")\n\t\tfor i := range 2 {\n\t\t\tif !yield(i) {\n\t\t\t\treturn\n\t\t\t}\n\t\t\tfmt.Print(i, \" \")\n\t\t}\n\t}\n}\n\nfunc main() {\n\ts := Nums()\n\tfmt.Print(\"created \")\n\tfor range s {\n\t}\n\tfor range s {\n\t}\n\tfmt.Println()\n}",
+      "options": [
+        "start created iter 0 1 iter 0 1",
+        "start created iter 0 1",
+        "created start iter 0 1 iter 0 1",
+        "start iter 0 1 created"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Тело Nums выполняется один раз при вызове (start), а тело итератора — при каждом range (iter). Итератор многоразовый, поэтому второй range запускает его заново."
+    }
+  ]
+}

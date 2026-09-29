@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 236" role="img" aria-label="Ротация ключа подписи: новый ключ k2 сначала появляется в JWKS, потом им начинают подписывать, и только когда истекут все токены со старым kid, ключ k1 удаляется из JWKS" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Ротация ключей через kid и JWKS</title>
+
+  <!-- вехи -->
+  <g stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.45">
+    <line x1="260" y1="22" x2="260" y2="186"/><line x1="400" y1="22" x2="400" y2="186"/><line x1="560" y1="22" x2="560" y2="186"/>
+  </g>
+  <g font-size="11" opacity="0.6">
+    <text x="330" y="18" text-anchor="middle">кэши JWKS обновились</text>
+    <text x="480" y="18" text-anchor="middle">≥ max TTL токена</text>
+  </g>
+
+  <!-- строки -->
+  <g font-size="12">
+    <text x="20" y="52">в JWKS</text>
+    <text x="20" y="112">подписывает</text>
+    <text x="20" y="162">живые токены</text>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <!-- JWKS -->
+    <rect x="120" y="32" width="440" height="18" rx="3" fill="#0891b2" fill-opacity="0.25" stroke="#0891b2"/>
+    <text x="128" y="45">k1</text>
+    <rect x="260" y="54" width="400" height="18" rx="3" fill="#7c3aed" fill-opacity="0.25" stroke="#7c3aed"/>
+    <text x="268" y="67">k2</text>
+
+    <!-- подпись -->
+    <rect x="120" y="100" width="280" height="18" rx="3" fill="#0891b2" fill-opacity="0.25" stroke="#0891b2"/>
+    <text x="128" y="113">kid=k1</text>
+    <rect x="400" y="100" width="260" height="18" rx="3" fill="#7c3aed" fill-opacity="0.25" stroke="#7c3aed"/>
+    <text x="408" y="113">kid=k2</text>
+
+    <!-- токены -->
+    <rect x="120" y="140" width="280" height="18" rx="3" fill="#0891b2" fill-opacity="0.25" stroke="#0891b2"/>
+    <rect x="400" y="140" width="160" height="18" rx="3" fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-dasharray="4 3"/>
+    <text x="128" y="153">k1</text>
+    <text x="408" y="153" opacity="0.8">k1 истекают</text>
+    <rect x="400" y="162" width="260" height="18" rx="3" fill="#7c3aed" fill-opacity="0.25" stroke="#7c3aed"/>
+    <text x="408" y="175">k2</text>
+  </g>
+
+  <!-- подписи вех -->
+  <g font-size="11" text-anchor="middle">
+    <text x="260" y="204">1. добавили k2</text>
+    <text x="260" y="219" opacity="0.6">в JWKS</text>
+    <text x="400" y="204">2. подписываем k2</text>
+    <text x="400" y="219" opacity="0.6">новые токены</text>
+    <text x="560" y="204">3. удалили k1</text>
+    <text x="560" y="219" opacity="0.6">из JWKS</text>
+  </g>
+  <text x="120" y="204" text-anchor="middle" font-size="11" opacity="0.6">было</text>
+</svg>

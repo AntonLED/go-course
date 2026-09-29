@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 264" role="img" aria-label="Один образ myapp:1.4.2 разворачивается в dev, stage и prod; различаются только значения конфигурации: адрес БД, формат и уровень логов, TLS; в prod пароль приходит из Secret и валидация строже" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Один артефакт — разные конфиги сред</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- артефакт -->
+  <rect x="220" y="8" width="240" height="44" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="340" y="27" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">myapp:1.4.2</text>
+  <text x="340" y="44" text-anchor="middle" font-size="11" opacity="0.7">один бинарь / образ, один digest</text>
+
+  <g stroke="currentColor" stroke-width="1.3" fill="none">
+    <path d="M280,52 L116,84" marker-end="url(#arr)"/>
+    <line x1="340" y1="52" x2="340" y2="84" marker-end="url(#arr)"/>
+    <path d="M400,52 L564,84" marker-end="url(#arr)"/>
+  </g>
+  <g font-size="11" opacity="0.6" text-anchor="middle">
+    <text x="176" y="62">+ конфиг dev</text>
+    <text x="504" y="62">+ конфиг prod</text>
+  </g>
+
+  <!-- среды -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="12" y="88" width="208" height="144" rx="6"/>
+    <rect x="236" y="88" width="208" height="144" rx="6"/>
+    <rect x="460" y="88" width="208" height="144" rx="6"/>
+  </g>
+  <g font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="24" y="108">APP_ENV=dev</text>
+    <text x="248" y="108">APP_ENV=stage</text>
+    <text x="472" y="108">APP_ENV=prod</text>
+  </g>
+  <g stroke="currentColor" stroke-opacity="0.2">
+    <line x1="12" y1="118" x2="220" y2="118"/><line x1="236" y1="118" x2="444" y2="118"/><line x1="460" y1="118" x2="668" y2="118"/>
+  </g>
+
+  <g font-size="11" opacity="0.6">
+    <text x="24" y="140">db</text><text x="24" y="162">log</text><text x="24" y="184">tls</text>
+    <text x="248" y="140">db</text><text x="248" y="162">log</text><text x="248" y="184">tls</text>
+    <text x="472" y="140">db</text><text x="472" y="162">log</text><text x="472" y="184">tls</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="56" y="140">localhost:5432</text><text x="56" y="162">text, debug</text><text x="56" y="184">выкл</text>
+    <text x="280" y="140">db-stage:5432</text><text x="280" y="162">json, info</text><text x="280" y="184">вкл</text>
+    <text x="504" y="140">db-prod:5432</text><text x="504" y="162">json, info</text><text x="504" y="184" fill="#16a34a">обязателен</text>
+  </g>
+  <g font-size="11">
+    <text x="24" y="210" fill="#d97706">удобные дефолты</text>
+    <text x="248" y="210" opacity="0.7">максимально как prod</text>
+    <text x="472" y="206" fill="#16a34a">пароль из Secret</text><text x="472" y="222" fill="#16a34a">строгая Validate()</text>
+  </g>
+
+  <text x="340" y="256" text-anchor="middle" font-size="11" opacity="0.7">в коде нет if env == "prod" — различаются только значения</text>
+</svg>

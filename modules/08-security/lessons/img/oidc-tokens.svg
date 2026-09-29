@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 262" role="img" aria-label="OIDC: из /token клиент получает id_token и access_token; id_token адресован самому клиенту (aud равен client_id) и проверяется им, access_token адресован API и отправляется на resource server; отправлять id_token в API нельзя" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>id_token и access_token в OIDC</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-g" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="arr-r" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+
+  <!-- AS -->
+  <rect x="20" y="104" width="140" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="90" y="127" text-anchor="middle" font-weight="600" font-size="12">Auth Server</text>
+  <text x="90" y="145" text-anchor="middle" font-size="11" opacity="0.7">OIDC-провайдер</text>
+  <line x1="160" y1="132" x2="210" y2="132" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="185" y="124" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">/token</text>
+
+  <!-- клиент -->
+  <rect x="212" y="12" width="236" height="240" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="224" y="31" font-weight="600" font-size="12">Клиент <tspan font-weight="400" opacity="0.7">(client_id = shop)</tspan></text>
+
+  <rect x="224" y="42" width="212" height="98" rx="4" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="236" y="60" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#7c3aed">id_token</text>
+  <text x="310" y="60" font-size="11" opacity="0.7">— кто пользователь</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">
+    <text x="236" y="78">aud: "shop"</text>
+    <text x="236" y="93">sub, nonce, exp, auth_time</text>
+  </g>
+  <text x="236" y="113" font-size="11">проверяет сам клиент:</text>
+  <text x="236" y="128" font-size="11" opacity="0.75">подпись, iss, aud, exp, nonce</text>
+
+  <rect x="224" y="150" width="212" height="90" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="236" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#0891b2">access_token</text>
+  <text x="340" y="168" font-size="11" opacity="0.7">— доступ к API</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">
+    <text x="236" y="186">aud: "orders-api"</text>
+    <text x="236" y="201">scope: "orders:read"</text>
+  </g>
+  <text x="236" y="222" font-size="11" opacity="0.75">клиент его не разбирает,</text>
+  <text x="236" y="236" font-size="11" opacity="0.75">только отправляет</text>
+
+  <!-- RS -->
+  <rect x="520" y="164" width="140" height="62" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="590" y="186" text-anchor="middle" font-weight="600" font-size="12">orders-api</text>
+  <text x="590" y="203" text-anchor="middle" font-size="11" opacity="0.7">проверяет aud,</text>
+  <text x="590" y="217" text-anchor="middle" font-size="11" opacity="0.7">scope, exp</text>
+  <line x1="436" y1="196" x2="518" y2="196" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-g)"/>
+  <text x="477" y="188" text-anchor="middle" font-size="11" fill="#16a34a">Bearer</text>
+
+  <path d="M436,92 H590 V162" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-r)"/>
+  <text x="600" y="120" font-size="11" fill="#dc2626">✗ id_token</text>
+  <text x="600" y="134" font-size="11" fill="#dc2626">не для API</text>
+</svg>

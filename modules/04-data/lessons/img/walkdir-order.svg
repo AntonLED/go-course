@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 286" role="img" aria-label="Порядок обхода filepath.WalkDir: в глубину, внутри каталога — лексикографически по байтам; .git возвращает fs.SkipDir, и его содержимое не посещается" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Порядок обхода filepath.WalkDir</title>
+
+  <!-- заголовки -->
+  <g font-size="11" opacity="0.6">
+    <text x="40" y="16" text-anchor="middle">вызов</text>
+    <text x="72" y="16">дерево (root = ".")</text>
+    <text x="264" y="16">path в колбэке</text>
+    <text x="464" y="16">что сделал колбэк</text>
+  </g>
+
+  <!-- соединительные линии -->
+  <g stroke="currentColor" stroke-width="1" fill="none" opacity="0.45">
+    <path d="M78,46 V194"/>
+    <path d="M78,62 H92 M78,128 H92 M78,172 H92 M78,194 H92 M78,106 H92"/>
+    <path d="M102,68 V84 H116"/>
+    <path d="M102,134 V150 H116"/>
+    <path d="M102,200 V238 H116 M102,216 H116"/>
+  </g>
+
+  <!-- номера вызовов -->
+  <g font-size="11" font-weight="600" text-anchor="middle">
+    <circle cx="40" cy="40" r="9" fill="none" stroke="currentColor" stroke-width="1"/><text x="40" y="44">1</text>
+    <circle cx="40" cy="62" r="9" fill="#d97706" fill-opacity="0.15" stroke="#d97706" stroke-width="1"/><text x="40" y="66" fill="#d97706">2</text>
+    <circle cx="40" cy="106" r="9" fill="none" stroke="currentColor" stroke-width="1"/><text x="40" y="110">3</text>
+    <circle cx="40" cy="128" r="9" fill="none" stroke="currentColor" stroke-width="1"/><text x="40" y="132">4</text>
+    <circle cx="40" cy="150" r="9" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1"/><text x="40" y="154" fill="#16a34a">5</text>
+    <circle cx="40" cy="172" r="9" fill="none" stroke="currentColor" stroke-width="1"/><text x="40" y="176">6</text>
+    <circle cx="40" cy="194" r="9" fill="none" stroke="currentColor" stroke-width="1"/><text x="40" y="198">7</text>
+    <circle cx="40" cy="216" r="9" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1"/><text x="40" y="220" fill="#16a34a">8</text>
+    <circle cx="40" cy="238" r="9" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1"/><text x="40" y="242" fill="#16a34a">9</text>
+  </g>
+
+  <!-- дерево -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="72" y="44" font-weight="600">.</text>
+    <text x="96" y="66" fill="#d97706">.git/</text>
+    <text x="120" y="88" opacity="0.4">HEAD</text>
+    <text x="96" y="110">README.md</text>
+    <text x="96" y="132">cmd/</text>
+    <text x="120" y="154" fill="#16a34a">main.go</text>
+    <text x="96" y="176">go.mod</text>
+    <text x="96" y="198">internal/</text>
+    <text x="120" y="220" fill="#16a34a">a.go</text>
+    <text x="120" y="242" fill="#16a34a">b_test.go</text>
+  </g>
+  <line x1="118" y1="84" x2="152" y2="84" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+
+  <!-- path -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="264" y="44">.</text>
+    <text x="264" y="66">.git</text>
+    <text x="264" y="88" opacity="0.4">—</text>
+    <text x="264" y="110">README.md</text>
+    <text x="264" y="132">cmd</text>
+    <text x="264" y="154">cmd/main.go</text>
+    <text x="264" y="176">go.mod</text>
+    <text x="264" y="198">internal</text>
+    <text x="264" y="220">internal/a.go</text>
+    <text x="264" y="242">internal/b_test.go</text>
+  </g>
+
+  <!-- действие -->
+  <g font-size="12">
+    <text x="464" y="44" opacity="0.6">nil</text>
+    <text x="464" y="66" fill="#d97706"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">return fs.SkipDir</tspan></text>
+    <text x="464" y="88" opacity="0.6">внутрь не заходит</text>
+    <text x="464" y="110" opacity="0.6">nil</text>
+    <text x="464" y="132" opacity="0.6">nil</text>
+    <text x="464" y="154" fill="#16a34a">печать, nil</text>
+    <text x="464" y="176" opacity="0.6">nil</text>
+    <text x="464" y="198" opacity="0.6">nil</text>
+    <text x="464" y="220" fill="#16a34a">печать, nil</text>
+    <text x="464" y="242" fill="#16a34a">печать, nil</text>
+  </g>
+
+  <text x="16" y="278" font-size="11" opacity="0.7">Сначала каталог, потом его содержимое (в глубину). Имена сравниваются по байтам: «.» &lt; «R» &lt; «c» &lt; «g» &lt; «i».</text>
+</svg>

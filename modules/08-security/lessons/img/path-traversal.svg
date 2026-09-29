@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 272" role="img" aria-label="Path traversal: из корня /srv/data путь ../../etc/passwd ведёт к /etc/passwd; проверка HasPrefix пропускает соседний каталог /srv/data2; filepath.IsLocal и os.Root такие пути отклоняют" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Path traversal и защита</title>
+  <defs>
+    <marker id="arr-r" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+
+  <!-- дерево -->
+  <rect x="72" y="146" width="104" height="54" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="176" y="214" text-anchor="end" font-size="11" fill="#0891b2">корень</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.5" fill="none">
+    <path d="M36,46 V126 M36,66 H52 M36,126 H52"/>
+    <path d="M60,76 V96 H76"/>
+    <path d="M60,136 V216 M60,156 H76 M60,216 H76"/>
+    <path d="M84,166 V186 H100"/>
+    <path d="M84,226 V246 H100"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="30" y="42">/</text>
+    <text x="56" y="70">etc/</text>
+    <text x="80" y="100" fill="#dc2626" font-weight="600">passwd</text>
+    <text x="56" y="130">srv/</text>
+    <text x="80" y="160" fill="#0891b2" font-weight="600">data/</text>
+    <text x="104" y="190">report.txt</text>
+    <text x="80" y="220">data2/</text>
+    <text x="104" y="250" fill="#dc2626" font-weight="600">secret.txt</text>
+  </g>
+  <path d="M126,156 C 196,152 196,100 136,96" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-r)"/>
+  <text x="192" y="130" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">../../etc/passwd</text>
+
+  <!-- проверки -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="344" y="40">filepath.Join("/srv/data", "../../etc/passwd")</text>
+    <text x="356" y="56" fill="#dc2626">→ "/etc/passwd"   вышли за корень</text>
+
+    <text x="344" y="96">strings.HasPrefix("/srv/data2/secret.txt",</text>
+    <text x="463" y="111">"/srv/data")</text>
+    <text x="356" y="127" fill="#dc2626">→ true   соседний каталог прошёл</text>
+
+    <text x="344" y="167">filepath.IsLocal("../../etc/passwd")</text>
+    <text x="356" y="183" fill="#16a34a">→ false  отклоняем</text>
+
+    <text x="344" y="223">root, _ := os.OpenRoot("/srv/data")</text>
+    <text x="344" y="238">root.Open("../../etc/passwd")</text>
+    <text x="356" y="254" fill="#16a34a">→ ошибка, symlink наружу — тоже</text>
+  </g>
+  <g>
+    <rect x="332" y="28" width="4" height="34" fill="#dc2626"/>
+    <rect x="332" y="84" width="4" height="50" fill="#dc2626"/>
+    <rect x="332" y="155" width="4" height="34" fill="#16a34a"/>
+    <rect x="332" y="211" width="4" height="50" fill="#16a34a"/>
+  </g>
+</svg>

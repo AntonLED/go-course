@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" role="img" aria-label="Откуда go берёт модуль: приватные пути (GOPRIVATE) — напрямую из VCS; остальные — через GOPROXY, при 404/410 — следующий пункт списка, direct. Скачанное хэшируется и сверяется с go.sum; если записи нет — с sum.golang.org, затем запись добавляется в go.sum и модуль кладётся в кэш" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>GOPROXY, go.sum и sumdb</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-warn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="20" y="16" font-size="11" opacity="0.6">1. скачать</text>
+
+  <!-- A: go get -->
+  <rect x="20" y="36" width="124" height="40" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="82" y="61" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">go get m@v</text>
+
+  <!-- B: GOPRIVATE? -->
+  <rect x="184" y="36" width="160" height="40" rx="20" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+  <text x="264" y="61" text-anchor="middle" font-size="12">путь в <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">GOPRIVATE</tspan>?</text>
+
+  <!-- C: proxy -->
+  <rect x="400" y="28" width="256" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="412" y="50" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan opacity="0.6">GOPROXY: </tspan><tspan font-weight="600">proxy.golang.org</tspan></text>
+  <text x="412" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" opacity="0.7">/@v/v1.2.3.info | .mod | .zip</text>
+
+  <!-- D: direct -->
+  <rect x="400" y="112" width="256" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="412" y="135" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">direct</tspan><tspan opacity="0.7">: VCS (git)</tspan></text>
+
+  <g stroke="currentColor" stroke-width="1.4" fill="none">
+    <line x1="144" y1="56" x2="182" y2="56" marker-end="url(#arr)"/>
+    <line x1="344" y1="56" x2="398" y2="56" marker-end="url(#arr)"/>
+    <path d="M264,76 V130 H398" marker-end="url(#arr)"/>
+  </g>
+  <text x="352" y="50" font-size="11" opacity="0.7">нет</text>
+  <text x="272" y="124" font-size="11" opacity="0.7">да</text>
+  <path d="M528,84 V110" fill="none" stroke="#d97706" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arr-warn)"/>
+  <text x="520" y="102" text-anchor="end" font-size="11" fill="#d97706">404/410 → direct</text>
+
+  <!-- bus -->
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.6">
+    <path d="M656,56 H668 V176 H140 V202" marker-end="url(#arr)"/>
+    <path d="M528,148 V176"/>
+  </g>
+
+  <text x="20" y="192" font-size="11" opacity="0.6">2. проверить</text>
+
+  <!-- E: hash -->
+  <rect x="20" y="204" width="152" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="96" y="229" text-anchor="middle" font-size="12">хэш <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">h1:</tspan> .zip и .mod</text>
+
+  <!-- F: go.sum? -->
+  <rect x="212" y="204" width="152" height="40" rx="20" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+  <text x="288" y="229" text-anchor="middle" font-size="12">запись в <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">go.sum</tspan>?</text>
+
+  <!-- G: cache -->
+  <rect x="548" y="204" width="108" height="40" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="602" y="229" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">$GOMODCACHE</text>
+
+  <!-- H: sumdb -->
+  <rect x="212" y="280" width="316" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="224" y="298" font-size="12">сверить с <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="600">sum.golang.org</tspan></text>
+  <text x="224" y="316" font-size="11" opacity="0.7">и дописать в go.sum; для GOPRIVATE — без сверки</text>
+
+  <g stroke="currentColor" stroke-width="1.4" fill="none">
+    <line x1="172" y1="224" x2="210" y2="224" marker-end="url(#arr)"/>
+    <path d="M288,244 V278" marker-end="url(#arr)"/>
+    <path d="M528,302 H602 V246" marker-end="url(#arr-ok)" stroke="#16a34a"/>
+  </g>
+  <line x1="364" y1="224" x2="546" y2="224" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-ok)"/>
+  <text x="374" y="218" font-size="11" fill="#16a34a">есть, хэш совпал</text>
+  <text x="374" y="240" font-size="11" fill="#dc2626">иначе SECURITY ERROR</text>
+  <text x="296" y="266" font-size="11" opacity="0.7">нет</text>
+</svg>

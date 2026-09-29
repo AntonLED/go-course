@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 222" role="img" aria-label="Цепочка unary-интерсепторов: recovery, mtlsAuthz, authUnary, scopesUnary, handler; каждый может прервать вызов своим кодом ошибки, публичные методы проходят authUnary без токена" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Цепочка auth-интерсепторов gRPC</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-r" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+  </defs>
+  <rect x="22" y="72" width="116" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="80.0" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">recoveryUnary</text>
+  <text x="80.0" y="109" text-anchor="middle" font-size="10.5" opacity="0.75">panic → ошибка</text>
+  <line x1="138" y1="96" x2="151" y2="96" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="80.0" y1="120" x2="80.0" y2="138" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <rect x="28" y="140" width="104" height="36" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1"/>
+  <text x="80.0" y="155" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">Internal</text>
+  <text x="80.0" y="169" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">(13)</text>
+  <rect x="152" y="72" width="116" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="210.0" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">mtlsAuthz</text>
+  <text x="210.0" y="109" text-anchor="middle" font-size="10.5" opacity="0.75">сервис по SPIFFE ID</text>
+  <line x1="268" y1="96" x2="281" y2="96" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="210.0" y1="120" x2="210.0" y2="138" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <rect x="158" y="140" width="104" height="36" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1"/>
+  <text x="210.0" y="155" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">PermissionDenied</text>
+  <text x="210.0" y="169" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">(7)</text>
+  <rect x="282" y="72" width="116" height="48" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="340.0" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">authUnary</text>
+  <text x="340.0" y="109" text-anchor="middle" font-size="10.5" opacity="0.75">Bearer → ctx+claims</text>
+  <line x1="398" y1="96" x2="411" y2="96" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="340.0" y1="120" x2="340.0" y2="138" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <rect x="288" y="140" width="104" height="36" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1"/>
+  <text x="340.0" y="155" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">Unauthenticated</text>
+  <text x="340.0" y="169" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">(16)</text>
+  <rect x="412" y="72" width="116" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="470.0" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">scopesUnary</text>
+  <text x="470.0" y="109" text-anchor="middle" font-size="10.5" opacity="0.75">scope из claims</text>
+  <line x1="528" y1="96" x2="541" y2="96" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="470.0" y1="120" x2="470.0" y2="138" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <rect x="418" y="140" width="104" height="36" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1"/>
+  <text x="470.0" y="155" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">PermissionDenied</text>
+  <text x="470.0" y="169" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#dc2626">(7)</text>
+  <rect x="542" y="72" width="116" height="48" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="600.0" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">handler</text>
+  <text x="600.0" y="109" text-anchor="middle" font-size="10.5" opacity="0.75">владение ресурсом</text>
+  <text x="22" y="34" font-size="12">входящий вызов</text>
+  <path d="M62,40 V70" stroke="currentColor" stroke-width="1.4" fill="none" marker-end="url(#arr)"/>
+  <path d="M248,72 V52 H432 V70" fill="none" stroke="#0891b2" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arr-acc)"/>
+  <text x="340.0" y="46" text-anchor="middle" font-size="11" fill="#0891b2">публичный метод (<tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">public[info.FullMethod]</tspan>) — без токена</text>
+  <path d="M600.0,120 V196 H24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.7" marker-end="url(#arr)"/>
+  <text x="590.0" y="212" text-anchor="end" font-size="11" opacity="0.7">ответ и ошибки возвращаются через ту же цепочку в обратном порядке</text>
+</svg>

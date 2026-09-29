@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" role="img" aria-label="Жизненный цикл соединения http.Transport: новое соединение после dial становится активным; дочитанное до EOF и закрытое тело возвращает соединение в idle-пул хоста, откуда его берёт следующий запрос; закрытие без дочитывания закрывает соединение, отсутствие Close — утечка; из пула соединение уходит по IdleConnTimeout или если пул полон" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Соединение в пуле http.Transport</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-amb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <!-- client.Do -->
+  <rect x="16" y="16" width="232" height="48" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="28" y="36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">client.Do(req)</text>
+  <text x="28" y="54" font-size="11" opacity="0.75">есть idle-соединение к этому хосту?</text>
+  <line x1="96" y1="64" x2="96" y2="138" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-amb)"/>
+  <text x="104" y="106" font-size="11" fill="#d97706">нет → dial</text>
+  <text x="458" y="102" text-anchor="middle" font-size="11" fill="#16a34a">есть idle → берём из пула, без рукопожатия</text>
+
+  <!-- состояния -->
+  <rect x="16" y="140" width="160" height="56" rx="6" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.3"/>
+  <text x="96" y="163" text-anchor="middle" font-weight="600" fill="#d97706">новое</text>
+  <text x="96" y="182" text-anchor="middle" font-size="11">TCP + TLS рукопожатие</text>
+
+  <rect x="248" y="140" width="176" height="56" rx="6" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="336" y="163" text-anchor="middle" font-weight="600" fill="#0891b2">активное</text>
+  <text x="336" y="182" text-anchor="middle" font-size="11">запрос, ответ, читаем Body</text>
+
+  <rect x="496" y="140" width="168" height="56" rx="6" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="580" y="163" text-anchor="middle" font-weight="600" fill="#16a34a">idle-пул хоста</text>
+  <text x="580" y="182" text-anchor="middle" font-size="11">ждёт следующий запрос</text>
+
+  <line x1="176" y1="168" x2="246" y2="168" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <path d="M556,140 V110 H360 V138" fill="none" stroke="#16a34a" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arr-ok)"/>
+  <line x1="424" y1="168" x2="494" y2="168" stroke="#16a34a" stroke-width="1.6" marker-end="url(#arr-ok)"/>
+  <text x="460" y="216" text-anchor="middle" font-size="11" fill="#16a34a">Body дочитан до EOF</text>
+  <text x="460" y="230" text-anchor="middle" font-size="11" fill="#16a34a">и закрыт</text>
+
+  <!-- выходы -->
+  <line x1="288" y1="196" x2="288" y2="286" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <line x1="384" y1="196" x2="384" y2="286" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <text x="280" y="248" text-anchor="end" font-size="11" fill="#dc2626">Close() без</text>
+  <text x="280" y="262" text-anchor="end" font-size="11" fill="#dc2626">дочитывания</text>
+  <text x="392" y="255" font-size="11" fill="#dc2626">Close() забыт</text>
+  <line x1="580" y1="196" x2="580" y2="286" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+  <text x="588" y="248" font-size="11" fill="#dc2626">простой &gt;</text>
+  <text x="588" y="262" font-size="11" fill="#dc2626">IdleConnTimeout</text>
+
+  <g font-size="11">
+    <rect x="168" y="288" width="164" height="44" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-width="1.2"/>
+    <text x="250" y="306" text-anchor="middle" font-weight="600" fill="#dc2626">закрыто</text>
+    <text x="250" y="322" text-anchor="middle">в сокете хвост ответа</text>
+    <rect x="340" y="288" width="152" height="44" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-width="1.2"/>
+    <text x="416" y="306" text-anchor="middle" font-weight="600" fill="#dc2626">утечка</text>
+    <text x="416" y="322" text-anchor="middle">сокет и горутины висят</text>
+    <rect x="500" y="288" width="164" height="44" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-width="1.2"/>
+    <text x="582" y="306" text-anchor="middle" font-weight="600" fill="#dc2626">закрыто</text>
+    <text x="582" y="322" text-anchor="middle">и пора делать новое</text>
+  </g>
+  <text x="16" y="356" font-size="11" opacity="0.75">Пул ключуется по схеме + хосту + порту (+ прокси). Если в пуле хоста уже <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">MaxIdleConnsPerHost</tspan></text>
+  <text x="16" y="372" font-size="11" opacity="0.75">соединений (по умолчанию 2), вернувшееся соединение не кладётся, а закрывается.</text>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" role="img" aria-label="flag.Parse разбирает os.Args[1:] слева направо и останавливается на первом не-флаге или на --; всё остальное, включая флаги после него, попадает в flag.Args()" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как flag разбирает os.Args</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+  </defs>
+
+  <text x="16" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.7">$ ./app -v -addr=:9090 in.txt -timeout 1s</text>
+
+  <!-- ячейки os.Args -->
+  <text x="112" y="67" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">os.Args</text>
+  <rect x="120" y="46" width="72" height="32" fill="currentColor" fill-opacity="0.08"/>
+  <rect x="192" y="46" width="160" height="32" fill="#16a34a" fill-opacity="0.15"/>
+  <rect x="352" y="46" width="216" height="32" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="120" y="46" width="448" height="32" rx="3"/>
+    <line x1="192" y1="46" x2="192" y2="78"/><line x1="240" y1="46" x2="240" y2="78"/>
+    <line x1="432" y1="46" x2="432" y2="78"/><line x1="520" y1="46" x2="520" y2="78"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="156" y="67">./app</text><text x="216" y="67">-v</text><text x="296" y="67">-addr=:9090</text>
+    <text x="392" y="67">in.txt</text><text x="476" y="67">-timeout</text><text x="544" y="67">1s</text>
+  </g>
+  <g font-size="11" opacity="0.6" text-anchor="middle">
+    <text x="156" y="92">[0]</text><text x="216" y="92">[1]</text><text x="296" y="92">[2]</text>
+    <text x="392" y="92">[3]</text><text x="476" y="92">[4]</text><text x="544" y="92">[5]</text>
+  </g>
+
+  <!-- стоп -->
+  <line x1="352" y1="34" x2="352" y2="84" stroke="#d97706" stroke-width="2.4"/>
+  <text x="360" y="38" font-size="11" fill="#d97706">стоп: первый не-флаг</text>
+
+  <!-- скобки -->
+  <path d="M122,100 v6 h68 v-6" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6"/>
+  <text x="116" y="122" text-anchor="end" font-size="11" opacity="0.7">имя программы,</text>
+  <text x="116" y="136" text-anchor="end" font-size="11" opacity="0.7">Parse не смотрит</text>
+  <path d="M194,100 v6 h156 v-6" fill="none" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="272" y="122" text-anchor="middle" font-size="12" fill="#16a34a">разобраны как флаги</text>
+  <path d="M354,100 v6 h212 v-6" fill="none" stroke="#0891b2" stroke-width="1.4"/>
+  <text x="460" y="122" text-anchor="middle" font-size="12" fill="#0891b2"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">flag.Args()</tspan> — как есть</text>
+  <text x="460" y="138" text-anchor="middle" font-size="11" fill="#d97706">-timeout 1s стал позиционным!</text>
+
+  <!-- результат -->
+  <rect x="120" y="156" width="448" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="136" y="178">verbose</text><text x="216" y="178">= true</text>
+    <text x="136" y="196">*addr</text><text x="216" y="196">= ":9090"</text>
+    <text x="136" y="214">*timeout</text><text x="216" y="214">= 5s</text>
+    <text x="136" y="232" fill="#0891b2">files</text><text x="216" y="232" fill="#0891b2">= [in.txt -timeout 1s]</text>
+  </g>
+  <text x="304" y="214" font-size="11" fill="#d97706">умолчание: -timeout не разобран</text>
+
+  <!-- второй пример: двойной дефис -->
+  <text x="16" y="270" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.7">$ ./app -v -- -x</text>
+  <rect x="192" y="284" width="48" height="32" fill="#16a34a" fill-opacity="0.15"/>
+  <rect x="288" y="284" width="48" height="32" fill="#0891b2" fill-opacity="0.15"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="120" y="284" width="216" height="32" rx="3"/>
+    <line x1="192" y1="284" x2="192" y2="316"/><line x1="240" y1="284" x2="240" y2="316"/><line x1="288" y1="284" x2="288" y2="316"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="156" y="305">./app</text><text x="216" y="305">-v</text><text x="264" y="305" fill="#d97706">--</text><text x="312" y="305">-x</text>
+  </g>
+  <text x="352" y="296" font-size="12"><tspan fill="#d97706">--</tspan> — конец флагов, сам он «съедается»:</text>
+  <text x="352" y="313" font-size="12" fill="#0891b2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">flag.Args() = [-x]</text>
+</svg>

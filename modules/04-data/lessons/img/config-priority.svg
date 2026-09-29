@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" role="img" aria-label="Приоритет конфигурации: для каждого параметра берётся значение из самого верхнего источника, где оно задано: флаги, затем окружение, затем файл, затем умолчание" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Приоритет источников конфигурации</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ac" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+  </defs>
+
+  <!-- ось приоритета -->
+  <line x1="28" y1="182" x2="28" y2="34" stroke="currentColor" stroke-width="1.4" opacity="0.6" marker-end="url(#a)"/>
+  <text transform="translate(20,108) rotate(-90)" text-anchor="middle" font-size="11" opacity="0.7">приоритет выше</text>
+
+  <!-- заголовки ключей -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" text-anchor="middle">
+    <text x="268" y="20">addr</text><text x="428" y="20">timeout</text><text x="588" y="20">verbose</text>
+  </g>
+
+  <!-- подписи источников -->
+  <g text-anchor="end">
+    <text x="176" y="53">флаги</text>
+    <text x="176" y="93">окружение</text>
+    <text x="176" y="133">файл конфигурации</text>
+    <text x="176" y="173">умолчания</text>
+  </g>
+
+  <!-- сетка ячеек -->
+  <g fill="none" stroke="currentColor" stroke-width="1" opacity="0.35">
+    <rect x="192" y="32" width="152" height="32" rx="3"/><rect x="352" y="32" width="152" height="32" rx="3"/><rect x="512" y="32" width="152" height="32" rx="3"/>
+    <rect x="192" y="72" width="152" height="32" rx="3"/><rect x="352" y="72" width="152" height="32" rx="3"/><rect x="512" y="72" width="152" height="32" rx="3"/>
+    <rect x="192" y="112" width="152" height="32" rx="3"/><rect x="352" y="112" width="152" height="32" rx="3"/><rect x="512" y="112" width="152" height="32" rx="3"/>
+    <rect x="192" y="152" width="152" height="32" rx="3"/><rect x="352" y="152" width="152" height="32" rx="3"/><rect x="512" y="152" width="152" height="32" rx="3"/>
+  </g>
+
+  <!-- победители -->
+  <g fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1.4">
+    <rect x="192" y="32" width="152" height="32" rx="3"/>
+    <rect x="352" y="72" width="152" height="32" rx="3"/>
+    <rect x="512" y="152" width="152" height="32" rx="3"/>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <!-- флаги -->
+    <text x="268" y="53">-addr=:9090</text>
+    <text x="428" y="53" opacity="0.4">—</text>
+    <text x="588" y="53" opacity="0.4">—</text>
+    <!-- окружение -->
+    <text x="268" y="93" opacity="0.45">APP_ADDR=:9000</text>
+    <text x="428" y="93">APP_TIMEOUT=30s</text>
+    <text x="588" y="93" opacity="0.4">—</text>
+    <!-- файл -->
+    <text x="268" y="133" opacity="0.45">addr: :8000</text>
+    <text x="428" y="133" opacity="0.45">timeout: 10s</text>
+    <text x="588" y="133" opacity="0.4">—</text>
+    <!-- умолчания -->
+    <text x="268" y="173" opacity="0.45">":8080"</text>
+    <text x="428" y="173" opacity="0.45">5s</text>
+    <text x="588" y="173">false</text>
+  </g>
+
+  <!-- итог -->
+  <line x1="192" y1="200" x2="664" y2="200" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <text x="176" y="233" text-anchor="end" font-weight="600">итог Config</text>
+  <g fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2">
+    <rect x="192" y="212" width="152" height="32" rx="3"/><rect x="352" y="212" width="152" height="32" rx="3"/><rect x="512" y="212" width="152" height="32" rx="3"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="268" y="233">":9090"</text><text x="428" y="233">30s</text><text x="588" y="233">false</text>
+  </g>
+</svg>

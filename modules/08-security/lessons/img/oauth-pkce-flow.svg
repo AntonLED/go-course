@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 536" role="img" aria-label="Authorization Code с PKCE: клиент генерирует verifier, challenge и state, браузер уходит на /authorize, пользователь логинится на AS, код возвращается через редирект, клиент обменивает код вместе с verifier на токены и вызывает API" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>OAuth 2.0 Authorization Code + PKCE</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-o" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+    <marker id="arr-t" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+    <marker id="arr-s" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M8,0 L0,4 L8,8 z" fill="currentColor"/></marker>
+  </defs>
+  <text x="64" y="18" text-anchor="middle" font-weight="600" font-size="12">Браузер</text>
+  <text x="250" y="18" text-anchor="middle" font-weight="600" font-size="12">Клиент (shop)</text>
+  <text x="456" y="18" text-anchor="middle" font-weight="600" font-size="12">Auth Server</text>
+  <text x="622" y="18" text-anchor="middle" font-weight="600" font-size="12">Resource Server</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.4"><line x1="64" y1="28" x2="64" y2="486"/><line x1="250" y1="28" x2="250" y2="40"/><line x1="250" y1="90" x2="250" y2="122"/><line x1="250" y1="166" x2="250" y2="176"/><line x1="250" y1="226" x2="250" y2="486"/><line x1="456" y1="28" x2="456" y2="360"/><line x1="456" y1="394" x2="456" y2="440"/><line x1="456" y1="456" x2="456" y2="486"/><line x1="622" y1="28" x2="622" y2="486"/></g>
+  <rect x="150" y="40" width="200" height="50" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1"/>
+  <text x="160" y="56" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">1. verifier = random(32 B)</text>
+  <text x="160" y="70" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">challenge = S256(verifier)</text>
+  <text x="160" y="84" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">state = random → сессия</text>
+  <text x="157.0" y="108" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">2. 302 → /authorize</text>
+  <line x1="250" y1="116" x2="66" y2="116" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-o)"/>
+  <text x="76" y="134" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">GET /authorize?response_type=code&amp;client_id=shop</text>
+  <text x="76" y="148" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">&amp;redirect_uri=https://shop/cb&amp;scope=…&amp;state=…</text>
+  <text x="76" y="162" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">&amp;code_challenge=…&amp;code_challenge_method=S256</text>
+  <line x1="64" y1="170" x2="454" y2="170" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-o)"/>
+  <text x="260.0" y="192" text-anchor="middle" font-size="11">3. логин и согласие — только на стороне AS</text>
+  <line x1="66" y1="200" x2="454" y2="200" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 3" marker-start="url(#arr-s)" marker-end="url(#arr)"/>
+  <text x="260.0" y="222" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">4. 302 https://shop/cb?code=SplxlOBe…&amp;state=…</text>
+  <line x1="456" y1="230" x2="66" y2="230" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-o)"/>
+  <text x="157.0" y="250" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">GET /cb?code=…&amp;state=…</text>
+  <line x1="64" y1="258" x2="248" y2="258" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-o)"/>
+  <text x="258" y="278" text-anchor="start" font-size="11">5. state совпал с сессией?</text>
+  <text x="258" y="300" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#0891b2">POST /token</text>
+  <text x="258" y="314" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#0891b2">grant_type=authorization_code</text>
+  <text x="258" y="328" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#0891b2">&amp;code=…&amp;redirect_uri=…</text>
+  <text x="258" y="342" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#0891b2">&amp;code_verifier=dBjftJeZ…</text>
+  <line x1="250" y1="350" x2="454" y2="350" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-t)"/>
+  <rect x="346" y="360" width="220" height="34" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1"/>
+  <text x="456" y="374" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">6. S256(verifier) == challenge</text>
+  <text x="456" y="388" text-anchor="middle" font-size="10.5">код ещё не использован</text>
+  <text x="258" y="410" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#0891b2">access_token, refresh_token,</text>
+  <text x="258" y="424" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#0891b2">id_token (если scope openid)</text>
+  <line x1="456" y1="432" x2="252" y2="432" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-t)"/>
+  <text x="258" y="452" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">7. Authorization: Bearer &lt;access_token&gt;</text>
+  <line x1="250" y1="460" x2="620" y2="460" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="353" y="476" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">200 OK</text>
+  <line x1="622" y1="482" x2="252" y2="482" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="20" y1="506" x2="44" y2="506" stroke="#d97706" stroke-width="1.6"/>
+  <text x="50" y="510" text-anchor="start" font-size="11">через браузер (front channel): видно в URL, истории, логах</text>
+  <line x1="20" y1="524" x2="44" y2="524" stroke="#0891b2" stroke-width="1.6"/>
+  <text x="50" y="528" text-anchor="start" font-size="11">напрямую клиент ↔ AS (back channel)</text>
+</svg>

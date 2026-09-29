@@ -1,0 +1,10 @@
+# BuildKit ищет <имя Dockerfile>.dockerignore рядом с Dockerfile.
+# Контекст сборки — корень репозитория: не тащим в него лишнее.
+.git
+**/*_test.go
+**/*.md
+**/Dockerfile*
+bin/
+tmp/
+.idea/
+.vscode/

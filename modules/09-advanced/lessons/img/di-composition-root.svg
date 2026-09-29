@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -12 680 292" role="img" aria-label="Граф зависимостей в run: cfg даёт DSN для sql.Open, db идёт в postgres.NewRepo, repo передаётся в users.NewService как интерфейс UserRepo, сервис и логгер — в httpapi.New, api и cfg.Addr — в httpapi.Serve" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Composition root: граф конструкторов в run</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <rect x="6" y="-6" width="668" height="280" rx="8" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-dasharray="5 4"/>
+  <text x="104" y="182" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">func run(ctx)</text>
+  <text x="104" y="200" font-size="11" opacity="0.6">composition root: единственное место,</text>
+  <text x="104" y="216" font-size="11" opacity="0.6">где известны конкретные типы</text>
+
+  <!-- узлы -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="24" width="128" height="40" rx="4"/>
+    <rect x="180" y="24" width="128" height="40" rx="4"/>
+    <rect x="340" y="24" width="128" height="40" rx="4"/>
+    <rect x="340" y="114" width="128" height="40" rx="4"/>
+  </g>
+  <g fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2">
+    <rect x="500" y="24" width="160" height="40" rx="4"/>
+    <rect x="500" y="114" width="160" height="40" rx="4"/>
+    <rect x="500" y="204" width="160" height="40" rx="4"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" text-anchor="middle">
+    <text x="84" y="41">cfg</text><text x="244" y="41">db</text><text x="404" y="41">repo</text>
+    <text x="404" y="131">log</text><text x="580" y="41">svc</text><text x="580" y="131">api</text>
+    <text x="580" y="221">Serve</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle" opacity="0.7">
+    <text x="84" y="57">config.Load</text><text x="244" y="57">sql.Open</text><text x="404" y="57">postgres.NewRepo</text>
+    <text x="404" y="147">slog.New</text><text x="580" y="57">users.NewService</text><text x="580" y="147">httpapi.New</text>
+    <text x="580" y="237">httpapi.Serve</text>
+  </g>
+
+  <!-- рёбра -->
+  <g stroke="currentColor" stroke-width="1.3" fill="none">
+    <line x1="148" y1="44" x2="176" y2="44" marker-end="url(#arr)"/>
+    <line x1="308" y1="44" x2="336" y2="44" marker-end="url(#arr)"/>
+    <line x1="580" y1="64" x2="580" y2="110" marker-end="url(#arr)"/>
+    <line x1="468" y1="134" x2="496" y2="134" marker-end="url(#arr)"/>
+    <path d="M468,124 L496,58" marker-end="url(#arr)"/>
+    <line x1="580" y1="154" x2="580" y2="200" marker-end="url(#arr)"/>
+    <path d="M84,64 L84,258 L580,258 L580,248" marker-end="url(#arr)"/>
+  </g>
+  <line x1="468" y1="44" x2="496" y2="44" stroke="#0891b2" stroke-width="1.3" marker-end="url(#arr-acc)"/>
+  <g font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="164" y="36" text-anchor="middle" opacity="0.7">DSN</text>
+    <text x="588" y="92" opacity="0.7">svc</text>
+    <text x="588" y="182" opacity="0.7">api</text>
+    <text x="300" y="252" text-anchor="middle" opacity="0.7">cfg.Addr</text>
+  </g>
+  <text x="484" y="16" text-anchor="middle" font-size="11" fill="#0891b2">как users.UserRepo</text>
+</svg>

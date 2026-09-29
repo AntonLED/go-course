@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="Слева nil-интерфейс: оба слова nil, сравнение с nil истинно. Справа интерфейс с typed nil: tab указывает на itab для *MyErr, data равен nil, сравнение с nil ложно" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>nil-интерфейс и typed nil</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- left: nil interface -->
+  <text x="40" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan font-weight="600">return nil</tspan></text>
+  <rect x="40" y="44" width="200" height="36" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <line x1="140" y1="44" x2="140" y2="80" stroke="#16a34a" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="90" y="67">tab: nil</text><text x="190" y="67">data: nil</text>
+  </g>
+  <text x="140" y="104" text-anchor="middle" font-size="11" opacity="0.6">тип не задан, значения нет</text>
+  <rect x="60" y="160" width="160" height="32" rx="16" fill="#16a34a" fill-opacity="0.15"/>
+  <text x="140" y="181" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#16a34a" font-weight="600">err == nil → true</text>
+
+  <!-- divider -->
+  <line x1="300" y1="20" x2="300" y2="200" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+
+  <!-- right: typed nil -->
+  <text x="360" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12"><tspan opacity="0.6">var p *MyErr = nil; </tspan><tspan font-weight="600">return p</tspan></text>
+  <rect x="360" y="44" width="200" height="36" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <line x1="460" y1="44" x2="460" y2="80" stroke="#dc2626" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="410" y="67">tab</text><text x="510" y="67">data: nil</text>
+  </g>
+  <circle cx="410" cy="74" r="2.5" fill="#dc2626"/>
+  <path d="M410,74 V124 H486" fill="none" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="488" y="108" width="180" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="578" y="129" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">itab{_type: *MyErr}</text>
+  <text x="418" y="104" font-size="11" opacity="0.6">тип задан</text>
+  <rect x="380" y="160" width="160" height="32" rx="16" fill="#dc2626" fill-opacity="0.15"/>
+  <text x="460" y="181" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626" font-weight="600">err == nil → false</text>
+</svg>

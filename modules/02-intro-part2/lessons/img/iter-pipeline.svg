@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 264" role="img" aria-label="Ленивый конвейер Take(Filter(Fibonacci(), чётные), 5): числа Фибоначчи идут по одному; нечётные отсеивает Filter, чётные 0, 2, 8, 34, 144 проходят в Take; после пятого Take возвращается, и 233 уже не вычисляется" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Ленивый конвейер итераторов</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-t" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <text x="20" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.7">slices.Collect(Take(Filter(Fibonacci(), even), 5))</text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="20" y="60" font-weight="600">Fibonacci</text>
+    <text x="20" y="116" font-weight="600">Filter</text>
+    <text x="20" y="172" font-weight="600">Take(5)</text>
+    <text x="20" y="224" font-weight="600">Collect</text>
+  </g>
+  <g font-size="11" opacity="0.6">
+    <text x="20" y="130">x%2 == 0</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="120" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="136" y="60">0</text>
+    <line x1="136" y1="68" x2="136" y2="99" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="120" y="100" width="32" height="24" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+    <text x="136" y="116">0</text>
+    <line x1="136" y1="124" x2="136" y2="155" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="120" y="156" width="32" height="24" rx="3" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1"/>
+    <text x="136" y="172">0</text>
+    <text x="136" y="196" font-size="10" fill="#16a34a">1/5</text>
+    <rect x="160" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="174" y="60">1</text>
+    <text x="174" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="198" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="212" y="60">1</text>
+    <text x="212" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="236" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="250" y="60">2</text>
+    <line x1="250" y1="68" x2="250" y2="99" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="236" y="100" width="32" height="24" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+    <text x="250" y="116">2</text>
+    <line x1="250" y1="124" x2="250" y2="155" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="236" y="156" width="32" height="24" rx="3" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1"/>
+    <text x="250" y="172">2</text>
+    <text x="250" y="196" font-size="10" fill="#16a34a">2/5</text>
+    <rect x="274" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="288" y="60">3</text>
+    <text x="288" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="312" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="326" y="60">5</text>
+    <text x="326" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="350" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="364" y="60">8</text>
+    <line x1="364" y1="68" x2="364" y2="99" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="350" y="100" width="32" height="24" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+    <text x="364" y="116">8</text>
+    <line x1="364" y1="124" x2="364" y2="155" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="350" y="156" width="32" height="24" rx="3" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1"/>
+    <text x="364" y="172">8</text>
+    <text x="364" y="196" font-size="10" fill="#16a34a">3/5</text>
+    <rect x="388" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="402" y="60">13</text>
+    <text x="402" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="426" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="440" y="60">21</text>
+    <text x="440" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="464" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="478" y="60">34</text>
+    <line x1="478" y1="68" x2="478" y2="99" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="464" y="100" width="32" height="24" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+    <text x="478" y="116">34</text>
+    <line x1="478" y1="124" x2="478" y2="155" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="464" y="156" width="32" height="24" rx="3" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1"/>
+    <text x="478" y="172">34</text>
+    <text x="478" y="196" font-size="10" fill="#16a34a">4/5</text>
+    <rect x="502" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="516" y="60">55</text>
+    <text x="516" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="540" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="554" y="60">89</text>
+    <text x="554" y="116" fill="#dc2626" opacity="0.8">✗</text>
+    <rect x="578" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="592" y="60">144</text>
+    <line x1="592" y1="68" x2="592" y2="99" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="578" y="100" width="32" height="24" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1"/>
+    <text x="592" y="116">144</text>
+    <line x1="592" y1="124" x2="592" y2="155" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr)"/>
+    <rect x="578" y="156" width="32" height="24" rx="3" fill="#16a34a" fill-opacity="0.14" stroke="#16a34a" stroke-width="1"/>
+    <text x="592" y="172">144</text>
+    <text x="592" y="196" font-size="10" fill="#16a34a">5/5</text>
+    <rect x="616" y="44" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
+    <text x="630" y="60" opacity="0.4">233</text>
+  </g>
+  <text x="678" y="86" text-anchor="end" font-size="10" opacity="0.6">не</text>
+  <text x="678" y="98" text-anchor="end" font-size="10" opacity="0.6">считается</text>
+  <text x="616" y="172" font-size="11" fill="#dc2626">return</text>
+  <rect x="120" y="208" width="136" height="24" rx="3" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1"/>
+  <text x="132" y="224" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">[0 2 8 34 144]</text>
+  <line x1="120" y1="252" x2="600" y2="252" stroke="currentColor" stroke-width="1" opacity="0.5" marker-end="url(#arr-t)"/>
+  <text x="608" y="256" font-size="11" opacity="0.6">время</text>
+</svg>

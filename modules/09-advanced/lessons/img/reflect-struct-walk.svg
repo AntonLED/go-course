@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 232" role="img" aria-label="Обход User: для каждого i rt.Field(i) даёт StructField с именем, типом, смещением и тегом; Tag.Lookup(validate) для Name возвращает required,min=3 и true, для Email — пустую строку и false, поле age неэкспортируемое и пропускается" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Обход полей структуры и тегов</title>
+
+  <!-- заголовки колонок -->
+  <g font-size="11" opacity="0.6">
+    <text x="20" y="20">User в памяти (amd64)</text>
+    <text x="164" y="20">sf := rt.Field(i)</text>
+    <text x="330" y="20">sf.Tag</text>
+    <text x="522" y="20">Lookup("validate")</text>
+  </g>
+
+  <!-- память -->
+  <g stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="32" width="124" height="56" fill="#0891b2" fill-opacity="0.12"/>
+    <rect x="20" y="88" width="124" height="56" fill="#0891b2" fill-opacity="0.12"/>
+    <rect x="20" y="144" width="124" height="56" fill="currentColor" fill-opacity="0.06"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="30" y="56">Name</text><text x="30" y="112">Email</text><text x="30" y="168" opacity="0.7">age</text>
+  </g>
+  <g font-size="11" opacity="0.6">
+    <text x="30" y="76">string · 16 Б</text><text x="30" y="132">string · 16 Б</text><text x="30" y="188">int · 8 Б</text>
+  </g>
+  <g font-size="11" opacity="0.6" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="140" y="46">0</text><text x="140" y="102">16</text><text x="140" y="158">32</text>
+  </g>
+  <text x="82" y="220" text-anchor="middle" font-size="11" opacity="0.6">Sizeof = 40</text>
+
+  <!-- разделители строк -->
+  <g stroke="currentColor" stroke-opacity="0.2" stroke-width="1">
+    <line x1="156" y1="88" x2="664" y2="88"/><line x1="156" y1="144" x2="664" y2="144"/>
+  </g>
+
+  <!-- StructField -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="164" y="56">i=0 Name</text>
+    <text x="164" y="112">i=1 Email</text>
+    <text x="164" y="168" opacity="0.7">i=2 age</text>
+  </g>
+  <g font-size="11" opacity="0.6">
+    <text x="164" y="76">Offset 0, экспортируемое</text>
+    <text x="164" y="132">Offset 16, экспортируемое</text>
+    <text x="164" y="188">Offset 32, IsExported() false</text>
+  </g>
+
+  <!-- теги -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <rect x="330" y="40" width="88" height="20" rx="3" fill="none" stroke="currentColor" stroke-opacity="0.5"/>
+    <text x="336" y="54">json:"name"</text>
+    <rect x="330" y="64" width="176" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+    <text x="336" y="78" fill="#0891b2">validate:"required,min=3"</text>
+
+    <rect x="330" y="106" width="164" height="20" rx="3" fill="none" stroke="currentColor" stroke-opacity="0.5"/>
+    <text x="336" y="120">json:"email,omitempty"</text>
+    <text x="336" y="170" opacity="0.5">—</text>
+  </g>
+
+  <!-- Lookup -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="522" y="78" font-size="11" fill="#16a34a">"required,min=3", true</text>
+    <text x="522" y="122" fill="#d97706">"", false</text>
+  </g>
+  <text x="522" y="140" font-size="11" opacity="0.6">тега нет (не «пустой»)</text>
+  <text x="522" y="176" font-size="12" opacity="0.7">continue — пропуск</text>
+</svg>

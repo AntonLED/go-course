@@ -1,0 +1,6 @@
+nil: 
+simple: a=1 b=2 c=3
+quoting: bs="C:\\dir" empty="" msg="hello world" q="he said \"hi\""
+special: ctrl="\x00\x7f" eq="a=b" nl="line1\nline2" tab="a\tb"
+unicode: bad="\xff" emoji="🚀" ru="привет"
+bare: neg=-1.5e10 path=/usr/local/bin url=http://x.io/?a&b

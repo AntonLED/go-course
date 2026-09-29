@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" role="img" aria-label="Unary-вызов gRPC в фреймах HTTP/2: запрос — HEADERS с :path метода и grpc-timeout, затем DATA с END_STREAM; ответ — HEADERS с :status 200, DATA и трейлеры HEADERS с grpc-status и END_STREAM. Внизу побайтово Length-Prefixed-Message: 1 байт флага сжатия, 4 байта длины big-endian и 5 байт protobuf GetItemRequest с sku ABC" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Фреймы gRPC и Length-Prefixed-Message</title>
+  <text x="16" y="18" font-weight="600">запрос</text>
+  <rect x="16" y="26" width="340" height="82" rx="4" fill="currentColor" fill-opacity="0.10" stroke="currentColor" stroke-width="1.2"/>
+  <text x="24" y="42" font-size="11" font-weight="600" fill="currentColor">HEADERS</text>
+  <text x="24" y="58" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">:method POST</text>
+  <text x="24" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">:path /inventory.v1.Inventory/GetItem</text>
+  <text x="24" y="86" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">content-type: application/grpc  te: trailers</text>
+  <text x="24" y="100" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">grpc-timeout: 200m   authorization: …</text>
+  <rect x="368" y="26" width="180" height="82" rx="4" fill="#0891b2" fill-opacity="0.10" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="376" y="42" font-size="11" font-weight="600" fill="#0891b2">DATA</text>
+  <text x="540" y="42" text-anchor="end" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.75">END_STREAM</text>
+  <text x="376" y="58" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">00 00000005 0a0341…</text>
+  <text x="376" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">Length-Prefixed-Message</text>
+  <text x="376" y="86" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">(разбор ниже)</text>
+  <text x="16" y="140" font-weight="600">ответ</text>
+  <rect x="16" y="148" width="160" height="60" rx="4" fill="currentColor" fill-opacity="0.10" stroke="currentColor" stroke-width="1.2"/>
+  <text x="24" y="164" font-size="11" font-weight="600" fill="currentColor">HEADERS</text>
+  <text x="24" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">:status 200</text>
+  <text x="24" y="194" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">content-type: …/grpc</text>
+  <rect x="188" y="148" width="152" height="60" rx="4" fill="#0891b2" fill-opacity="0.10" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="196" y="164" font-size="11" font-weight="600" fill="#0891b2">DATA</text>
+  <text x="196" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">00 0000000c …</text>
+  <text x="196" y="194" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">Item</text>
+  <rect x="352" y="148" width="196" height="60" rx="4" fill="#16a34a" fill-opacity="0.10" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="360" y="164" font-size="11" font-weight="600" fill="#16a34a">HEADERS</text>
+  <text x="540" y="164" text-anchor="end" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.75">END_STREAM</text>
+  <text x="360" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">grpc-status: 0</text>
+  <text x="360" y="194" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">grpc-message: …</text>
+  <text x="560" y="170" font-size="11" opacity="0.75">трейлеры: статус</text>
+  <text x="560" y="184" font-size="11" opacity="0.75">здесь, не в :status</text>
+  <line x1="16" y1="228" x2="664" y2="228" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-dasharray="4 4"/>
+  <rect x="100" y="246" width="42" height="30" rx="3" fill="#d97706" fill-opacity="0.14" stroke="#d97706" stroke-width="1.2"/>
+  <text x="121" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">00</text>
+  <rect x="156" y="246" width="42" height="30" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="177" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">00</text>
+  <rect x="202" y="246" width="42" height="30" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="223" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">00</text>
+  <rect x="248" y="246" width="42" height="30" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="269" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">00</text>
+  <rect x="294" y="246" width="42" height="30" rx="3" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="315" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">05</text>
+  <rect x="350" y="246" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="371" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">0a</text>
+  <rect x="396" y="246" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="417" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">03</text>
+  <rect x="442" y="246" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="463" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">41</text>
+  <rect x="488" y="246" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="509" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">42</text>
+  <rect x="534" y="246" width="42" height="30" rx="3" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="555" y="266" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">43</text>
+  <path d="M102,282 v5 H140 v-5" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="121" y="302" text-anchor="middle" font-size="11" fill="#d97706">флаг</text>
+  <text x="121" y="316" text-anchor="middle" font-size="10" opacity="0.7">0 = без сжатия</text>
+  <path d="M158,282 v5 H334 v-5" fill="none" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="246" y="302" text-anchor="middle" font-size="11" fill="#7c3aed">длина: 4 байта big-endian</text>
+  <text x="246" y="316" text-anchor="middle" font-size="10" opacity="0.7">= 5</text>
+  <path d="M352,282 v5 H574 v-5" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="463" y="302" text-anchor="middle" font-size="11" fill="#0891b2">protobuf GetItemRequest</text>
+  <text x="463" y="316" text-anchor="middle" font-size="10" opacity="0.7">sku = "ABC"</text>
+  <text x="371" y="240" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">tag</text>
+  <text x="417" y="240" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">len</text>
+  <text x="463" y="240" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">A</text>
+  <text x="509" y="240" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">B</text>
+  <text x="555" y="240" text-anchor="middle" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" opacity="0.7">C</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 0 691 316" role="img" aria-label="Горутина G1 читает из сокета без данных: получает EAGAIN, паркуется через netpoller, поток M0 тем временем выполняет другие горутины; когда данные приходят, epoll сообщает о готовности fd, netpoll делает G1 runnable, и повторный read возвращает данные" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Netpoller</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/></marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="arr-warn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+    <marker id="arr-vio" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+  <line x1="96" y1="46" x2="96" y2="308" stroke="currentColor" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="3 3"/>
+  <rect x="59" y="16" width="75" height="30" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="96" y="29" text-anchor="middle" font-weight="600">G1</text>
+  <text x="96" y="42" text-anchor="middle" font-size="11" opacity="0.6">conn.Read</text>
+  <line x1="260" y1="46" x2="260" y2="115" stroke="currentColor" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="3 3"/>
+  <line x1="260" y1="130" x2="260" y2="308" stroke="currentColor" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="3 3"/>
+  <rect x="225" y="16" width="69" height="30" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="260" y="36.0" text-anchor="middle" font-weight="600">M0 + P0</text>
+  <line x1="440" y1="46" x2="440" y2="308" stroke="currentColor" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="3 3"/>
+  <rect x="392" y="16" width="96" height="30" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="440" y="29" text-anchor="middle" font-weight="600">netpoller</text>
+  <text x="440" y="42" text-anchor="middle" font-size="11" opacity="0.6">epoll / kqueue</text>
+  <line x1="600" y1="46" x2="600" y2="308" stroke="currentColor" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="3 3"/>
+  <rect x="564" y="16" width="72" height="30" rx="5" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.2"/>
+  <text x="600" y="29" text-anchor="middle" font-weight="600">ядро ОС</text>
+  <text x="600" y="42" text-anchor="middle" font-size="11" opacity="0.6">сокет fd</text>
+  <rect x="90" y="136" width="12" height="120" rx="3" fill="#d97706" fill-opacity="0.18" stroke="#d97706" stroke-width="1.2"/>
+  <text x="84" y="192" text-anchor="end" font-size="11" fill="#d97706" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">_Gwaiting</text>
+  <text x="84" y="206" text-anchor="end" font-size="11" fill="#d97706">поток свободен</text>
+  <rect x="254" y="140" width="12" height="76" rx="3" fill="#16a34a" fill-opacity="0.18" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="274" y="170" font-size="12">выполняет</text>
+  <text x="274" y="186" font-size="12">G2, G3, …</text>
+
+  <line x1="100" y1="76" x2="597" y2="76" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="348" y="70" text-anchor="middle" font-size="12" fill="currentColor">read(fd), неблокирующий</text>
+  <line x1="596" y1="100" x2="99" y2="100" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr)"/>
+  <text x="348" y="94" text-anchor="middle" font-size="12" fill="currentColor">EAGAIN: данных нет</text>
+  <line x1="100" y1="132" x2="437" y2="132" stroke="#d97706" stroke-width="1.5" marker-end="url(#arr-warn)"/>
+  <text x="268" y="126" text-anchor="middle" font-size="12" fill="#d97706">gopark: ждать готовности fd</text>
+  <line x1="596" y1="204" x2="443" y2="204" stroke="#0891b2" stroke-width="1.5" marker-end="url(#arr-acc)"/>
+  <text x="520" y="198" text-anchor="middle" font-size="12" fill="#0891b2">данные пришли</text>
+  <line x1="436" y1="236" x2="263" y2="236" stroke="#0891b2" stroke-width="1.5" marker-end="url(#arr-acc)"/>
+  <text x="350" y="230" text-anchor="middle" font-size="12" fill="#0891b2">netpoll(): G1 → runq</text>
+  <line x1="256" y1="268" x2="99" y2="268" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr-ok)"/>
+  <text x="178" y="262" text-anchor="middle" font-size="12" fill="#16a34a">G1 снова выполняется</text>
+  <line x1="100" y1="300" x2="597" y2="300" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr-ok)"/>
+  <text x="348" y="294" text-anchor="middle" font-size="12" fill="#16a34a">read(fd) → данные</text>
+</svg>

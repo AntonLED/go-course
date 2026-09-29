@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 268" role="img" aria-label="Цепочка доверия: root подписывает intermediate, intermediate подписывает leaf; сервер отдаёт leaf и intermediate, root лежит в хранилище доверенных корней клиента" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Цепочка сертификатов root → intermediate → leaf</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- подписи -->
+  <path d="M322,72 V40 H128 V70" fill="none" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#arr-p)"/>
+  <text x="225" y="34" text-anchor="middle" font-size="11" fill="#7c3aed">подписывает ключом intermediate</text>
+  <path d="M590,72 V40 H360 V70" fill="none" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#arr-p)"/>
+  <text x="475" y="34" text-anchor="middle" font-size="11" fill="#7c3aed">подписывает ключом root</text>
+
+  <!-- группы -->
+  <rect x="8" y="60" width="440" height="160" rx="6" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="5 4" opacity="0.5"/>
+  <text x="228" y="212" text-anchor="middle" font-size="11" opacity="0.7">сервер отдаёт в сообщении Certificate</text>
+  <rect x="464" y="60" width="208" height="160" rx="6" fill="none" stroke="#16a34a" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="568" y="212" text-anchor="middle" font-size="11" fill="#16a34a">trust store клиента</text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <!-- leaf -->
+    <rect x="20" y="72" width="200" height="118" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="32" y="92" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0891b2">Leaf</text>
+    <text x="32" y="112">Subject: api.example.com</text>
+    <text x="32" y="128">Issuer:  Intermediate</text>
+    <text x="32" y="144">SAN: api.example.com</text>
+    <text x="32" y="160">CA:FALSE, EKU serverAuth</text>
+    <text x="32" y="178" font-family="ui-sans-serif, system-ui, sans-serif" opacity="0.6">живёт недели–месяцы</text>
+
+    <!-- intermediate -->
+    <rect x="236" y="72" width="200" height="118" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="248" y="92" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">Intermediate CA</text>
+    <text x="248" y="112">Subject: Intermediate</text>
+    <text x="248" y="128">Issuer:  Root CA</text>
+    <text x="248" y="144">CA:TRUE, pathlen:0</text>
+    <text x="248" y="178" font-family="ui-sans-serif, system-ui, sans-serif" opacity="0.6">выпускает leaf</text>
+
+    <!-- root -->
+    <rect x="476" y="72" width="184" height="118" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="488" y="92" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" fill="#16a34a">Root CA</text>
+    <text x="488" y="112">Subject: Root CA</text>
+    <text x="488" y="128">Issuer:  Root CA</text>
+    <text x="488" y="144">CA:TRUE</text>
+    <text x="488" y="162" font-family="ui-sans-serif, system-ui, sans-serif" opacity="0.6">самоподписанный</text>
+    <text x="488" y="178" font-family="ui-sans-serif, system-ui, sans-serif" opacity="0.6">20+ лет, ключ офлайн</text>
+  </g>
+
+  <!-- проверка -->
+  <line x1="120" y1="252" x2="566" y2="252" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="343" y="244" text-anchor="middle" font-size="12">клиент строит путь leaf → intermediate → root и проверяет каждое звено</text>
+</svg>

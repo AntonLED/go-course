@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 304" role="img" aria-label="Если ответ поместился в 2-килобайтный буфер до возврата хендлера, Go ставит Content-Length; если буфер переполнился или вызван Flush, заголовки уходят без длины и тело идёт в Transfer-Encoding: chunked" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Буфер ответа: Content-Length или chunked</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <text x="16" y="20" font-weight="600">Ответ влез в буфер, хендлер вернулся</text>
+  <text x="16" y="58" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.Write(300 Б)</text>
+  <rect x="196" y="42" width="28" height="24" fill="#16a34a" fill-opacity="0.3"/>
+  <rect x="196" y="42" width="192" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="292.0" y="84" text-anchor="middle" font-size="11" opacity="0.75">300 из 2048 — всё в памяти</text>
+  <text x="292.0" y="36" text-anchor="middle" font-size="11" opacity="0.6">буфер ответа, 2048 Б</text>
+  <line x1="396" y1="54" x2="436" y2="54" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="440" y="34" width="224" height="78" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1" opacity="0.9"/>
+  <text x="452" y="50" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">HTTP/1.1 200 OK</text>
+  <text x="452" y="66" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#16a34a" font-weight="600">Content-Length: 300</text>
+  <text x="452" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5"></text>
+  <text x="452" y="98" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">…300 байт…</text>
+  <text x="16" y="140" font-weight="600">Ответ больше буфера (или вызван Flush)</text>
+  <text x="16" y="178" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">w.Write(5 КБ)</text>
+  <rect x="196" y="162" width="192" height="24" fill="#d97706" fill-opacity="0.3"/>
+  <rect x="196" y="162" width="192" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="292.0" y="204" text-anchor="middle" font-size="11" opacity="0.75">не влезает — сразу в сокет</text>
+  <text x="292.0" y="156" text-anchor="middle" font-size="11" opacity="0.6">буфер ответа, 2048 Б</text>
+  <line x1="396" y1="174" x2="436" y2="174" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="440" y="154" width="224" height="94" rx="4" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1" opacity="0.9"/>
+  <text x="452" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">HTTP/1.1 200 OK</text>
+  <text x="452" y="186" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#d97706" font-weight="600">Transfer-Encoding: chunked</text>
+  <text x="452" y="202" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5"></text>
+  <text x="452" y="218" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">&lt;размер hex&gt;\r\n&lt;данные&gt;…</text>
+  <text x="452" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5">0\r\n\r\n   ← конец</text>
+  <text x="16" y="274" font-size="12" opacity="0.8">Длина известна, только если весь ответ ещё в буфере к моменту возврата из хендлера.</text>
+  <text x="16" y="292" font-size="12" opacity="0.8">Свой <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Content-Length</tspan> отключает chunked; в HTTP/2 chunked нет — там тело идёт DATA-фреймами.</text>
+</svg>

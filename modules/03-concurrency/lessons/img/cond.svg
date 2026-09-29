@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1 680 253" role="img" aria-label="sync.Cond: ожидающий под мьютексом проверяет условие в цикле; Wait ставит горутину в очередь уведомлений, отпускает mu и усыпляет её; сигналящий меняет ready под mu и вызывает Broadcast, который будит всех ждущих; проснувшиеся снова захватывают mu и перепроверяют условие" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>sync.Cond: Wait и Broadcast</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-warn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- ждущий -->
+  <text x="120" y="14" text-anchor="middle" font-weight="600">ожидающий (G1, G2, G3)</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="40" y="24" width="160" height="28" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="120" y="43">mu.Lock()</text>
+    <rect x="40" y="72" width="160" height="28" rx="5" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+    <text x="120" y="91">for !ready</text>
+    <rect x="236" y="72" width="104" height="28" rx="5" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="288" y="91">mu.Unlock()</text>
+  </g>
+  <rect x="40" y="120" width="160" height="64" rx="5" fill="#d97706" fill-opacity="0.1" stroke="#d97706" stroke-width="1.2"/>
+  <text x="52" y="138" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">c.Wait()</text>
+  <text x="52" y="156" font-size="12">1. встать в очередь c</text>
+  <text x="52" y="174" font-size="12">2. mu.Unlock(), уснуть</text>
+  <rect x="40" y="204" width="160" height="28" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="52" y="223" font-size="12">3. снова <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">mu.Lock()</tspan></text>
+
+  <g stroke="currentColor" stroke-width="1.2" fill="none">
+    <line x1="120" y1="52" x2="120" y2="69" marker-end="url(#arr)"/>
+    <line x1="120" y1="100" x2="120" y2="117" marker-end="url(#arr)"/>
+    <path d="M40,218 H24 V86 H37" marker-end="url(#arr)"/>
+  </g>
+  <line x1="200" y1="86" x2="233" y2="86" stroke="#16a34a" stroke-width="1.2" marker-end="url(#arr-ok)"/>
+  <text x="128" y="114" font-size="11" opacity="0.7">условие ложно</text>
+  <text x="288" y="66" text-anchor="middle" font-size="11" fill="#16a34a">ready: работаем</text>
+  <text x="18" y="160" font-size="11" opacity="0.7" transform="rotate(-90 18 160)" text-anchor="middle">перепроверка</text>
+
+  <!-- очередь -->
+  <rect x="384" y="124" width="280" height="56" rx="6" fill="none" stroke="#d97706" stroke-width="1.2"/>
+  <text x="396" y="172" font-size="11" opacity="0.8"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">c.notify</tspan> — очередь ждущих (FIFO)</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="396" y="132" width="44" height="22" rx="4" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/><text x="418" y="147">G1</text>
+    <rect x="452" y="132" width="44" height="22" rx="4" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/><text x="474" y="147">G2</text>
+    <rect x="508" y="132" width="44" height="22" rx="4" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/><text x="530" y="147">G3</text>
+  </g>
+  <path d="M200,143 H393" fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arr-warn)"/>
+  <text x="296" y="137" text-anchor="middle" font-size="11" fill="#d97706">спит здесь</text>
+  <path d="M474,180 V218 H203" fill="none" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+  <text x="340" y="212" text-anchor="middle" font-size="11" fill="#0891b2">разбужены → по очереди берут mu</text>
+
+  <!-- сигналящий -->
+  <text x="524" y="14" text-anchor="middle" font-weight="600">сигналящий</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="384" y="24" width="280" height="28" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <text x="524" y="43">mu.Lock(); ready = true; mu.Unlock()</text>
+    <rect x="464" y="72" width="120" height="28" rx="5" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="524" y="91">c.Broadcast()</text>
+  </g>
+  <line x1="524" y1="52" x2="524" y2="69" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <g stroke="#0891b2" stroke-width="1.4" fill="none">
+    <path d="M500,100 L426,129" marker-end="url(#arr-acc)"/>
+    <path d="M512,100 L478,129" marker-end="url(#arr-acc)"/>
+    <path d="M524,100 L530,129" marker-end="url(#arr-acc)"/>
+  </g>
+  <text x="560" y="118" font-size="11" fill="#0891b2">будит всех</text>
+  <text x="664" y="198" text-anchor="end" font-size="11" opacity="0.7"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Signal()</tspan> — только первого</text>
+</svg>

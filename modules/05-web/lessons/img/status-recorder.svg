@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" role="img" aria-label="Обёртка statusRecorder перехватывает WriteHeader и запоминает статус, Write проходит к исходному writer через встроенное поле, приведение к http.Flusher не срабатывает, а ResponseController находит Flush через Unwrap" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как вызовы проходят через statusRecorder</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- заголовки колонок -->
+  <text x="16" y="24" font-weight="600">хендлер вызывает</text>
+  <rect x="216" y="36" width="232" height="212" rx="8" fill="#0891b2" fill-opacity="0.06" stroke="#0891b2" stroke-width="1.3"/>
+  <text x="332" y="24" text-anchor="middle" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0891b2">*statusRecorder</text>
+  <rect x="480" y="36" width="184" height="212" rx="8" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.3"/>
+  <text x="572" y="24" text-anchor="middle" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">*http.response</text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <!-- 1 WriteHeader -->
+    <text x="16" y="70">w.WriteHeader(500)</text>
+    <line x1="164" y1="66" x2="226" y2="66" stroke="#0891b2" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <rect x="228" y="52" width="208" height="28" rx="4" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2" stroke-width="1.2"/>
+    <text x="332" y="70" text-anchor="middle" fill="#0891b2">r.status = 500</text>
+    <line x1="436" y1="66" x2="490" y2="66" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+    <text x="496" y="70">WriteHeader(500)</text>
+
+    <!-- 2 Write -->
+    <text x="16" y="118">w.Write(b)</text>
+    <line x1="100" y1="114" x2="490" y2="114" stroke="currentColor" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arr)"/>
+    <text x="496" y="118">Write(b)</text>
+
+    <!-- 3 Flusher -->
+    <text x="16" y="166">w.(http.Flusher)</text>
+    <line x1="150" y1="162" x2="226" y2="162" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-red)"/>
+    <path d="M234,155 l14,14 M248,155 l-14,14" stroke="#dc2626" stroke-width="1.8"/>
+    <text x="496" y="166">Flush()</text>
+
+    <!-- 4 ResponseController -->
+    <text x="16" y="214">rc.Flush()</text>
+    <line x1="100" y1="210" x2="226" y2="210" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-ok)"/>
+    <rect x="228" y="196" width="208" height="28" rx="4" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="332" y="214" text-anchor="middle" fill="#16a34a">Unwrap()</text>
+    <line x1="436" y1="210" x2="490" y2="210" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-ok)"/>
+    <text x="496" y="214">FlushError()</text>
+  </g>
+  <g font-size="11">
+    <text x="332" y="106" text-anchor="middle" opacity="0.75">метод встроенного поля — насквозь</text>
+    <text x="256" y="167" fill="#dc2626">нет метода Flush → ok == false</text>
+    <text x="332" y="240" text-anchor="middle" fill="#16a34a">вернул исходный writer</text>
+  </g>
+
+  <text x="16" y="276" font-size="12" opacity="0.8">Logging читает <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">rec.status</tspan> после <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">next.ServeHTTP</tspan>. Был только <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Write</tspan> — ответ ушёл с 200,</text>
+  <text x="16" y="294" font-size="12" opacity="0.8">а WriteHeader обёртка не видела: поэтому <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">status</tspan> заранее ставят в 200.</text>
+  <text x="16" y="312" font-size="12" opacity="0.8"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">http.NewResponseController(w)</tspan> ищет метод у w, затем по цепочке <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Unwrap()</tspan>.</text>
+</svg>

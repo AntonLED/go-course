@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 272" role="img" aria-label="go build: каждый пакет компилируется в объектный файл, линковщик собирает их вместе с рантаймом в один статический бинарь" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как go build превращает исходники в бинарь</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+
+  <!-- заголовки колонок -->
+  <g font-size="11" opacity="0.6" text-anchor="middle">
+    <text x="92" y="20">пакеты (исходники .go)</text>
+    <text x="306" y="20">объектные файлы</text>
+    <text x="448" y="20">линковщик</text>
+    <text x="596" y="20">бинарь</text>
+  </g>
+
+  <!-- пакеты -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="20" y="36" width="144" height="36" rx="4"/>
+    <rect x="20" y="88" width="144" height="36" rx="4"/>
+    <rect x="20" y="140" width="144" height="36" rx="4"/>
+  </g>
+  <rect x="20" y="192" width="144" height="36" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="92" y="58">package main</text>
+    <text x="92" y="110">example.com/lib</text>
+    <text x="92" y="162">fmt, strings, …</text>
+    <text x="92" y="214" fill="#0891b2">runtime</text>
+  </g>
+
+  <!-- compile -->
+  <g stroke="currentColor" stroke-width="1.3">
+    <line x1="164" y1="54" x2="250" y2="54" marker-end="url(#arr)"/>
+    <line x1="164" y1="106" x2="250" y2="106" marker-end="url(#arr)"/>
+    <line x1="164" y1="158" x2="250" y2="158" marker-end="url(#arr)"/>
+  </g>
+  <line x1="164" y1="210" x2="250" y2="210" stroke="#0891b2" stroke-width="1.3" marker-end="url(#arr-acc)"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle" opacity="0.7">
+    <text x="206" y="48">compile</text>
+    <text x="206" y="100">compile</text>
+    <text x="206" y="152">compile</text>
+    <text x="206" y="204">compile</text>
+  </g>
+
+  <!-- .a -->
+  <g fill="none" stroke="currentColor" stroke-width="1.2">
+    <rect x="254" y="36" width="104" height="36" rx="4"/>
+    <rect x="254" y="88" width="104" height="36" rx="4"/>
+    <rect x="254" y="140" width="104" height="36" rx="4"/>
+  </g>
+  <rect x="254" y="192" width="104" height="36" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" text-anchor="middle">
+    <text x="306" y="58">main.a</text>
+    <text x="306" y="110">lib.a</text>
+    <text x="306" y="162">fmt.a …</text>
+    <text x="306" y="214" fill="#0891b2">runtime.a</text>
+  </g>
+  <text x="306" y="248" text-anchor="middle" font-size="11" opacity="0.6">код + export data,</text>
+  <text x="306" y="262" text-anchor="middle" font-size="11" opacity="0.6">кешируются в GOCACHE</text>
+
+  <!-- к линковщику -->
+  <g stroke="currentColor" stroke-width="1.3" fill="none">
+    <path d="M358,54 C390,54 396,110 420,122" marker-end="url(#arr)"/>
+    <path d="M358,106 C388,106 400,124 420,128" marker-end="url(#arr)"/>
+    <path d="M358,158 C388,158 400,140 420,136" marker-end="url(#arr)"/>
+  </g>
+  <path d="M358,210 C390,210 396,154 420,142" fill="none" stroke="#0891b2" stroke-width="1.3" marker-end="url(#arr-acc)"/>
+
+  <rect x="422" y="104" width="52" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <text x="448" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">link</text>
+
+  <line x1="474" y1="132" x2="514" y2="132" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- бинарь -->
+  <rect x="518" y="36" width="156" height="192" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <text x="596" y="56" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">./app</text>
+  <rect x="528" y="66" width="136" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="1"/>
+  <text x="596" y="84" text-anchor="middle" font-size="12">машинный код</text>
+  <rect x="528" y="102" width="136" height="84" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1"/>
+  <text x="596" y="120" text-anchor="middle" font-size="12" fill="#0891b2" font-weight="600">runtime</text>
+  <g font-size="12" text-anchor="middle">
+    <text x="596" y="138">планировщик</text>
+    <text x="596" y="156">аллокатор</text>
+    <text x="596" y="174">GC</text>
+  </g>
+  <rect x="528" y="194" width="136" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity="0.6"/>
+  <text x="596" y="211" text-anchor="middle" font-size="11" opacity="0.7">символы, DWARF</text>
+  <text x="596" y="248" text-anchor="middle" font-size="11" opacity="0.6">-ldflags="-s -w"</text>
+  <text x="596" y="262" text-anchor="middle" font-size="11" opacity="0.6">убирает пунктир</text>
+</svg>

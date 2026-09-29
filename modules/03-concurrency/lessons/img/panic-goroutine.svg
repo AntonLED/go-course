@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 232" role="img" aria-label="Паника в дочерней горутине раскручивает только её собственный стек; recover в defer горутины main её не видит; не найдя recover, рантайм завершает весь процесс с кодом 2" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Паника в горутине роняет процесс</title>
+  <defs>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- main -->
+  <text x="24" y="20" font-weight="600">goroutine 1 <tspan font-weight="400" opacity="0.6">· main</tspan></text>
+  <rect x="24" y="32" width="232" height="44" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="36" y="50" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">main()</text>
+  <rect x="36" y="56" width="208" height="16" rx="3" fill="#0891b2" fill-opacity="0.15"/>
+  <text x="42" y="68" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0891b2">defer func(){ recover() }()</text>
+  <rect x="24" y="76" width="232" height="32" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="36" y="96" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">time.Sleep(time.Second)</text>
+
+  <!-- g6 -->
+  <text x="424" y="20" font-weight="600">goroutine 6</text>
+  <rect x="424" y="32" width="232" height="44" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="436" y="50" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">main.func1()</text>
+  <text x="436" y="67" font-size="11" opacity="0.6">defer-ов нет → recover нет</text>
+  <rect x="424" y="76" width="232" height="32" rx="4" fill="#dc2626" fill-opacity="0.12" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="436" y="96" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">panic("boom")</text>
+  <path d="M664,92 H672 V48 H664" fill="none" stroke="#dc2626" stroke-width="1.4" marker-end="url(#arr-bad)"/>
+
+  <!-- перечёркнутая стрелка -->
+  <path d="M420,54 H262" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.7" marker-end="url(#arr-bad)"/>
+  <g stroke="#dc2626" stroke-width="2.4"><line x1="332" y1="46" x2="348" y2="62"/><line x1="348" y1="46" x2="332" y2="62"/></g>
+  <text x="340" y="82" text-anchor="middle" font-size="11" fill="#dc2626">recover ловит только</text>
+  <text x="340" y="96" text-anchor="middle" font-size="11" fill="#dc2626">панику своей горутины</text>
+
+  <!-- падение -->
+  <path d="M540,108 V142" fill="none" stroke="#dc2626" stroke-width="1.6" marker-end="url(#arr-bad)"/>
+  <rect x="24" y="146" width="632" height="72" rx="6" fill="#dc2626" fill-opacity="0.1" stroke="#dc2626" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="40" y="168">panic: boom</text>
+    <text x="40" y="186" opacity="0.8">goroutine 6 [running]: …</text>
+    <text x="40" y="204" fill="#dc2626">exit status 2</text>
+  </g>
+  <text x="640" y="186" text-anchor="end" font-size="12" fill="#dc2626">завершается весь процесс,</text>
+  <text x="640" y="204" text-anchor="end" font-size="12" fill="#dc2626">defer-ы main не выполняются</text>
+</svg>

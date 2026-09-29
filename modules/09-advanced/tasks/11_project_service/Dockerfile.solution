@@ -1,0 +1,26 @@
+# syntax=docker/dockerfile:1
+# Сборка из КОРНЯ репозитория:
+#   docker build -f modules/09-advanced/tasks/11_project_service/Dockerfile.solution \
+#     --build-arg VERSION=$(git describe --tags --always) -t kvservice .
+FROM golang:1.23.4-alpine AS build
+WORKDIR /src
+COPY go.mod ./
+RUN --mount=type=cache,target=/go/pkg/mod go mod download
+COPY . .
+ARG VERSION=dev
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    # -tags solution нужен только эталону курса; в вашем Dockerfile его не будет.
+    CGO_ENABLED=0 go build -tags solution -trimpath \
+      -ldflags="-s -w -X main.version=${VERSION}" \
+      -o /out/kvservice ./modules/09-advanced/tasks/11_project_service/cmd/kvservice
+
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=build /out/kvservice /kvservice
+USER 65532:65532
+ENV SVC_ADDR=:8080 \
+    SVC_SHUTDOWN_TIMEOUT=20s \
+    SVC_DRAIN_DELAY=5s
+EXPOSE 8080
+# STOPSIGNAL по умолчанию SIGTERM; docker stop ждёт 10s — увеличьте: docker stop -t 30
+ENTRYPOINT ["/kvservice"]

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 358" role="img" aria-label="Заголовок traceparent из четырёх полей: version 00, trace-id из 32 hex, parent-id из 16 hex, flags 01. При вызове api-gateway → orders → payments trace-id сохраняется, а parent-id на каждом прыжке равен span_id вызывающего спана" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>traceparent и пропагация между сервисами</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="132.5" y="35" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">traceparent:</text>
+  <rect x="142.5" y="18" width="28.5" height="26" rx="3" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed"/>
+  <text x="156.8" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">00</text>
+  <text x="178.0" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.6">-</text>
+  <rect x="185.0" y="18" width="246.0" height="26" rx="3" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2"/>
+  <text x="308.0" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">4bf92f3577b34da6a3ce929d0e0e4736</text>
+  <text x="438.0" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.6">-</text>
+  <rect x="445.0" y="18" width="130.0" height="26" rx="3" fill="#d97706" fill-opacity="0.12" stroke="#d97706"/>
+  <text x="510.0" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">00f067aa0ba902b7</text>
+  <text x="582.0" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.6">-</text>
+  <rect x="589.0" y="18" width="28.5" height="26" rx="3" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a"/>
+  <text x="603.2" y="35" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">01</text>
+  <text x="156.8" y="60" text-anchor="middle" font-size="11" fill="#7c3aed">version</text>
+  <text x="308.0" y="60" text-anchor="middle" font-size="11" fill="#0891b2">trace-id, 16 байт</text>
+  <text x="308.0" y="74" text-anchor="middle" font-size="11" opacity="0.6">общий для всей трассы</text>
+  <text x="510.0" y="60" text-anchor="middle" font-size="11" fill="#d97706">parent-id, 8 байт</text>
+  <text x="510.0" y="74" text-anchor="middle" font-size="11" opacity="0.6">span вызывающего</text>
+  <text x="603.2" y="60" text-anchor="middle" font-size="11" fill="#16a34a">flags</text>
+  <text x="589.2" y="74" text-anchor="start" font-size="11" opacity="0.6">01 = sampled</text>
+  <line x1="12" y1="90" x2="668" y2="90" stroke="currentColor" stroke-opacity="0.2"/>
+  <rect x="12" y="104" width="250" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="22" y="123" font-weight="600" font-size="12">api-gateway</text>
+  <text x="22" y="141" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11"><tspan opacity="0.6">корневой спан</tspan></text>
+  <text x="252" y="123" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">span <tspan fill="#d97706">00f0…02b7</tspan></text>
+  <line x1="72" y1="152" x2="72" y2="188" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="80" y="174" font-size="10" opacity="0.6">HTTP</text>
+  <text x="290" y="166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">traceparent: 00-<tspan fill="#0891b2">4bf92f…0e4736</tspan>-<tspan fill="#d97706">00f067aa0ba902b7</tspan>-01</text>
+  <text x="290" y="182" font-size="11" opacity="0.6">inject в api-gateway → extract в orders → дочерний спан</text>
+  <rect x="12" y="192" width="250" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="22" y="211" font-weight="600" font-size="12">orders</text>
+  <text x="22" y="229" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">parent <tspan fill="#d97706">00f067aa0ba902b7</tspan></text>
+  <text x="252" y="211" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">span <tspan fill="#d97706">b7ad…3331</tspan></text>
+  <line x1="72" y1="240" x2="72" y2="276" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <text x="80" y="262" font-size="10" opacity="0.6">HTTP</text>
+  <text x="290" y="254" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">traceparent: 00-<tspan fill="#0891b2">4bf92f…0e4736</tspan>-<tspan fill="#d97706">b7ad6b7169203331</tspan>-01</text>
+  <text x="290" y="270" font-size="11" opacity="0.6">inject в orders → extract в payments → дочерний спан</text>
+  <rect x="12" y="280" width="250" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="22" y="299" font-weight="600" font-size="12">payments</text>
+  <text x="22" y="317" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">parent <tspan fill="#d97706">b7ad6b7169203331</tspan></text>
+  <text x="252" y="299" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">span <tspan fill="#d97706">e457…6bd1</tspan></text>
+  <text x="12" y="350" font-size="11" opacity="0.7">trace-id не меняется на всём пути; parent-id на каждом прыжке — span_id того, кто вызвал</text>
+</svg>

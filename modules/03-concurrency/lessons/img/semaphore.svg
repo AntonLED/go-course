@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 232" role="img" aria-label="Семафор на буферизованном канале ёмкости 10: десять горутин заняли все слоты и выполняют do(t); main блокируется на sem &lt;- struct{}{}; когда одна горутина завершается и делает &lt;-sem, отправка main проходит, и запускается следующая горутина" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Семафор на канале</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-warn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+  <text x="16" y="18" font-weight="600">10 горутин выполняют <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="400">do(t)</tspan></text>
+  <rect x="16" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="39" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g1</text>
+  <rect x="68" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="91" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g2</text>
+  <rect x="120" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="143" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g3</text>
+  <rect x="172" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="195" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g4</text>
+  <rect x="224" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="247" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g5</text>
+  <rect x="276" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="299" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g6</text>
+  <rect x="328" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="351" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g7</text>
+  <rect x="380" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="403" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g8</text>
+  <rect x="432" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="455" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g9</text>
+  <rect x="484" y="28" width="46" height="26" rx="4" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2"/>
+  <text x="507" y="45" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">g10</text>
+  <text x="16" y="82" font-weight="600"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">sem</tspan>: chan struct{}, cap 10 <tspan font-weight="400" fill="#d97706">— занято 10 из 10</tspan></text>
+  <rect x="16" y="92" width="516" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <rect x="31" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="65" y1="92" x2="65" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="83" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="117" y1="92" x2="117" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="135" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="169" y1="92" x2="169" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="187" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="221" y1="92" x2="221" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="239" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="273" y1="92" x2="273" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="291" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="325" y1="92" x2="325" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="343" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="377" y1="92" x2="377" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="395" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="429" y1="92" x2="429" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="447" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <line x1="481" y1="92" x2="481" y2="122" stroke="currentColor" stroke-opacity="0.5"/>
+  <rect x="499" y="99" width="16" height="16" rx="2" fill="#d97706" fill-opacity="0.5"/>
+  <rect x="560" y="84" width="104" height="46" rx="6" fill="#d97706" fill-opacity="0.12" stroke="#d97706" stroke-width="1.2"/>
+  <text x="572" y="102" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">main</text>
+  <text x="572" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">sem &lt;- {}</text>
+  <line x1="557" y1="107" x2="536" y2="107" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-warn)"/>
+  <text x="612" y="148" text-anchor="middle" font-size="11" fill="#d97706">ждёт в sendq</text>
+  <rect x="16" y="176" width="144" height="44" rx="6" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="88" y="195" text-anchor="middle" font-size="12">g3: do(t) готово,</text>
+  <text x="88" y="211" text-anchor="middle" font-size="12">defer: &lt;-sem</text>
+  <line x1="162" y1="198" x2="177" y2="198" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="180" y="176" width="144" height="44" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.2"/>
+  <text x="252" y="195" text-anchor="middle" font-size="12">в буфере</text>
+  <text x="252" y="211" text-anchor="middle" font-size="12">освободилось место</text>
+  <line x1="326" y1="198" x2="341" y2="198" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="344" y="176" width="144" height="44" rx="6" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="416" y="195" text-anchor="middle" font-size="12">sem &lt;- {} у main</text>
+  <text x="416" y="211" text-anchor="middle" font-size="12">проходит</text>
+  <line x1="490" y1="198" x2="505" y2="198" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect x="508" y="176" width="144" height="44" rx="6" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="580" y="195" text-anchor="middle" font-size="12">go func() —</text>
+  <text x="580" y="211" text-anchor="middle" font-size="12">запущена g11</text>
+  <text x="16" y="164" font-size="12" opacity="0.7">когда одна горутина заканчивает:</text>
+</svg>

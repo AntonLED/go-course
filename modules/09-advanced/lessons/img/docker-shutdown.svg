@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 22 680 260" role="img" aria-label="После SIGTERM приложение сразу отдаёт 503 на readiness, ждёт drainDelay, затем srv.Shutdown ждёт активные запросы до 20 секунд и завершается; SIGKILL приходит через grace period 30 секунд, если процесс ещё жив. Exec-форма ENTRYPOINT делает приложение PID 1 и доставляет ему сигнал, shell-форма — нет" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>SIGTERM → graceful shutdown → SIGKILL</title>
+  <line x1="104.0" y1="30" x2="104.0" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="104.0" y="170" text-anchor="middle" font-size="10" opacity="0.6">0 с</text>
+  <line x1="189.6" y1="30" x2="189.6" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="189.6" y="170" text-anchor="middle" font-size="10" opacity="0.6">5 с</text>
+  <line x1="275.2" y1="30" x2="275.2" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="275.2" y="170" text-anchor="middle" font-size="10" opacity="0.6">10 с</text>
+  <line x1="360.9" y1="30" x2="360.9" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="360.9" y="170" text-anchor="middle" font-size="10" opacity="0.6">15 с</text>
+  <line x1="446.5" y1="30" x2="446.5" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="446.5" y="170" text-anchor="middle" font-size="10" opacity="0.6">20 с</text>
+  <line x1="532.1" y1="30" x2="532.1" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="532.1" y="170" text-anchor="middle" font-size="10" opacity="0.6">25 с</text>
+  <line x1="617.8" y1="30" x2="617.8" y2="156" stroke="currentColor" stroke-opacity="0.1"/>
+  <text x="617.8" y="170" text-anchor="middle" font-size="10" opacity="0.6">30 с</text>
+  <text x="12" y="48" font-size="12">оркестратор</text>
+  <text x="12" y="62" font-size="10" opacity="0.6">k8s / docker</text>
+  <text x="12" y="96" font-size="12">приложение</text>
+  <text x="12" y="140" font-size="12">readiness</text>
+  <line x1="104.0" y1="30" x2="104.0" y2="60" stroke="#d97706" stroke-width="2"/>
+  <text x="110.0" y="44" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#d97706">SIGTERM</text>
+  <line x1="617.8" y1="30" x2="617.8" y2="156" stroke="#dc2626" stroke-width="2"/>
+  <text x="611.8" y="44" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">SIGKILL</text>
+  <text x="611.8" y="58" text-anchor="end" font-size="10" fill="#dc2626">если ещё жив</text>
+  <path d="M174.0,52 H537.8" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+  <text x="360.9" y="48" text-anchor="middle" font-size="10" opacity="0.7">grace period: k8s 30 с (Docker 10 с)</text>
+  <rect x="104.0" y="80" width="85.6" height="24" rx="3" fill="#d97706" fill-opacity="0.18" stroke="#d97706"/>
+  <text x="146.8" y="96" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">drainDelay</text>
+  <rect x="189.6" y="80" width="342.5" height="24" rx="3" fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-dasharray="4 3"/>
+  <rect x="189.6" y="80" width="102.8" height="24" rx="3" fill="#0891b2" fill-opacity="0.25" stroke="#0891b2"/>
+  <text x="241.0" y="96" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5">Shutdown</text>
+  <text x="412.2" y="96" text-anchor="middle" font-size="10.5" opacity="0.8">≤ 20 с: ждём активные запросы</text>
+  <circle cx="292.4" cy="92" r="4" fill="#16a34a"/>
+  <text x="292.4" y="120" text-anchor="middle" font-size="10" fill="#16a34a">exit 0</text>
+  <rect x="104.0" y="132" width="188.4" height="14" fill="#dc2626" fill-opacity="0.2"/>
+  <text x="108.0" y="143" font-size="10">503: трафик уходит на другие поды</text>
+  <path d="M104.0,180 v6 H532.1 v-6" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+  <text x="318.1" y="202" text-anchor="middle" font-size="11">drainDelay + shutdownTimeout = 5 + 20 с <tspan fill="#16a34a">&lt; grace 30 с</tspan></text>
+  <line x1="12" y1="218" x2="668" y2="218" stroke="currentColor" stroke-opacity="0.2"/>
+  <rect x="12" y="230" width="320" height="44" rx="4" fill="#16a34a" fill-opacity="0.08" stroke="#16a34a"/>
+  <text x="24" y="248" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">ENTRYPOINT ["/app"]</text>
+  <text x="24" y="265" font-size="11">PID 1 = /app → SIGTERM доходит до Go</text>
+  <rect x="348" y="230" width="320" height="44" rx="4" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626"/>
+  <text x="360" y="248" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">CMD /app <tspan font-weight="400" opacity="0.7">(shell-форма)</tspan></text>
+  <text x="360" y="265" font-size="11">PID 1 = /bin/sh -c: сигнал не доходит → SIGKILL</text>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 719 290" role="img" aria-label="Полиморфный JSON: сначала Unmarshal в Envelope, где Data — RawMessage с неразобранными байтами; затем switch по Type и второй Unmarshal env.Data в конкретный тип" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Полиморфный JSON через RawMessage</title>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="ag" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+    <marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+
+  <!-- вход -->
+  <text x="16" y="16" font-size="11" opacity="0.6">вход b</text>
+  <rect x="16" y="24" width="208" height="64" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="50">{"type":"login",</text>
+    <text x="28" y="72"> "data":<tspan fill="#7c3aed">{"user":"ann"}</tspan>}</text>
+  </g>
+
+  <line x1="224" y1="56" x2="262" y2="56" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="243" y="48" text-anchor="middle" font-size="11" opacity="0.7">1</text>
+
+  <!-- Envelope -->
+  <text x="264" y="16" font-size="11" opacity="0.6">json.Unmarshal(b, &amp;env)</text>
+  <rect x="264" y="24" width="248" height="64" rx="4" fill="#0891b2" fill-opacity="0.08" stroke="#0891b2" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="276" y="50">Type <tspan fill="#0891b2">"login"</tspan></text>
+    <text x="276" y="72">Data</text>
+  </g>
+  <rect x="316" y="59" width="116" height="20" rx="3" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="322" y="73" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#7c3aed">{"user":"ann"}</text>
+  <text x="528" y="62" font-size="11" fill="#7c3aed">RawMessage:</text>
+  <text x="528" y="77" font-size="11" fill="#7c3aed">байты как есть, не разобраны</text>
+
+  <!-- switch -->
+  <line x1="388" y1="88" x2="388" y2="118" stroke="currentColor" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="396" y="108" font-size="11" opacity="0.7">2</text>
+  <rect x="288" y="120" width="200" height="32" rx="16" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="388" y="141" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">switch env.Type</text>
+
+  <!-- ветки -->
+  <path d="M320,152 C 240,176 150,176 134,206" fill="none" stroke="#16a34a" stroke-width="1.6" marker-end="url(#ag)"/>
+  <line x1="388" y1="152" x2="388" y2="206" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#a)"/>
+  <path d="M456,152 C 536,176 590,176 603,206" fill="none" stroke="#dc2626" stroke-width="1.2" marker-end="url(#ar)"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="254" y="196" fill="#16a34a" text-anchor="middle">"login"</text>
+    <text x="396" y="190" opacity="0.7">"purchase"</text>
+    <text x="526" y="196" fill="#dc2626" text-anchor="middle">default</text>
+  </g>
+
+  <!-- конкретные типы -->
+  <rect x="16" y="208" width="236" height="72" rx="4" fill="#16a34a" fill-opacity="0.1" stroke="#16a34a" stroke-width="1.4"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="28" y="230" opacity="0.8">var e Login</text>
+    <text x="28" y="249">json.Unmarshal(<tspan fill="#7c3aed">env.Data</tspan>, &amp;e)</text>
+    <text x="28" y="270" fill="#16a34a">Login{User: "ann"}</text>
+  </g>
+  <rect x="270" y="208" width="236" height="72" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" opacity="0.6">
+    <text x="282" y="230">var p Purchase</text>
+    <text x="282" y="249">json.Unmarshal(env.Data, &amp;p)</text>
+    <text x="282" y="270">Purchase{…}</text>
+  </g>
+  <rect x="522" y="208" width="162" height="72" rx="4" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="603" y="238" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">fmt.Errorf(…)</text>
+  <text x="603" y="258" text-anchor="middle" font-size="12" fill="#dc2626">«неизвестный тип»</text>
+</svg>

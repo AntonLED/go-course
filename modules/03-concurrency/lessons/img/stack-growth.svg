@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" role="img" aria-label="Рост стека горутины копированием: в стеке 2 КБ новый кадр h не помещается ниже stackguard0, runtime.morestack выделяет стек 4 КБ, копирует кадры main, f, g и корректирует указатель p, который указывал на переменную x в том же стеке" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Рост стека копированием</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+    <marker id="arr-bad" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- старый стек -->
+  <text x="120" y="20" text-anchor="middle" font-weight="600">старый стек, 2 КБ</text>
+  <text x="32" y="44" text-anchor="end" font-size="11" opacity="0.6">hi</text>
+  <text x="32" y="156" text-anchor="end" font-size="11" opacity="0.6">lo</text>
+  <rect x="40" y="32" width="160" height="124" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.06">
+    <rect x="40" y="32" width="160" height="30"/>
+    <rect x="40" y="62" width="160" height="32"/>
+    <rect x="40" y="94" width="160" height="38"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="50" y="52">main</text>
+    <text x="50" y="83">f</text>
+    <text x="50" y="118">g</text>
+  </g>
+  <rect x="140" y="68" width="44" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="162" y="82" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">x</text>
+  <rect x="140" y="104" width="44" height="20" rx="3" fill="none" stroke="currentColor"/>
+  <text x="162" y="118" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">p</text>
+  <path d="M184,114 H212 V78 H188" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <!-- stackguard -->
+  <line x1="40" y1="144" x2="200" y2="144" stroke="#d97706" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <line x1="40" y1="240" x2="64" y2="240" stroke="#d97706" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="70" y="244" font-size="11" fill="#d97706"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">stackguard0</tspan> = lo + запас</text>
+  <!-- кадр h не помещается -->
+  <rect x="40" y="132" width="160" height="44" rx="3" fill="#dc2626" fill-opacity="0.08" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="50" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">h</text>
+  <text x="120" y="196" text-anchor="middle" font-size="12" fill="#dc2626">пролог h: SP &lt; stackguard0</text>
+  <text x="120" y="212" text-anchor="middle" font-size="12" fill="#dc2626">→ runtime.morestack</text>
+
+  <!-- середина -->
+  <path d="M232,96 H432" fill="none" stroke="#0891b2" stroke-width="1.6" marker-end="url(#arr-acc)"/>
+  <text x="332" y="88" text-anchor="middle" font-size="12" fill="#0891b2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">newstack → copystack</text>
+  <g font-size="12" opacity="0.85">
+    <text x="244" y="120">1. выделить стек ×2 (4 КБ)</text>
+    <text x="244" y="138">2. скопировать все кадры</text>
+    <text x="244" y="156">3. поправить указатели,</text>
+    <text x="258" y="172">ведущие в стек</text>
+    <text x="244" y="190">4. старый стек освободить</text>
+    <text x="244" y="208">5. продолжить вызов h</text>
+  </g>
+
+  <!-- новый стек -->
+  <text x="528" y="20" text-anchor="middle" font-weight="600">новый стек, 4 КБ</text>
+  <text x="440" y="44" text-anchor="end" font-size="11" opacity="0.6">hi</text>
+  <text x="440" y="280" text-anchor="end" font-size="11" opacity="0.6">lo</text>
+  <rect x="448" y="32" width="160" height="248" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.06">
+    <rect x="448" y="32" width="160" height="30"/>
+    <rect x="448" y="62" width="160" height="32"/>
+    <rect x="448" y="94" width="160" height="38"/>
+  </g>
+  <rect x="448" y="132" width="160" height="40" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">
+    <text x="458" y="52">main</text>
+    <text x="458" y="83">f</text>
+    <text x="458" y="118">g</text>
+    <text x="458" y="156" fill="#16a34a">h</text>
+  </g>
+  <rect x="548" y="68" width="44" height="20" rx="3" fill="#0891b2" fill-opacity="0.15" stroke="#0891b2"/>
+  <text x="570" y="82" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">x</text>
+  <rect x="548" y="104" width="44" height="20" rx="3" fill="#0891b2" fill-opacity="0.06" stroke="#0891b2"/>
+  <text x="570" y="118" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">p</text>
+  <path d="M592,114 H620 V78 H596" fill="none" stroke="#0891b2" stroke-width="1.2" marker-end="url(#arr-acc)"/>
+  <text x="624" y="100" font-size="11" fill="#0891b2">новый</text>
+  <text x="624" y="113" font-size="11" fill="#0891b2">адрес</text>
+  <line x1="448" y1="268" x2="608" y2="268" stroke="#d97706" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="528" y="264" text-anchor="middle" font-size="10" fill="#d97706" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">stackguard0</text>
+  <text x="528" y="220" text-anchor="middle" font-size="12" opacity="0.6">свободно</text>
+  <text x="332" y="244" text-anchor="middle" font-size="12" opacity="0.7">стек растёт вниз, от hi к lo</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 274" role="img" aria-label="Один и тот же вызов «получить товар A, которого нет» в трёх стилях: REST — GET /items/A и HTTP 404; JSON-RPC — POST /rpc с методом в теле и HTTP 200 с объектом error; gRPC — POST на путь метода с protobuf-телом, HTTP 200 и grpc-status 5 в трейлерах" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>REST, JSON-RPC и gRPC на проводе</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <g font-size="11" opacity="0.6"><text x="124" y="18">запрос «товар A» (его нет)</text><text x="412" y="18">ответ</text></g>
+  <text x="16" y="48" font-weight="600">REST</text>
+  <text x="16" y="64" font-size="11" opacity="0.65">ресурс + глагол</text>
+  <rect x="124" y="30" width="256" height="29" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <text x="132" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">GET /items/A</text>
+  <line x1="380" y1="44" x2="410" y2="44" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="412" y="30" width="252" height="29" rx="4" fill="#dc2626" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <text x="420" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626" font-weight="600">404 Not Found</text>
+  <text x="664" y="73" text-anchor="end" font-size="11" opacity="0.7">ошибка — HTTP-статус</text>
+  <text x="16" y="107" font-weight="600">JSON-RPC</text>
+  <text x="16" y="123" font-size="11" opacity="0.65">метод в теле</text>
+  <rect x="124" y="89" width="256" height="74" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <text x="132" y="107" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">POST /rpc</text>
+  <text x="132" y="122" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">{"jsonrpc":"2.0",</text>
+  <text x="132" y="137" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"method":"Items.Get",</text>
+  <text x="132" y="152" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">"params":{"sku":"A"},"id":1}</text>
+  <line x1="380" y1="126" x2="410" y2="126" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="412" y="89" width="252" height="74" rx="4" fill="#dc2626" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <text x="420" y="107" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="currentColor" font-weight="600">200 OK</text>
+  <text x="420" y="122" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">{"jsonrpc":"2.0","error":</text>
+  <text x="420" y="137" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">{"code":1001,"message":"not found"},</text>
+  <text x="420" y="152" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">"id":1}</text>
+  <text x="664" y="177" text-anchor="end" font-size="11" opacity="0.7">ошибка — в теле, HTTP 200</text>
+  <text x="16" y="211" font-weight="600">gRPC</text>
+  <text x="16" y="227" font-size="11" opacity="0.65">метод в :path</text>
+  <rect x="124" y="193" width="256" height="59" rx="4" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <text x="132" y="211" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600">POST /inventory.v1.Inventory/GetItem</text>
+  <text x="132" y="226" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">content-type: application/grpc</text>
+  <text x="132" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">DATA 00 00000003 0a 01 41</text>
+  <line x1="380" y1="222" x2="410" y2="222" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <rect x="412" y="193" width="252" height="59" rx="4" fill="#dc2626" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <text x="420" y="211" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="currentColor" font-weight="600">200 OK</text>
+  <text x="420" y="226" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">trailers: grpc-status: 5</text>
+  <text x="420" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#dc2626">grpc-message: not found</text>
+  <text x="664" y="266" text-anchor="end" font-size="11" opacity="0.7">ошибка — в трейлерах (5 = NotFound)</text>
+</svg>

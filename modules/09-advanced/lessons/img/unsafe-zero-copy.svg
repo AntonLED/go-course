@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 262" role="img" aria-label="string(b) копирует байты в отдельный массив. unsafe.String(unsafe.SliceData(b), len(b)) создаёт заголовок строки, указывающий в тот же массив, что и b; запись b[0] = 'J' меняет и строку" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Zero-copy string и []byte: общая память</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"/>
+    </marker>
+    <marker id="arr-ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#0891b2"/>
+    </marker>
+  </defs>
+  <text x="12" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">s := string(b)</text><text x="128" y="18" font-size="11" opacity="0.6">— копирование</text>
+  <text x="32" y="49" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">b</text>
+  <rect x="40" y="30" width="168" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="96" y1="30" x2="96" y2="58" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="152" y1="30" x2="152" y2="58" stroke="currentColor" stroke-width="1.2"/>
+  <text x="68" y="48" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11"> </text>
+  <text x="124" y="48" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">len 5</text>
+  <text x="180" y="48" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">cap 8</text>
+  <text x="32" y="89" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">s</text>
+  <rect x="40" y="70" width="112" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="96" y1="70" x2="96" y2="98" stroke="currentColor" stroke-width="1.2"/>
+  <text x="68" y="88" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11"> </text>
+  <text x="124" y="88" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">len 5</text>
+  <rect x="380" y="30" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="393" y="49" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">h</text>
+  <rect x="406" y="30" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="419" y="49" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">e</text>
+  <rect x="432" y="30" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="445" y="49" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">l</text>
+  <rect x="458" y="30" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="471" y="49" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">l</text>
+  <rect x="484" y="30" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="497" y="49" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">o</text>
+  <rect x="510" y="30" width="26" height="28" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <rect x="536" y="30" width="26" height="28" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <rect x="562" y="30" width="26" height="28" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <rect x="380" y="70" width="26" height="28" fill="none" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="393" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">h</text>
+  <rect x="406" y="70" width="26" height="28" fill="none" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="419" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">e</text>
+  <rect x="432" y="70" width="26" height="28" fill="none" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="445" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">l</text>
+  <rect x="458" y="70" width="26" height="28" fill="none" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="471" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">l</text>
+  <rect x="484" y="70" width="26" height="28" fill="none" stroke="#16a34a" stroke-width="1.1"/>
+  <text x="497" y="89" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">o</text>
+  <text x="518" y="89" font-size="11" opacity="0.6">своя копия</text>
+  <circle cx="56" cy="44" r="2.5" fill="currentColor"/>
+  <path d="M56,44 V64 H340 C360,64 360,44 376,44" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <circle cx="56" cy="84" r="2.5" fill="#16a34a"/>
+  <path d="M56,84 V106 H340 C360,106 360,84 376,84" fill="none" stroke="#16a34a" stroke-width="1.3" marker-end="url(#arr-ok)"/>
+  <line x1="12" y1="116" x2="668" y2="116" stroke="currentColor" stroke-opacity="0.2"/>
+  <text x="12" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">s := unsafe.String(unsafe.SliceData(b), len(b))</text>
+  <text x="32" y="171" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">b</text>
+  <rect x="40" y="152" width="168" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="96" y1="152" x2="96" y2="180" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="152" y1="152" x2="152" y2="180" stroke="currentColor" stroke-width="1.2"/>
+  <text x="68" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11"> </text>
+  <text x="124" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">len 5</text>
+  <text x="180" y="170" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">cap 8</text>
+  <text x="32" y="215" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600">s</text>
+  <rect x="40" y="196" width="112" height="28" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <line x1="96" y1="196" x2="96" y2="224" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="68" y="214" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11"> </text>
+  <text x="124" y="214" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">len 5</text>
+  <rect x="380" y="174" width="26" height="28" fill="#dc2626" fill-opacity="0.2" stroke="currentColor" stroke-width="1.1"/>
+  <text x="393" y="193" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#dc2626">J</text>
+  <rect x="406" y="174" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="419" y="193" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">e</text>
+  <rect x="432" y="174" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="445" y="193" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">l</text>
+  <rect x="458" y="174" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="471" y="193" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">l</text>
+  <rect x="484" y="174" width="26" height="28" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <text x="497" y="193" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">o</text>
+  <rect x="510" y="174" width="26" height="28" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <rect x="536" y="174" width="26" height="28" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <rect x="562" y="174" width="26" height="28" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="1.1"/>
+  <circle cx="56" cy="166" r="2.5" fill="currentColor"/>
+  <path d="M56,166 V188 H340 C360,188 360,182 376,182" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arr)"/>
+  <circle cx="56" cy="210" r="2.5" fill="#0891b2"/>
+  <path d="M56,210 V234 H340 C360,234 360,196 376,196" fill="none" stroke="#0891b2" stroke-width="1.3" marker-end="url(#arr-acc)"/>
+  <text x="380" y="166" font-size="11" fill="#dc2626"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b[0] = 'J'</tspan> → и s стала "Jello"</text>
+  <text x="380" y="220" font-size="11" opacity="0.7">одна память: строка больше не неизменяемая</text>
+  <text x="12" y="256" font-size="11" opacity="0.6">заголовки на amd64: срез — 24 байта (ptr, len, cap), строка — 16 байт (ptr, len)</text>
+</svg>

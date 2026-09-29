@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 372" role="img" aria-label="HSTS: первый запрос по HTTP получает редирект, ответ по HTTPS содержит Strict-Transport-Security, браузер запоминает домен и дальше сам переписывает http на https, не отправляя открытых запросов" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Как работает HSTS</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="currentColor"/></marker>
+    <marker id="arr-o" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+    <marker id="arr-g" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/></marker>
+  </defs>
+
+  <text x="110" y="20" text-anchor="middle" font-weight="600">Браузер</text>
+  <text x="580" y="20" text-anchor="middle" font-weight="600">bank.com</text>
+  <g stroke="currentColor" stroke-width="1" opacity="0.4">
+    <line x1="110" y1="30" x2="110" y2="336"/><line x1="580" y1="30" x2="580" y2="336"/>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">
+    <text x="345" y="52" fill="#d97706">GET http://bank.com/</text>
+    <text x="345" y="102">301 Location: https://bank.com/</text>
+    <text x="345" y="134" fill="#16a34a">GET https://bank.com/  (TLS)</text>
+    <text x="345" y="174" fill="#16a34a">200 + Strict-Transport-Security: max-age=63072000</text>
+  </g>
+  <line x1="110" y1="60" x2="578" y2="60" stroke="#d97706" stroke-width="1.4" marker-end="url(#arr-o)"/>
+  <text x="345" y="76" text-anchor="middle" font-size="11" fill="#d97706">открытый HTTP — здесь возможен SSL-stripping</text>
+  <line x1="580" y1="110" x2="112" y2="110" stroke="currentColor" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="110" y1="142" x2="578" y2="142" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-g)"/>
+  <line x1="580" y1="182" x2="112" y2="182" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-g)"/>
+
+  <!-- HSTS store -->
+  <path d="M110,182 V204 H122" fill="none" stroke="#0891b2" stroke-width="1.2"/>
+  <rect x="124" y="194" width="300" height="42" rx="4" fill="#0891b2" fill-opacity="0.12" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="136" y="211" font-size="12">HSTS-кэш браузера:</text>
+  <text x="136" y="228" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">bank.com → только https, 2 года</text>
+
+  <line x1="20" y1="256" x2="660" y2="256" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+  <text x="660" y="250" text-anchor="end" font-size="11" opacity="0.6">следующие визиты, пока не истёк max-age</text>
+
+  <text x="122" y="280" font-size="11" opacity="0.7">пользователь вводит http://bank.com</text>
+  <text x="122" y="296" font-size="11" fill="#0891b2">браузер сам меняет на https://</text>
+  <text x="470" y="306" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#16a34a">GET https://bank.com/</text>
+  <line x1="110" y1="314" x2="578" y2="314" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr-g)"/>
+  <text x="345" y="332" text-anchor="middle" font-size="11" opacity="0.7">открытого запроса в сеть нет вообще</text>
+
+  <text x="20" y="362" font-size="11" opacity="0.6">В preload-списке домен уже зашит в браузер, поэтому по https идёт даже самый первый запрос.</text>
+</svg>

@@ -1,0 +1,546 @@
+{
+  "module": "09",
+  "title": "Продвинутая разработка в Go",
+  "questions": [
+    {
+      "id": "09-001",
+      "lesson": "Рефлексия",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"reflect\"\n)\n\ntype Celsius float64\n\nfunc main() {\n\tvar c Celsius = 36.6\n\tt := reflect.TypeOf(c)\n\tfmt.Println(t.Name(), t.Kind())\n}",
+      "answer": "Celsius float64",
+      "explain": "Type — это конкретный именованный тип Celsius, а Kind — его категория, то есть базовый тип float64."
+    },
+    {
+      "id": "09-002",
+      "lesson": "Рефлексия",
+      "type": "single",
+      "q": "Что произойдёт при выполнении?",
+      "code": "x := 1\nv := reflect.ValueOf(x)\nv.SetInt(2)\nfmt.Println(x)",
+      "options": [
+        "Напечатает 2",
+        "Напечатает 1",
+        "panic: reflect: reflect.Value.SetInt using unaddressable value",
+        "Ошибка компиляции"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "reflect.ValueOf(x) получает копию x внутри интерфейса, поэтому значение не адресуемо (CanSet() возвращает false) и SetInt паникует. Чтобы изменить x, нужен reflect.ValueOf(&x).Elem()."
+    },
+    {
+      "id": "09-003",
+      "lesson": "Рефлексия",
+      "type": "input",
+      "q": "Что напечатает код?",
+      "code": "fmt.Println(reflect.DeepEqual([]int{}, []int(nil)), slices.Equal([]int{}, nil))",
+      "answer": "false true",
+      "explain": "DeepEqual различает nil-срез и пустой не-nil срез, а slices.Equal сравнивает только длину и элементы."
+    },
+    {
+      "id": "09-004",
+      "lesson": "Рефлексия",
+      "type": "multi",
+      "q": "Для каких выражений CanSet() вернёт true?",
+      "code": "type S struct {\n\tPub  int\n\tpriv int\n}\nvar s S",
+      "options": [
+        "reflect.ValueOf(&s).Elem().Field(0) — экспортируемое поле Pub",
+        "reflect.ValueOf(&s).Elem().Field(1) — неэкспортируемое поле priv",
+        "reflect.ValueOf(s).Field(0)",
+        "reflect.ValueOf([]int{1}).Index(0)",
+        "reflect.ValueOf(map[string]int{\"a\": 1}).MapIndex(reflect.ValueOf(\"a\"))",
+        "reflect.ValueOf([1]int{1}).Index(0)"
+      ],
+      "answer": [
+        0,
+        3
+      ],
+      "explain": "Значение settable, если оно адресуемо и получено не через неэкспортируемое поле. Поля копии структуры, элементы map (MapIndex) и элементы массива, переданного по значению, не адресуемы, а элементы среза адресуемы всегда, потому что срез ссылается на backing array."
+    },
+    {
+      "id": "09-005",
+      "lesson": "Рефлексия",
+      "type": "input",
+      "q": "Что напечатает программа?",
+      "code": "type T struct{}\n\nfunc (T) A()  {}\nfunc (*T) B() {}\n\nfunc main() {\n\tfmt.Println(reflect.TypeOf(T{}).NumMethod(), reflect.TypeOf(&T{}).NumMethod())\n}",
+      "answer": "1 2",
+      "explain": "Метод-набор T включает только методы с получателем-значением, а у *T к ним добавляются методы с указательным получателем."
+    },
+    {
+      "id": "09-006",
+      "lesson": "Внедрение зависимостей (DI)",
+      "type": "single",
+      "q": "Где в идиоматичном Go объявляют интерфейс UserRepo, которым пользуется UserService?",
+      "options": [
+        "В пакете с реализацией (postgres), рядом с типом Repo",
+        "В пакете потребителя (users), рядом с UserService",
+        "В отдельном пакете interfaces для всего проекта",
+        "В main, рядом с composition root"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "По принципу «accept interfaces, return structs» интерфейс объявляет потребитель, и в нём только нужные ему методы. Поставщик возвращает конкретный тип и об интерфейсе ничего не знает."
+    },
+    {
+      "id": "09-007",
+      "lesson": "Внедрение зависимостей (DI)",
+      "type": "single",
+      "q": "Когда обнаруживается отсутствующий провайдер в графе зависимостей при использовании google/wire и uber-go/fx соответственно?",
+      "options": [
+        "В обоих случаях — при компиляции",
+        "В обоих случаях — при запуске приложения",
+        "wire — при генерации кода (до компиляции), fx — при запуске приложения (fx.New)",
+        "wire — при запуске, fx — при компиляции"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "wire генерирует обычный Go-код (wire_gen.go) и сообщает об ошибке графа ещё на этапе генерации, а fx/dig строят граф через reflect при старте приложения."
+    },
+    {
+      "id": "09-008",
+      "lesson": "Внедрение зависимостей (DI)",
+      "type": "input",
+      "q": "В fx.Lifecycle зарегистрированы хуки A, B, C (в этом порядке), все OnStart прошли успешно. В каком порядке вызовутся OnStop? (через пробел)",
+      "answer": "C B A",
+      "accept": [
+        "c b a",
+        "C, B, A",
+        "C,B,A"
+      ],
+      "explain": "Хуки останавливаются в обратном порядке: сначала то, что зависит от других и зарегистрировано позже, потом его зависимости."
+    },
+    {
+      "id": "09-009",
+      "lesson": "Внедрение зависимостей (DI)",
+      "type": "input",
+      "q": "Что напечатает код?",
+      "code": "type S struct{ n int }\ntype Opt func(*S)\n\nfunc WithN(n int) Opt { return func(s *S) { s.n = n } }\n\nfunc New(opts ...Opt) *S {\n\ts := &S{n: 1}\n\tfor _, o := range opts {\n\t\to(s)\n\t}\n\treturn s\n}\n\nfunc main() {\n\tfmt.Println(New().n, New(WithN(5), WithN(7)).n)\n}",
+      "answer": "1 7",
+      "explain": "Дефолт задаётся в конструкторе до применения опций, а опции применяются по порядку, так что побеждает последняя."
+    },
+    {
+      "id": "09-010",
+      "lesson": "Внедрение зависимостей (DI)",
+      "type": "multi",
+      "q": "Что из перечисленного — признаки правильного DI в Go?",
+      "options": [
+        "Зависимости передаются через параметры конструктора NewService(repo, log)",
+        "Бизнес-код достаёт зависимости вызовом container.Get(\"db\")",
+        "Конкретные реализации создаются и связываются в main (composition root)",
+        "Подключение к БД в init() и глобальная переменная var DB *sql.DB",
+        "Необязательные параметры задаются functional options с дефолтами в конструкторе"
+      ],
+      "answer": [
+        0,
+        2,
+        4
+      ],
+      "explain": "Зависимости должны быть явными, то есть приходить через конструктор, и связываться в одном месте (main или run). Service Locator, глобальные переменные и init() прячут зависимости и мешают тестам."
+    },
+    {
+      "id": "09-011",
+      "lesson": "Управление конфигурациями и средами",
+      "type": "input",
+      "q": "Переменная B не задана. Что напечатает код?",
+      "code": "os.Setenv(\"A\", \"\")\nv, ok := os.LookupEnv(\"A\")\n_, ok2 := os.LookupEnv(\"B\")\nfmt.Println(v == \"\", ok, ok2)",
+      "answer": "true true false",
+      "explain": "LookupEnv отличает переменную, заданную пустой строкой (ok=true), от незаданной (ok=false), тогда как Getenv в обоих случаях вернул бы \"\"."
+    },
+    {
+      "id": "09-012",
+      "lesson": "Управление конфигурациями и средами",
+      "type": "single",
+      "q": "Что напечатает код (флаг -addr не передан)?",
+      "code": "cfg := \"from-env\"\nfs := flag.NewFlagSet(\"app\", flag.ContinueOnError)\naddr := fs.String(\"addr\", \"\", \"адрес\")\n_ = fs.Parse([]string{})\ncfg = *addr\nfmt.Printf(\"%q\\n\", cfg)",
+      "options": [
+        "\"from-env\"",
+        "\"\"",
+        "panic: flag provided but not defined",
+        "Ошибка компиляции"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Незаданный флаг возвращает своё значение по умолчанию (\"\"), и оно затирает значение из нижнего слоя. Применяйте только явно заданные флаги через fs.Visit или делайте дефолт флага равным текущему значению."
+    },
+    {
+      "id": "09-013",
+      "lesson": "Управление конфигурациями и средами",
+      "type": "single",
+      "q": "Какой порядок приоритета источников конфигурации (от слабого к сильному) считается общепринятым?",
+      "options": [
+        "defaults < файл < env < флаги",
+        "defaults < env < файл < флаги",
+        "флаги < env < файл < defaults",
+        "defaults < флаги < env < файл"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Чем ближе источник к конкретному запуску, тем он сильнее: флаг в командной строке перекрывает env, а env перекрывает общий файл."
+    },
+    {
+      "id": "09-014",
+      "lesson": "Управление конфигурациями и средами",
+      "type": "input",
+      "q": "Что напечатает код?",
+      "code": "u, _ := url.Parse(\"postgres://app:secret@db:5432/app\")\nfmt.Println(u.Redacted())",
+      "answer": "postgres://app:xxxxx@db:5432/app",
+      "explain": "url.URL.Redacted() заменяет пароль в userinfo на xxxxx, поэтому его удобно использовать в логах и в String() конфигурации."
+    },
+    {
+      "id": "09-015",
+      "lesson": "Управление конфигурациями и средами",
+      "type": "multi",
+      "q": "Какие практики корректны для hot reload конфигурации?",
+      "options": [
+        "Хранить конфиг в atomic.Pointer[Config] и подменять целиком",
+        "Валидировать новый конфиг и при ошибке оставлять старый",
+        "Менять поля текущей структуры конфигурации на месте, пока её читают обработчики",
+        "В Kubernetes следить (fsnotify) за директорией смонтированного ConfigMap, а не за файлом",
+        "Хранить секреты в ENV инструкции Dockerfile, чтобы их можно было перечитать"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explain": "Конфиг заменяется целиком и атомарно, причём только после валидации, а изменение полей на месте даёт гонку данных. ConfigMap в Kubernetes обновляется подменой symlink, поэтому следить нужно за директорией."
+    },
+    {
+      "id": "09-016",
+      "lesson": "Управление памятью и аллокациями",
+      "type": "input",
+      "q": "Что напечатает программа на amd64?",
+      "code": "fmt.Println(unsafe.Sizeof(struct {\n\ta bool\n\tb int64\n\tc bool\n}{}))",
+      "answer": "24",
+      "explain": "Раскладка такая: bool (1 байт) и 7 байт padding, int64 (8 байт), bool (1 байт) и ещё 7 байт padding до кратности 8, итого $1 + 7 + 8 + 1 + 7 = 24$. Если переставить поля в порядке int64, bool, bool, получится $8 + 1 + 1 + 6 = 16$."
+    },
+    {
+      "id": "09-017",
+      "lesson": "Управление памятью и аллокациями",
+      "type": "multi",
+      "q": "В каких функциях переменная/значение, скорее всего, «убежит» в кучу (go build -gcflags=-m)?",
+      "options": [
+        "func f() *int { x := 1; return &x }",
+        "func f() int { var a [16]int; a[3] = 1; return a[3] }",
+        "func f(x int) { fmt.Println(x) }",
+        "func f(n int) int { b := make([]byte, n); return len(b) }"
+      ],
+      "answer": [
+        0,
+        2,
+        3
+      ],
+      "explain": "В куче окажутся указатель, переживший функцию, аргумент fmt.Println (он упаковывается в interface и сохраняется) и make с неконстантным размером. Небольшой массив константного размера, не покидающий функцию, остаётся на стеке."
+    },
+    {
+      "id": "09-018",
+      "lesson": "Управление памятью и аллокациями",
+      "type": "single",
+      "q": "Что означает GOGC=100 (значение по умолчанию)?",
+      "options": [
+        "GC запускается каждые 100 мс",
+        "Следующий GC начинается, когда куча вырастет на 100% относительно живой кучи после предыдущего цикла",
+        "GC может использовать не более 100% одного ядра",
+        "Лимит кучи — 100 МБ"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Цель следующего цикла $H_\\text{goal} = H_\\text{live} + (H_\\text{live} + \\text{стеки} + \\text{глобалы}) \\cdot \\mathrm{GOGC}/100$, где стеки и глобалы учитываются с Go 1.18; без них это $H_\\text{live} \\cdot (1 + \\mathrm{GOGC}/100)$. GOGC=200 означает более редкие сборки ценой большей памяти."
+    },
+    {
+      "id": "09-019",
+      "lesson": "Управление памятью и аллокациями",
+      "type": "single",
+      "q": "Какое утверждение о sync.Pool верно?",
+      "options": [
+        "Объекты в пуле живут, пока их не заберут через Get — подходит для пула соединений с БД",
+        "Get всегда возвращает обнулённый объект",
+        "Объекты могут быть удалены из пула при сборке мусора, поэтому пул — лишь кэш",
+        "Put([]byte) не приводит к аллокациям, поэтому лучше хранить срезы, а не указатели"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Pool — кэш временных объектов: его содержимое может быть очищено при GC (с Go 1.13 оно переживает один цикл в victim cache), поэтому для соединений нужен явный пул с контролем жизни. Put([]byte) аллоцирует при упаковке в interface, так что кладите в пул указатели."
+    },
+    {
+      "id": "09-020",
+      "lesson": "Управление памятью и аллокациями",
+      "type": "input",
+      "q": "Что напечатает код?",
+      "code": "big := make([]byte, 1<<20)\nh := big[:4]\nfmt.Println(len(h), cap(h))",
+      "answer": "4 1048576",
+      "explain": "Подслайс разделяет backing array, и пока жив h, весь мегабайт не будет собран. Исправить это можно копированием: bytes.Clone(big[:4])."
+    },
+    {
+      "id": "09-021",
+      "lesson": "Управление памятью и аллокациями",
+      "type": "single",
+      "q": "Сервис работает в контейнере с лимитом памяти 1 GiB и периодически получает OOMKill при всплесках. Что разумно сделать в первую очередь?",
+      "options": [
+        "Выставить GOGC=off",
+        "Выставить GOMEMLIMIT $\\approx$ 900MiB",
+        "Периодически вызывать runtime.GC() из тикера",
+        "Увеличить GOMAXPROCS"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "Рантайм Go не знает о лимите cgroup, а GOMEMLIMIT (мягкий лимит, Go 1.19+) заставит GC работать чаще при приближении к нему. GOGC=off без лимита лишь ускорит OOM."
+    },
+    {
+      "id": "09-022",
+      "lesson": "unsafe",
+      "type": "single",
+      "q": "Какой из вариантов — корректное использование unsafe.Pointer?",
+      "options": [
+        "p2 := unsafe.Pointer(uintptr(p) + unsafe.Offsetof(s.f))",
+        "u := uintptr(p); p2 := unsafe.Pointer(u + 8)",
+        "end := unsafe.Add(unsafe.Pointer(&arr[0]), len(arr)) // указатель «за конец» массива",
+        "Хранить uintptr(unsafe.Pointer(&obj)) в поле структуры и позже превращать обратно"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "Арифметика через uintptr допустима только в одном выражении (шаблон 3) или через unsafe.Add, а выходить за границы объекта запрещено. uintptr в переменной — просто число, и GC может переместить или собрать объект."
+    },
+    {
+      "id": "09-023",
+      "lesson": "unsafe",
+      "type": "input",
+      "q": "Что напечатает код?",
+      "code": "b := []byte(\"hello\")\ns := unsafe.String(unsafe.SliceData(b), len(b))\nb[0] = 'j'\nfmt.Println(s)",
+      "answer": "jello",
+      "explain": "unsafe.String не копирует данные: строка разделяет память со срезом, и изменение среза «меняет» неизменяемую строку. В этом и состоит опасность zero-copy."
+    },
+    {
+      "id": "09-024",
+      "lesson": "unsafe",
+      "type": "multi",
+      "q": "При каких способах сборки/запуска активна проверка checkptr?",
+      "options": [
+        "go test -race",
+        "go build -msan",
+        "go build -gcflags=all=-d=checkptr",
+        "go test -cover",
+        "go build -trimpath"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explain": "checkptr включается флагом компилятора -d=checkptr, а также автоматически вместе с -race и -msan."
+    },
+    {
+      "id": "09-025",
+      "lesson": "unsafe",
+      "type": "input",
+      "q": "Что напечатает код на amd64? (через пробел)",
+      "code": "fmt.Println(unsafe.Sizeof(\"\"), unsafe.Sizeof([]int{}), unsafe.Sizeof(any(nil)))",
+      "answer": "16 24 16",
+      "explain": "Строка состоит из {data, len}, срез — из {data, len, cap}, интерфейс — из {type/itab, data}, и каждое слово на amd64 занимает 8 байт."
+    },
+    {
+      "id": "09-026",
+      "lesson": "unsafe",
+      "type": "single",
+      "q": "Что изменилось для //go:linkname в Go 1.23?",
+      "options": [
+        "Директива удалена из языка",
+        "Она стала работать только в пакетах с именем main",
+        "Теперь она требует import \"unsafe\" только для экспортируемых символов",
+        "Линкер запрещает ссылаться через linkname на внутренние символы stdlib, если они явно не помечены как разрешённые"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "Линкер Go 1.23 запрещает «pull»-ссылки на внутренние символы стандартной библиотеки, если они не помечены на стороне определения; обойти запрет можно только флагом -ldflags=-checklinkname=0."
+    },
+    {
+      "id": "09-027",
+      "lesson": "Логгирование, трейсинг, метрики",
+      "type": "input",
+      "q": "Что напечатает код (ключ time удалён через ReplaceAttr)?",
+      "code": "h := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{\n\tReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {\n\t\tif a.Key == slog.TimeKey && len(groups) == 0 {\n\t\t\treturn slog.Attr{}\n\t\t}\n\t\treturn a\n\t},\n})\nslog.New(h).WithGroup(\"req\").Info(\"hi\", \"id\", 1)",
+      "answer": "level=INFO msg=hi req.id=1",
+      "explain": "TextHandler выводит атрибуты группы с префиксом «группа.», а WithGroup применяется к атрибутам записи."
+    },
+    {
+      "id": "09-028",
+      "lesson": "Логгирование, трейсинг, метрики",
+      "type": "single",
+      "q": "Что выведет slog для вызова log.Info(\"x\", \"a\") (нечётное число аргументов)?",
+      "options": [
+        "Панику",
+        "Ошибку компиляции",
+        "Атрибут !BADKEY=a",
+        "Атрибут a=<nil>"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Одиночный аргумент без пары становится значением с ключом !BADKEY, и go vet предупреждает о таком вызове."
+    },
+    {
+      "id": "09-029",
+      "lesson": "Логгирование, трейсинг, метрики",
+      "type": "single",
+      "q": "Какой тип метрики Prometheus нельзя корректно агрегировать между инстансами для получения общего p99?",
+      "options": [
+        "Counter",
+        "Gauge",
+        "Histogram",
+        "Summary"
+      ],
+      "answer": [
+        3
+      ],
+      "explain": "Summary считает квантили на клиенте, и усреднять их бессмысленно. У Histogram же можно сложить бакеты всех инстансов и применить histogram_quantile."
+    },
+    {
+      "id": "09-030",
+      "lesson": "Логгирование, трейсинг, метрики",
+      "type": "multi",
+      "q": "Какие заголовки traceparent валидны по W3C Trace Context?",
+      "options": [
+        "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+        "00-00000000000000000000000000000000-00f067aa0ba902b7-01",
+        "00-4BF92F3577B34DA6A3CE929D0E0E4736-00F067AA0BA902B7-01",
+        "01-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01-extra",
+        "ff-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+      ],
+      "answer": [
+        0,
+        3
+      ],
+      "explain": "Версия 00 требует ровно 55 символов, строчный hex и ненулевые trace-id и parent-id, а версия ff запрещена. У будущих версий может быть хвост через «-»."
+    },
+    {
+      "id": "09-031",
+      "lesson": "Логгирование, трейсинг, метрики",
+      "type": "multi",
+      "q": "Какие лейблы допустимы для метрики http_requests_total с точки зрения кардинальности?",
+      "options": [
+        "method",
+        "route — шаблон маршрута, например \"GET /users/{id}\"",
+        "user_id",
+        "code — HTTP-код ответа",
+        "path — сырой URL-путь, например /users/123?x=1"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explain": "Лейбл должен иметь ограниченное множество значений, ведь число рядов равно произведению $\\prod_i |V_i|$ по всем лейблам. user_id и сырой путь с идентификаторами порождают неограниченное число рядов."
+    },
+    {
+      "id": "09-032",
+      "lesson": "Логгирование, трейсинг, метрики",
+      "type": "single",
+      "q": "Что означает методология RED?",
+      "options": [
+        "Read, Execute, Delete",
+        "Rate, Errors, Duration",
+        "Requests, Events, Dependencies",
+        "Retries, Exceptions, Deadlines"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "RED предназначена для сервисов, то есть для запросов: Rate, Errors, Duration. USE (Utilization, Saturation, Errors) — методология для ресурсов."
+    },
+    {
+      "id": "09-033",
+      "lesson": "Сборка Docker-контейнера",
+      "type": "single",
+      "q": "Почему в Dockerfile Go-сервиса следует писать ENTRYPOINT [\"/app\"], а не ENTRYPOINT /app?",
+      "options": [
+        "Exec-форма быстрее парсится Docker",
+        "Shell-форма не поддерживает переменные окружения",
+        "В shell-форме PID 1 — /bin/sh, он не передаёт SIGTERM приложению, graceful shutdown не срабатывает",
+        "Разницы нет, это вопрос стиля"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "Shell-форма запускает /bin/sh -c /app, и PID 1 становится shell, который не пересылает SIGTERM, поэтому приложение убивается по SIGKILL без graceful shutdown. А в distroless shell нет вовсе."
+    },
+    {
+      "id": "09-034",
+      "lesson": "Сборка Docker-контейнера",
+      "type": "single",
+      "q": "Зачем при сборке указывают CGO_ENABLED=0 для образа на scratch/distroless-static?",
+      "options": [
+        "Чтобы получить статический бинарник без зависимости от libc и динамического загрузчика",
+        "Чтобы отключить сборщик мусора в контейнере",
+        "Чтобы уменьшить GOMAXPROCS",
+        "Чтобы включить -trimpath"
+      ],
+      "answer": [
+        0
+      ],
+      "explain": "С cgo бинарник динамически линкуется с libc и требует загрузчик ld-linux. В scratch его нет, и запуск падает с «no such file or directory»."
+    },
+    {
+      "id": "09-035",
+      "lesson": "Сборка Docker-контейнера",
+      "type": "single",
+      "q": "Бинарник собран с -ldflags \"-X main.version=1.2.3 -X main.commit=abc\". Что он напечатает?",
+      "code": "package main\n\nimport \"fmt\"\n\nconst version = \"dev\"\n\nvar commit = \"none\"\n\nfunc main() { fmt.Println(version, commit) }",
+      "options": [
+        "1.2.3 abc",
+        "dev abc",
+        "1.2.3 none",
+        "Ошибка линковки: version — константа"
+      ],
+      "answer": [
+        1
+      ],
+      "explain": "-X задаёт значение только строковым переменным пакета. Константа подставляется компилятором и не существует как символ, поэтому флаг для неё молча игнорируется."
+    },
+    {
+      "id": "09-036",
+      "lesson": "Сборка Docker-контейнера",
+      "type": "single",
+      "q": "Под Go 1.23 запущен с limits.cpu: 2 на ноде с 64 ядрами. Какое значение GOMAXPROCS будет по умолчанию и чем это плохо?",
+      "options": [
+        "2 — рантайм учитывает квоту cgroup",
+        "1 — в контейнере всегда один P",
+        "64 — число CPU хоста; много P при квоте в 2 CPU приводит к троттлингу CFS и росту латентности",
+        "0 — планировщик выбирает динамически"
+      ],
+      "answer": [
+        2
+      ],
+      "explain": "До Go 1.25 рантайм смотрит на число CPU хоста, а не на квоту cgroup, поэтому 64 P конкурируют за 2 CPU, что приводит к CFS-троттлингу и росту латентности. Лечится это automaxprocs или переходом на Go 1.25+."
+    },
+    {
+      "id": "09-037",
+      "lesson": "Сборка Docker-контейнера",
+      "type": "multi",
+      "q": "Что из перечисленного делает образ Go-сервиса меньше и/или безопаснее?",
+      "options": [
+        "Финальная стадия FROM gcr.io/distroless/static-debian12:nonroot",
+        "-ldflags \"-s -w\"",
+        "USER nonroot:nonroot",
+        "COPY . . в финальной стадии, чтобы были конфиги",
+        ".dockerignore с .git и локальными .env",
+        "FROM golang:latest в финальной стадии, чтобы было удобно отлаживать"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explain": "distroless или scratch, флаги -s -w и non-root USER — стандартные меры, а .dockerignore уменьшает контекст и защищает от утечек. COPY . . в финальной стадии тащит в образ исходники, а golang:latest даёт огромный невоспроизводимый образ с тулчейном."
+    }
+  ]
+}

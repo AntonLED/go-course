@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 328" role="img" aria-label="Два уровня безопасности gRPC: per-RPC credentials кладут токен в метаданные каждого вызова, transport credentials защищают всё соединение TLS; слева API клиента, справа — где сервер это читает" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="currentColor">
+  <title>Transport и per-RPC credentials в gRPC</title>
+
+  <g font-size="11" opacity="0.6" text-anchor="middle">
+    <text x="135" y="16">клиент</text><text x="340" y="16">что идёт по сети</text><text x="545" y="16">сервер</text>
+  </g>
+
+  <!-- per-RPC -->
+  <rect x="12" y="26" width="656" height="84" rx="6" fill="#7c3aed" fill-opacity="0.10" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="24" y="44" font-size="12" font-weight="600" fill="#7c3aed">per-RPC credentials — от чьего имени этот вызов</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="24" y="66">grpc.WithPerRPCCredentials(c)</text>
+    <text x="24" y="82">c.GetRequestMetadata()</text>
+    <text x="24" y="102" font-family="ui-sans-serif, system-ui, sans-serif" opacity="0.6">вызывается на каждый RPC</text>
+    <text x="340" y="66" text-anchor="middle">authorization:</text>
+    <text x="340" y="82" text-anchor="middle">Bearer eyJhbGci…</text>
+    <text x="440" y="66">metadata.FromIncomingContext</text>
+    <text x="440" y="82" font-family="ui-sans-serif, system-ui, sans-serif">→ auth-интерсептор</text>
+  </g>
+
+  <!-- HTTP/2 -->
+  <rect x="12" y="118" width="656" height="36" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.8"/>
+  <text x="340" y="141" text-anchor="middle" font-size="12">HTTP/2 (ALPN <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">h2</tspan>): вызов — поток, метаданные — его заголовки</text>
+
+  <!-- transport -->
+  <rect x="12" y="162" width="656" height="100" rx="6" fill="#0891b2" fill-opacity="0.10" stroke="#0891b2" stroke-width="1.2"/>
+  <text x="24" y="180" font-size="12" font-weight="600" fill="#0891b2">transport credentials — с кем соединение и шифруется ли оно</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">
+    <text x="24" y="206">grpc.WithTransportCredentials(</text>
+    <text x="36" y="222">credentials.NewTLS(cfg))</text>
+    <text x="24" y="246" font-family="ui-sans-serif, system-ui, sans-serif" opacity="0.6">один раз на соединение</text>
+    <text x="340" y="206" text-anchor="middle">TLS 1.3 / mTLS</text>
+    <text x="340" y="222" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif">(или ALTS)</text>
+    <text x="440" y="206">grpc.Creds(creds)</text>
+    <text x="440" y="222">peer.FromContext(ctx)</text>
+    <text x="440" y="238">→ AuthInfo: TLSInfo</text>
+  </g>
+
+  <!-- TCP -->
+  <rect x="12" y="270" width="656" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <text x="340" y="290" text-anchor="middle" font-size="12" opacity="0.7">TCP</text>
+
+  <text x="12" y="320" font-size="11" opacity="0.7"><tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">RequireTransportSecurity() == true</tspan> — токен не уйдёт, если нижний слой не TLS</text>
+</svg>

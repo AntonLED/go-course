@@ -1,0 +1,11 @@
+.DS_Store
+book/node_modules/
+book/.vitepress/cache/
+book/.vitepress/dist/
+book/.vitepress/generated/
+book/modules/
+book/index.md
+book/exam.md
+*.test
+*.prof
+*.out
