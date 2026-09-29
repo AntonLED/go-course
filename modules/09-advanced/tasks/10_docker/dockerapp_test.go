@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"sync/atomic"
 	"testing"
@@ -23,8 +24,15 @@ func TestReadInfo(t *testing.T) {
 	if info.GoVersion != runtime.Version() {
 		t.Errorf("GoVersion = %q, ожидалось %q (debug.ReadBuildInfo)", info.GoVersion, runtime.Version())
 	}
-	if info.Module != "gocourse" {
-		t.Errorf("Module = %q, ожидалось gocourse", info.Module)
+	// Module берётся из debug.ReadBuildInfo().Main.Path. В тестовом бинаре до Go 1.24
+	// это поле пустое, а с 1.24 там путь модуля ("gocourse"), поэтому сравниваем
+	// с тем, что видит сам тест, а не с константой.
+	wantModule := ""
+	if bi, ok := debug.ReadBuildInfo(); ok {
+		wantModule = bi.Main.Path
+	}
+	if info.Module != wantModule {
+		t.Errorf("Module = %q, ожидалось %q (debug.ReadBuildInfo().Main.Path)", info.Module, wantModule)
 	}
 	def := ReadInfo("", "")
 	if def.Version != "dev" {

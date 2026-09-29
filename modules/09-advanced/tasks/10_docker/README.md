@@ -41,7 +41,7 @@ func MaxProcsFromCgroup(cpuMax string) (int, error)
 
 ### ReadInfo
 
-`version` и `commit` приходят из `-ldflags -X` и могут оказаться пустыми. Из `debug.ReadBuildInfo()` берутся `GoVersion` и `Module` (это `Main.Path`). Если `version` пуст, используется `Main.Version` (кроме значения `"(devel)"`), а если и его нет — `"dev"`. Если пуст `commit`, используется настройка `vcs.revision`, а без неё — `"unknown"`. Поле `Dirty` истинно, когда `vcs.modified == "true"`.
+`version` и `commit` приходят из `-ldflags -X` и могут оказаться пустыми. Из `debug.ReadBuildInfo()` берутся `GoVersion` и `Module` (это `Main.Path`; учтите, что в тестовом бинаре до Go 1.24 это поле пустое, а в обычной сборке там путь модуля). Если `version` пуст, используется `Main.Version` (кроме значения `"(devel)"`), а если и его нет — `"dev"`. Если пуст `commit`, используется настройка `vcs.revision`, а без неё — `"unknown"`. Поле `Dirty` истинно, когда `vcs.modified == "true"`.
 
 ### NewHandler
 

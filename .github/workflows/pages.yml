@@ -18,13 +18,18 @@ concurrency:
 
 jobs:
   check:
-    name: Эталоны проходят тесты
+    name: Эталоны проходят тесты (Go ${{ matrix.go }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # минимальная поддерживаемая версия курса и актуальная
+        go: ["1.23", "stable"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.23"
+          go-version: ${{ matrix.go }}
       - run: go vet ./... && go vet -tags solution ./...
       - run: go test -race -count=1 -tags solution ./...
 
