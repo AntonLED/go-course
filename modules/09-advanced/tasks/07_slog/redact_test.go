@@ -84,7 +84,8 @@ func TestRedaction(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			var buf bytes.Buffer
-			slog.New(NewHandler(&buf, tc.opts)).Info("m", tc.args...)
+			// Нулевое время: иначе цифры секрета могут случайно оказаться в метке времени.
+			logLine(t, NewHandler(&buf, tc.opts), slog.LevelInfo, "m", tc.args...)
 			if strings.Contains(buf.String(), tc.secret) {
 				t.Errorf("секрет %q утёк: %s", tc.secret, buf.String())
 			}
@@ -95,13 +96,13 @@ func TestRedaction(t *testing.T) {
 	}
 	// Свои ключи заменяют дефолтные.
 	var buf bytes.Buffer
-	slog.New(NewHandler(&buf, &Options{RedactKeys: []string{"card"}})).Info("m", "password", "visible")
+	logLine(t, NewHandler(&buf, &Options{RedactKeys: []string{"card"}}), slog.LevelInfo, "m", "password", "visible")
 	if !strings.Contains(buf.String(), "visible") {
 		t.Errorf("RedactKeys заменяет список по умолчанию: %s", buf.String())
 	}
 	// Маскирование атрибутов из WithAttrs.
 	buf.Reset()
-	slog.New(NewHandler(&buf, nil)).With("token", "abc").WithGroup("g").Info("m", "x", 1)
+	logLine(t, NewHandler(&buf, nil).WithAttrs([]slog.Attr{slog.String("token", "abc")}).WithGroup("g"), slog.LevelInfo, "m", "x", 1)
 	if strings.Contains(buf.String(), "abc") {
 		t.Errorf("секрет из With утёк: %s", buf.String())
 	}
